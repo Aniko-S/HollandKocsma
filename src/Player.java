@@ -15,6 +15,7 @@ public class Player {
     }
 
     public void showCards() {
+        System.out.println(name);
         System.out.println("In hand: ");
         for (Card card: handCards) {
             System.out.println(card);
@@ -25,9 +26,5 @@ public class Player {
             System.out.println(card);
         }
         System.out.println();
-    }
-
-    public String getName() {
-        return name;
     }
 }

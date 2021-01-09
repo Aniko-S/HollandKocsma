@@ -1,5 +1,6 @@
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class Game {
     // A játék elején minden játékos 6 lapot kap kézbe, 3-at lefelé fordítva. A kezéből 3-at tesz le felfelé fordítva.
@@ -27,6 +28,19 @@ public class Game {
                 draw(player);
             }
         }
+    }
+
+    public void putACardFromTo(int cardId, Set<Card> srcCards, Set<Card> targetCards) {
+        Optional<Card> goodCard = srcCards.stream().filter(card ->
+            card.getId() == cardId).findAny();
+        if (goodCard.isPresent()) {
+            srcCards.remove(goodCard.get());
+            targetCards.add(goodCard.get());
+        }
+    }
+
+    public void putToShownCards(Player player, int id) {
+       putACardFromTo(id, player.handCards, player.shownCards);
     }
 
 }

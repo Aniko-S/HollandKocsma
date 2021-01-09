@@ -17,8 +17,12 @@ public class Card {
         return value;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
-        return color + " " + value;
+        return id + " - " + color + " " + value;
     }
 }
