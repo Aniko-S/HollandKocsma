@@ -5,7 +5,7 @@ public class Deck {
     List<Card> deck = new ArrayList<>();
 
     public Deck() {
-        int id = 0;
+        int id = 1;
         for (int i = 0; i < Color.values().length; i++) {
             for (int j = 0; j < Value.values().length; j++) {
                 deck.add(new Card(Color.values()[i], Value.values()[j], id));

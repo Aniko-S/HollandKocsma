@@ -19,6 +19,16 @@ public class Main {
                 game.putToShownCards(player, id);
             }
         }
+        for (int i = 0; i < 3; i++) {
+            for (Player player: game.players) {
+                System.out.println("Pile: " + game.pile.getTop());
+                player.showCards();
+                System.out.println("0 - Pick up the pile");
+                int id = scanner.nextInt();
+                game.turn(player, id);
+                player.showCards();
+            }
+        }
         shownEverybodysCard();
     }
 

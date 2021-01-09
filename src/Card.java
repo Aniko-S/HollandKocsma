@@ -1,7 +1,7 @@
 public class Card {
-    private Deck.Color color;
-    private Deck.Value value;
-    private int id;
+    private final Deck.Color color;
+    private final Deck.Value value;
+    private final int id;
 
     public Card(Deck.Color color, Deck.Value value, int id) {
         this.color = color;

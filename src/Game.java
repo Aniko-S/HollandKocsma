@@ -9,11 +9,13 @@ public class Game {
     private final int blind = 3;
     List<Card> deck;
     List<Player> players;
+    Pile pile;
 
     public Game(List<Player> players) {
         this.players = players;
         Deck cardList = new Deck();
         deck = cardList.deck;
+        pile = new Pile();
     }
 
     public void draw(Player player) {
@@ -41,6 +43,20 @@ public class Game {
 
     public void putToShownCards(Player player, int id) {
        putACardFromTo(id, player.handCards, player.shownCards);
+    }
+
+    public void turn(Player player, int id) {
+        if (id == 0) {
+            player.handCards.addAll(pile.cardSet);
+            pile = new Pile();
+        } else {
+            putACardFromTo(id, player.handCards, pile.cardSet);
+            pile.setTop(id);
+            if (player.handCards.size() < 3) {
+                draw(player);
+            }
+        }
+
     }
 
 }

@@ -2,7 +2,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Player {
-    private String name;
+    private final String name;
     Set<Card> handCards;
     Set<Card> blindCards;
     Set<Card> shownCards;
