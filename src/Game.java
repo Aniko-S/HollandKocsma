@@ -6,31 +6,13 @@ public class Game {
     private final int inHands = 6;
     private final int shown = 3;
     private final int blind = 3;
-    List<Card> deck = new ArrayList<>();
-    List<Player> players = new ArrayList<>();
+    List<Card> deck;
+    List<Player> players;
 
     public Game(List<Player> players) {
-        fillDeck();
         this.players = players;
-    }
-
-    public enum Color {
-        DIAMOND,
-        CLUB,
-        HEART,
-        SPADE
-    }
-
-    public enum Value {
-        TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, J, Q, K, A
-    }
-
-    public void fillDeck() {
-        for (int i = 0; i < Color.values().length; i++) {
-            for (int j = 0; j < Value.values().length; j++) {
-                deck.add(new Card(Game.Color.values()[i], Game.Value.values()[j]));
-            }
-        }
+        Deck cardList = new Deck();
+        deck = cardList.deck;
     }
 
     public void draw(Player player) {

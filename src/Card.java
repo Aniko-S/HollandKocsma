@@ -1,17 +1,17 @@
 public class Card {
-    private Game.Color color;
-    private Game.Value value;
+    private Deck.Color color;
+    private Deck.Value value;
 
-    public Card(Game.Color color, Game.Value value) {
+    public Card(Deck.Color color, Deck.Value value) {
         this.color = color;
         this.value = value;
     }
 
-    public Game.Color getColor() {
+    public Deck.Color getColor() {
         return color;
     }
 
-    public Game.Value getValue() {
+    public Deck.Value getValue() {
         return value;
     }
 
