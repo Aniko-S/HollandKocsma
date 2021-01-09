@@ -19,13 +19,13 @@ public class Game {
     }
 
     public void draw(Player player) {
-        int i = (int)(Math.random() * deck.size());
+        int i = (int) (Math.random() * deck.size());
         player.handCards.add(deck.get(i));
         deck.remove(i);
     }
 
     public void deal() {
-        for (Player player: players) {
+        for (Player player : players) {
             for (int i = 0; i < inHands; i++) {
                 draw(player);
             }
@@ -34,7 +34,7 @@ public class Game {
 
     public void putACardFromTo(int cardId, Set<Card> srcCards, Set<Card> targetCards) {
         Optional<Card> goodCard = srcCards.stream().filter(card ->
-            card.getId() == cardId).findAny();
+                card.getId() == cardId).findAny();
         if (goodCard.isPresent()) {
             srcCards.remove(goodCard.get());
             targetCards.add(goodCard.get());
@@ -42,10 +42,10 @@ public class Game {
     }
 
     public void putToShownCards(Player player, int id) {
-       putACardFromTo(id, player.handCards, player.shownCards);
+        putACardFromTo(id, player.handCards, player.shownCards);
     }
 
-    public void turn(Player player, int id) {
+    public void turnWidthOneCard(Player player, int id) {
         if (id == 0) {
             player.handCards.addAll(pile.cardSet);
             pile = new Pile();
@@ -56,7 +56,34 @@ public class Game {
                 draw(player);
             }
         }
+    }
 
+    public void turn(Player player, int[] ids) {
+        if (ids.length > 1) {
+            if (areEquals(player.handCards, ids)) {
+                for (int i = 0; i < ids.length; i++) {
+                    turnWidthOneCard(player, ids[i]);
+                }
+            }
+        } else {
+           turnWidthOneCard(player, ids[0]);
+        }
+    }
+
+    public boolean areEquals(Set<Card> cards, int[] ids) {
+        Optional<Card> firstCard = cards.stream().filter(card ->
+                card.getId() == ids[0]).findAny();
+        for (int i = 1; i < ids.length; i++) {
+            int finalI = i;
+            Optional<Card> actualCard = cards.stream().filter(card ->
+                    card.getId() == ids[finalI]).findAny();
+            if (firstCard.isPresent() && actualCard.isPresent()) {
+                if (!firstCard.get().getValue().equals(actualCard.get().getValue())) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }
