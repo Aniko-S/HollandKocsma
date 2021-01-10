@@ -19,11 +19,13 @@ public class Main {
                 scanner.nextLine();
                 game.putToShownCards(player, id);
             }
+            player.showCards();
+            System.out.println();
         }
 
         for (int i = 0; i < 3; i++) {
             for (Player player: game.players) {
-                System.out.println("Pile: " + game.pile.getTop());
+                System.out.println("Pile: " + game.pile.getTop() + "\n");
                 player.showCards();
                 System.out.println("0 - Pick up the pile\n");
                 String answer = scanner.nextLine();
@@ -33,6 +35,7 @@ public class Main {
                     ids[j] = Integer.parseInt(idsString[j]);
                 }
                 game.turn(player, ids);
+                System.out.println();
                 player.showCards();
             }
         }

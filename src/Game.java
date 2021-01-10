@@ -33,12 +33,9 @@ public class Game {
     }
 
     public void putACardFromTo(int cardId, Set<Card> srcCards, Set<Card> targetCards) {
-        Optional<Card> goodCard = srcCards.stream().filter(card ->
-                card.getId() == cardId).findAny();
-        if (goodCard.isPresent()) {
-            srcCards.remove(goodCard.get());
-            targetCards.add(goodCard.get());
-        }
+        Card goodCard = Deck.getCardFromId(cardId);
+        srcCards.remove(goodCard);
+        targetCards.add(goodCard);
     }
 
     public void putToShownCards(Player player, int id) {
@@ -60,7 +57,7 @@ public class Game {
 
     public void turn(Player player, int[] ids) {
         if (ids.length > 1) {
-            if (areEquals(player.handCards, ids)) {
+            if (areEquals(ids)) {
                 for (int i = 0; i < ids.length; i++) {
                     turnWidthOneCard(player, ids[i]);
                 }
@@ -70,15 +67,12 @@ public class Game {
         }
     }
 
-    public boolean areEquals(Set<Card> cards, int[] ids) {
-        Optional<Card> firstCard = cards.stream().filter(card ->
-                card.getId() == ids[0]).findAny();
+    public boolean areEquals(int[] ids) {
+        Card firstCard = Deck.getCardFromId(ids[0]);
         for (int i = 1; i < ids.length; i++) {
-            int finalI = i;
-            Optional<Card> actualCard = cards.stream().filter(card ->
-                    card.getId() == ids[finalI]).findAny();
-            if (firstCard.isPresent() && actualCard.isPresent()) {
-                if (!firstCard.get().getValue().equals(actualCard.get().getValue())) {
+            Card actualCard = Deck.getCardFromId(ids[i]);
+            if (firstCard != null && actualCard != null) {
+                if (!firstCard.getValue().equals(actualCard.getValue())) {
                     return false;
                 }
             }

@@ -25,5 +25,6 @@ public class Player {
         for (Card card: shownCards) {
             System.out.println(card);
         }
+        System.out.println();
     }
 }
