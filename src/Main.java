@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         game.deal();
-        for (Player player: game.players) {
+        for (Player player : game.players) {
             player.showCards();
             System.out.println("Choose 3 cards to put face-up:");
             for (int i = 0; i < 3; i++) {
@@ -24,26 +24,30 @@ public class Main {
         }
 
         for (int i = 0; i < 3; i++) {
-            for (Player player: game.players) {
+            for (Player player : game.players) {
                 System.out.println("Pile: " + game.pile.getTop() + "\n");
                 player.showCards();
                 System.out.println("0 - Pick up the pile\n");
-                String answer = scanner.nextLine();
-                String[] idsString = answer.split(" ");
-                int[] ids = new int[idsString.length];
-                for (int j = 0; j < ids.length; j++) {
-                    ids[j] = Integer.parseInt(idsString[j]);
-                }
-                game.turn(player, ids);
-                System.out.println();
-                player.showCards();
+                int canGo = 1;
+                do {
+                    String answer = scanner.nextLine();
+                    String[] idsString = answer.split(" ");
+                    int[] ids = new int[idsString.length];
+                    for (int j = 0; j < ids.length; j++) {
+                        ids[j] = Integer.parseInt(idsString[j]);
+                    }
+                    canGo = game.turn(player, ids);
+                    if (canGo == 1) {
+                        System.out.println("Incorrect step");
+                    }
+                } while (canGo != 0);
             }
         }
         shownEverybodysCard();
     }
 
     public static void shownEverybodysCard() {
-        for (Player player: game.players) {
+        for (Player player : game.players) {
             player.showCards();
             System.out.println();
         }

@@ -42,28 +42,37 @@ public class Game {
         putACardFromTo(id, player.handCards, player.shownCards);
     }
 
-    public void turnWidthOneCard(Player player, int id) {
+    public int turnWidthOneCard(Player player, int id) {
         if (id == 0) {
             player.handCards.addAll(pile.cardSet);
             pile = new Pile();
+            return 0;
+        } else if (!Deck.getCardFromId(id).canPutTo(pile.getTop())) {
+            return 1;
         } else {
             putACardFromTo(id, player.handCards, pile.cardSet);
             pile.setTop(id);
             if (player.handCards.size() < 3) {
                 draw(player);
             }
+            return 0;
         }
     }
 
-    public void turn(Player player, int[] ids) {
+    public int turn(Player player, int[] ids) {
+        // 0 : mehet tovább a játék a következő játékossal
+        // 1 : rossz lépés, újra az adott játékos van
+        // TODO: 2 : égetett, így újra az adott játékos van
         if (ids.length > 1) {
-            if (areEquals(ids)) {
-                for (int i = 0; i < ids.length; i++) {
-                    turnWidthOneCard(player, ids[i]);
+            if (areEquals(ids) && Deck.getCardFromId(ids[0]).canPutTo(pile.getTop())) {
+                for (int id : ids) {
+                    turnWidthOneCard(player, id);
                 }
+                return 0;
             }
+            return 1;
         } else {
-           turnWidthOneCard(player, ids[0]);
+           return turnWidthOneCard(player, ids[0]);
         }
     }
 

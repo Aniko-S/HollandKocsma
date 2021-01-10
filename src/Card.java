@@ -11,33 +11,46 @@ public class Card {
         this.id = id;
     }
 
-    public Deck.Color getColor() {
-        return color;
+    public boolean canPutTo(Card card) {
+        if (card == null) {
+            return true;
+        }
+        if (this.value.equals(Deck.Value.TWO) || this.value.equals(Deck.Value.FIVE) || this.value.equals(Deck.Value.TEN)) {
+            return true;
+        }
+        if (card.value.equals(Deck.Value.FIVE)) {
+            return this.value.ordinal() < Deck.Value.FIVE.ordinal();
+        }
+        return this.value.ordinal() >= card.value.ordinal();
     }
 
-    public Deck.Value getValue() {
-        return value;
-    }
+        public Deck.Color getColor () {
+            return color;
+        }
 
-    public int getId() {
-        return id;
-    }
+        public Deck.Value getValue () {
+            return value;
+        }
 
-    @Override
-    public String toString() {
-        return id + " - " + color + " " + value;
-    }
+        public int getId () {
+            return id;
+        }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Card card = (Card) o;
-        return id == card.id && color == card.color && value == card.value;
-    }
+        @Override
+        public String toString () {
+            return id + " - " + color + " " + value;
+        }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(color, value, id);
+        @Override
+        public boolean equals (Object o){
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Card card = (Card) o;
+            return id == card.id && color == card.color && value == card.value;
+        }
+
+        @Override
+        public int hashCode () {
+            return Objects.hash(color, value, id);
+        }
     }
-}
