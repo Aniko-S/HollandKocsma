@@ -72,7 +72,7 @@ public class Game {
             }
             return 1;
         } else {
-           return turnWidthOneCard(player, ids[0]);
+            return turnWidthOneCard(player, ids[0]);
         }
     }
 
@@ -80,10 +80,8 @@ public class Game {
         Card firstCard = Deck.getCardFromId(ids[0]);
         for (int i = 1; i < ids.length; i++) {
             Card actualCard = Deck.getCardFromId(ids[i]);
-            if (firstCard != null && actualCard != null) {
-                if (!firstCard.getValue().equals(actualCard.getValue())) {
-                    return false;
-                }
+            if (!firstCard.getValue().equals(actualCard.getValue())) {
+                return false;
             }
         }
         return true;

@@ -33,7 +33,8 @@ public class Deck {
                 card.getId() == id).findAny();
         if (goodCard.isPresent()) {
             return goodCard.get();
+        } else {
+            throw new RuntimeException("Card not found");
         }
-        return null;
     }
 }
