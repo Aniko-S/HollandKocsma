@@ -1,10 +1,12 @@
+package shithead;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class Deck {
-    List<Card> deck = new ArrayList<>();
-    public static List<Card> allCards = new ArrayList<>();
+    protected List<Card> deck = new ArrayList<>();
+    private static List<Card> allCards = new ArrayList<>();
 
     public Deck() {
         int id = 1;
@@ -34,7 +36,7 @@ public class Deck {
         if (goodCard.isPresent()) {
             return goodCard.get();
         } else {
-            throw new RuntimeException("Card not found");
+            throw new RuntimeException("shithead.Card not found");
         }
     }
 }

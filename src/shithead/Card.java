@@ -1,3 +1,5 @@
+package shithead;
+
 import java.util.Objects;
 
 public class Card {

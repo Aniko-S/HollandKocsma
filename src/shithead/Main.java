@@ -1,3 +1,5 @@
+package shithead;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -25,7 +27,7 @@ public class Main {
 
         for (int i = 0; i < 3; i++) {
             for (Player player : game.players) {
-                System.out.println("Pile: " + game.pile.getTop() + "\n");
+                System.out.println("shithead.Pile: " + game.pile.getTop() + "\n");
                 player.showCards();
                 System.out.println("0 - Pick up the pile\n");
                 int canGo = 1;

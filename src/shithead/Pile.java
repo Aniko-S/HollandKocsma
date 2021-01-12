@@ -1,8 +1,10 @@
+package shithead;
+
 import java.util.HashSet;
 import java.util.Set;
 
 public class Pile {
-    Set<Card> cardSet;
+    protected Set<Card> cardSet;
     private Card top;
 
     public Pile() {

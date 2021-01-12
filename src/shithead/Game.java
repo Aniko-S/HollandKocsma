@@ -1,5 +1,6 @@
+package shithead;
+
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 public class Game {
@@ -7,9 +8,9 @@ public class Game {
     private final int inHands = 6;
     private final int shown = 3;
     private final int blind = 3;
-    List<Card> deck;
-    List<Player> players;
-    Pile pile;
+    private List<Card> deck;
+    protected List<Player> players;
+    protected Pile pile;
 
     public Game(List<Player> players) {
         this.players = players;
