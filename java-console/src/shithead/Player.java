@@ -18,15 +18,27 @@ public class Player {
 
     public void showCards() {
         System.out.println(name);
+        if (handCards.size() == 0) {
+            System.out.println("Shown: ");
+            for (Card card: shownCards) {
+                System.out.println(card);
+            }
+            System.out.println();
+        }
         System.out.println("In hand: ");
         for (Card card: handCards) {
             System.out.println(card);
         }
         System.out.println();
-        System.out.println("Shown: ");
-        for (Card card: shownCards) {
-            System.out.println(card);
+        if (handCards.size() == 0 && shownCards.size() == 0) {
+            System.out.println("Blind: ");
+            for (Card card: blindCards) {
+                System.out.println(card);
+            }
         }
-        System.out.println();
+    }
+
+    public String getName() {
+        return name;
     }
 }

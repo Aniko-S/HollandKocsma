@@ -7,7 +7,9 @@ import java.util.Scanner;
 public class Main {
     public static Player player1 = new Player("Aniko");
     public static Player player2 = new Player("David");
-    public static List<Player> players = new ArrayList<>(List.of(player1, player2));
+    public static Player player3 = new Player("Juliska");
+    public static Player player4 = new Player("Jancsika");
+    public static List<Player> players = new ArrayList<>(List.of(player1, player2, player3, player4));
     public static Game game = new Game(players);
 
     public static void main(String[] args) {
@@ -25,9 +27,10 @@ public class Main {
             System.out.println();
         }
 
-        for (int i = 0; i < 3; i++) {
+        Player winner = null;
+        do {
             for (Player player : game.players) {
-                System.out.println("shithead.Pile: " + game.pile.getTop() + "\n");
+                System.out.println("Pile: " + game.pile.getTop() + "\n");
                 player.showCards();
                 System.out.println("0 - Pick up the pile\n");
                 int canGo = 1;
@@ -46,10 +49,14 @@ public class Main {
                         System.out.println("You burned");
                         player.showCards();
                     }
-                } while (canGo != 0);
+                } while (canGo != 0 && !(player.blindCards.size() == 0 && player.handCards.size() == 0));
+                if (player.blindCards.size() == 0 && player.handCards.size() == 0) {
+                    winner = player;
+                    break;
+                }
             }
-        }
-        shownEverybodysCard();
+        } while (winner == null);
+        System.out.println("Winner: " + winner.getName());
     }
 
     public static void shownEverybodysCard() {

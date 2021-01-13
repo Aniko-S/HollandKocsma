@@ -8,7 +8,7 @@ public class Game {
     private final int inHands = 6;
     private final int shown = 3;
     private final int blind = 3;
-    private List<Card> deck;
+    protected List<Card> deck;
     protected List<Player> players;
     protected Pile pile;
 
@@ -29,6 +29,11 @@ public class Game {
         for (Player player : players) {
             for (int i = 0; i < inHands; i++) {
                 draw(player);
+            }
+            for (int i = 0; i < blind; i++) {
+                int rand = (int) (Math.random() * deck.size());
+                player.blindCards.add(deck.get(rand));
+                deck.remove(rand);
             }
         }
     }
@@ -105,12 +110,12 @@ public class Game {
         if (player.handCards.size() > 0) {
             playFromHand(player, playedCard);
         } else {
-            putACardFromTo(playedCard.getId(), player.shownCards, pile.cardSet);
+            playFromShown(player, playedCard);
         }
         if (playedCard.getValue().equals(Deck.Value.TEN)) {
             return burn(player);
         }
-        if (playedCard.equals(previousCard)) {
+        if (previousCard != null && playedCard.getValue().equals(previousCard.getValue())) {
             pile.incrementEqualCardsCounter();
         } else {
             pile.setEqualCardsCounter(1);
@@ -124,6 +129,7 @@ public class Game {
     private void playFromHand(Player player, Card playedCard) {
         if (player.handCards.contains(playedCard)) {
             putACardFromTo(playedCard.getId(), player.handCards, pile.cardSet);
+            pile.setTop(playedCard.getId());
             if (player.handCards.size() < 3 && deck.size() > 0) {
                 draw(player);
             }
@@ -135,12 +141,31 @@ public class Game {
     private void playFromShown(Player player, Card playedCard) {
         if (player.shownCards.contains(playedCard)) {
             putACardFromTo(playedCard.getId(), player.shownCards, pile.cardSet);
+            pile.setTop(playedCard.getId());
         } else {
             throw new RuntimeException("The showncards list doesn't contain the selected card");
         }
     }
 
     private int playBlindCard(Player player, Card playedCard, Card previousCard) {
+        if (!playedCard.canPutTo(pile.getTop())) {
+            player.handCards.addAll(pile.cardSet);
+            pile = new Pile();
+            return 0;
+        }
+        putACardFromTo(playedCard.getId(), player.blindCards, pile.cardSet);
+        pile.setTop(playedCard.getId());
+        if (playedCard.getValue().equals(Deck.Value.TEN)) {
+            return burn(player);
+        }
+        if (previousCard != null && playedCard.getValue().equals(previousCard.getValue())) {
+            pile.incrementEqualCardsCounter();
+        } else {
+            pile.setEqualCardsCounter(1);
+        }
+        if (pile.getEqualCardsCounter() == 4) {
+            return burn(player);
+        }
         return 0;
     }
 
