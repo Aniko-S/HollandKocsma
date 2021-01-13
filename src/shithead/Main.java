@@ -42,6 +42,10 @@ public class Main {
                     if (canGo == 1) {
                         System.out.println("Incorrect step");
                     }
+                    if (canGo == 2) {
+                        System.out.println("You burned");
+                        player.showCards();
+                    }
                 } while (canGo != 0);
             }
         }

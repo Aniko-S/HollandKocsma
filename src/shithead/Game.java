@@ -43,27 +43,50 @@ public class Game {
         putACardFromTo(id, player.handCards, player.shownCards);
     }
 
+    private int burn(Player player) {
+        pile = new Pile();
+        while (player.handCards.size() < 3) {
+            draw(player);
+        }
+        return 2;
+    }
+
     public int turnWidthOneCard(Player player, int id) {
+        // felveszi a pile-t
         if (id == 0) {
             player.handCards.addAll(pile.cardSet);
             pile = new Pile();
             return 0;
-        } else if (!Deck.getCardFromId(id).canPutTo(pile.getTop())) {
-            return 1;
-        } else {
-            putACardFromTo(id, player.handCards, pile.cardSet);
-            pile.setTop(id);
-            if (player.handCards.size() < 3) {
-                draw(player);
-            }
-            return 0;
         }
+        // kijátszik egy lapot
+        Card playedCard = Deck.getCardFromId(id);
+        // nem teheti azt a lapot, amit tenni akart
+        if (!playedCard.canPutTo(pile.getTop())) {
+            return 1;
+        }
+        // kiteszi a lapot
+        putACardFromTo(id, player.handCards, pile.cardSet);
+        if (playedCard.getValue().equals(Deck.Value.TEN)) {
+            return burn(player);
+        }
+        Card previousCard = pile.getTop();
+        pile.setTop(id);
+        if (previousCard != null && previousCard.equals(playedCard)) {
+            pile.incrementEqualCardsCounter();
+        }
+        if (pile.getEqualCardsCounter() == 4) {
+            return burn(player);
+        }
+        if (player.handCards.size() < 3) {
+            draw(player);
+        }
+        return 0;
     }
 
     public int turn(Player player, int[] ids) {
         // 0 : mehet tovább a játék a következő játékossal
         // 1 : rossz lépés, újra az adott játékos van
-        // TODO: 2 : égetett, így újra az adott játékos van
+        // 2 : égetett, így újra az adott játékos van
         if (ids.length > 1) {
             if (areEquals(ids) && Deck.getCardFromId(ids[0]).canPutTo(pile.getTop())) {
                 for (int id : ids) {
