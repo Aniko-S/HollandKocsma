@@ -45,48 +45,35 @@ public class Game {
 
     private int burn(Player player) {
         pile = new Pile();
-        while (player.handCards.size() < 3) {
-            draw(player);
-        }
         return 2;
     }
 
-    public int turnWidthOneCard(Player player, int id) {
+    private int turnWidthOneCard(Player player, int id) {
         // felveszi a pile-t
         if (id == 0) {
+            if (pile.cardSet.size() == 0) {
+                return 1;
+            }
             player.handCards.addAll(pile.cardSet);
             pile = new Pile();
             return 0;
         }
         // kijátszik egy lapot
         Card playedCard = Deck.getCardFromId(id);
-        // nem teheti azt a lapot, amit tenni akart
-        if (!playedCard.canPutTo(pile.getTop())) {
-            return 1;
-        }
-        // kiteszi a lapot
-        putACardFromTo(id, player.handCards, pile.cardSet);
-        if (playedCard.getValue().equals(Deck.Value.TEN)) {
-            return burn(player);
-        }
         Card previousCard = pile.getTop();
-        pile.setTop(id);
-        if (previousCard != null && previousCard.equals(playedCard)) {
-            pile.incrementEqualCardsCounter();
+        if (player.handCards.size() > 0 || player.shownCards.size() > 0) {
+            return playKnownCard(player, playedCard, previousCard);
         }
-        if (pile.getEqualCardsCounter() == 4) {
-            return burn(player);
-        }
-        if (player.handCards.size() < 3) {
-            draw(player);
-        }
-        return 0;
+        return playBlindCard(player, playedCard, previousCard);
     }
 
     public int turn(Player player, int[] ids) {
         // 0 : mehet tovább a játék a következő játékossal
         // 1 : rossz lépés, újra az adott játékos van
         // 2 : égetett, így újra az adott játékos van
+        if (ids.length < 1) {
+            throw new RuntimeException("Didn't played any card");
+        }
         if (ids.length > 1) {
             if (areEquals(ids) && Deck.getCardFromId(ids[0]).canPutTo(pile.getTop())) {
                 for (int id : ids) {
@@ -109,6 +96,52 @@ public class Game {
             }
         }
         return true;
+    }
+
+    private int playKnownCard(Player player, Card playedCard, Card previousCard) {
+        if (!playedCard.canPutTo(pile.getTop())) {
+            return 1;
+        }
+        if (player.handCards.size() > 0) {
+            playFromHand(player, playedCard);
+        } else {
+            putACardFromTo(playedCard.getId(), player.shownCards, pile.cardSet);
+        }
+        if (playedCard.getValue().equals(Deck.Value.TEN)) {
+            return burn(player);
+        }
+        if (playedCard.equals(previousCard)) {
+            pile.incrementEqualCardsCounter();
+        } else {
+            pile.setEqualCardsCounter(1);
+        }
+        if (pile.getEqualCardsCounter() == 4) {
+            return burn(player);
+        }
+        return 0;
+    }
+
+    private void playFromHand(Player player, Card playedCard) {
+        if (player.handCards.contains(playedCard)) {
+            putACardFromTo(playedCard.getId(), player.handCards, pile.cardSet);
+            if (player.handCards.size() < 3 && deck.size() > 0) {
+                draw(player);
+            }
+        } else {
+            throw new RuntimeException("The handcards list doesn't contain the selected card");
+        }
+    }
+
+    private void playFromShown(Player player, Card playedCard) {
+        if (player.shownCards.contains(playedCard)) {
+            putACardFromTo(playedCard.getId(), player.shownCards, pile.cardSet);
+        } else {
+            throw new RuntimeException("The showncards list doesn't contain the selected card");
+        }
+    }
+
+    private int playBlindCard(Player player, Card playedCard, Card previousCard) {
+        return 0;
     }
 
 }

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public class Deck {
     protected List<Card> deck = new ArrayList<>();
-    private static List<Card> allCards = new ArrayList<>();
+    private static final List<Card> allCards = new ArrayList<>();
 
     public Deck() {
         int id = 1;
@@ -36,7 +36,7 @@ public class Deck {
         if (goodCard.isPresent()) {
             return goodCard.get();
         } else {
-            throw new RuntimeException("shithead.Card not found");
+            throw new RuntimeException("Card not found");
         }
     }
 }
