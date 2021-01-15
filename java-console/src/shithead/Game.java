@@ -64,38 +64,71 @@ public class Game {
         // 1 : rossz lépés, újra az adott játékos van
         // 2 : égetett, így újra az adott játékos van
         // 3 : nyert
-        if (ids.length < 1) {
+        if (!isValidCardSet(ids)) {
             return 1;
         }
         if (ids[0] == 0) {
-            if (pile.cardSet.isEmpty()) {
-                return 1;
-            }
             player.handCards.addAll(pile.cardSet);
             pile = new Pile();
             return 0;
         }
-        if (!areEquals(ids) || !Deck.getCardFromId(ids[0]).canPutTo(pile.getTop())) {
+        if (!player.handCards.isEmpty()) {
+            if (!isTheSetContainsAllCards(player.handCards, ids)) {
+                return 1;
+            }
+            return playKnownCards(player, ids, player.handCards);
+        }
+        if (!player.shownCards.isEmpty()) {
+            if (!isTheSetContainsAllCards(player.shownCards, ids)) {
+                return 1;
+            }
+            return playKnownCards(player, ids, player.shownCards);
+        }
+        Card playedCard = Deck.getCardFromId(ids[0]);
+        if (ids.length > 1 || !player.blindCards.contains(playedCard)) {
             return 1;
         }
-        return playCards(player, ids);
+        return playFromBlindCards(player, playedCard);
+
 
     }
 
-    private int playCards(Player player, int[] ids) {
+    private boolean isValidCardSet(int[] ids) {
+        if (ids.length < 1) {
+            return false;
+        }
+        if (pile.cardSet.isEmpty() && ids[0] == 0) {
+            return false;
+        }
+        if (ids[0] != 0) {
+            if (pile.getTop() != null && !Deck.getCardFromId(ids[0]).canPutTo(pile.getTop())) {
+                return false;
+            }
+            return areEquals(ids);
+        }
+        return true;
+    }
+
+    private boolean areEquals(int[] ids) {
+        Card firstCard = Deck.getCardFromId(ids[0]);
+        for (int i = 1; i < ids.length; i++) {
+            Card actualCard = Deck.getCardFromId(ids[i]);
+            if (!firstCard.getValue().equals(actualCard.getValue())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private int playKnownCards(Player player, int[] ids, Set<Card> playCardSet) {
         for (int id : ids) {
             Card playedCard = Deck.getCardFromId(id);
             Card previousCard = pile.getTop();
-            if (!player.handCards.isEmpty()) {
-                if (!playFromHand(player, playedCard)) {
-                    return 1;
-                }
-            } else if (!player.shownCards.isEmpty()) {
-                if (!playFromShownCards(player, playedCard)) {
-                    return 1;
-                }
+            pile.setTop(id);
+            putACardFromTo(playedCard, playCardSet, pile.cardSet);
+            if (player.handCards.size() < 3 && deck.size() > 0) {
+                draw(player);
             }
-            playFromBlindCards(player, playedCard);
             countEqualCards(playedCard, previousCard);
         }
         if (player.handCards.isEmpty() && player.blindCards.isEmpty()) {
@@ -104,43 +137,13 @@ public class Game {
         return isBurn(Deck.getCardFromId(ids[0]));
     }
 
-
-    private boolean playFromHand(Player player, Card card) {
-        if (!player.handCards.contains(card)) {
-            return false;
-        }
-        if (!card.canPutTo(pile.getTop())) {
-            return false;
-        }
-        putACardFromTo(card, player.handCards, pile.cardSet);
-        pile.setTop(card.getId());
-        if (player.handCards.size() < 3 && deck.size() > 0) {
-            draw(player);
-        }
-        return true;
+    private boolean isTheSetContainsAllCards(Set<Card> cardSet, int[] ids) {
+        Set<Card> cardSetFromIds = Arrays.stream(ids)
+                .mapToObj(Deck::getCardFromId)
+                .collect(Collectors.toSet());
+        return cardSet.containsAll(cardSetFromIds);
     }
 
-    private boolean playFromShownCards(Player player, Card card) {
-        if (!player.shownCards.contains(card)) {
-            return false;
-        }
-        if (!card.canPutTo(pile.getTop())) {
-            return false;
-        }
-        putACardFromTo(card, player.shownCards, pile.cardSet);
-        pile.setTop(card.getId());
-        return true;
-    }
-
-    private void playFromBlindCards(Player player, Card card) {
-        if (card.canPutTo(pile.getTop())) {
-            putACardFromTo(card, player.blindCards, pile.cardSet);
-            pile.setTop(card.getId());
-        } else {
-            player.handCards.addAll(pile.cardSet);
-            pile = new Pile();
-        }
-    }
 
     private void countEqualCards(Card playedCard, Card previousCard) {
         if (previousCard != null && playedCard.getValue().equals(previousCard.getValue())) {
@@ -165,14 +168,21 @@ public class Game {
         return 2;
     }
 
-    private boolean areEquals(int[] ids) {
-        Card firstCard = Deck.getCardFromId(ids[0]);
-        for (int i = 1; i < ids.length; i++) {
-            Card actualCard = Deck.getCardFromId(ids[i]);
-            if (!firstCard.getValue().equals(actualCard.getValue())) {
-                return false;
+
+    private int playFromBlindCards(Player player, Card card) {
+        if (card.canPutTo(pile.getTop())) {
+            Card previousCard = pile.getTop();
+            putACardFromTo(card, player.blindCards, pile.cardSet);
+            pile.setTop(card.getId());
+            countEqualCards(card, previousCard);
+            if (player.blindCards.isEmpty()) {
+                return 3;
             }
+            return isBurn(card);
+        } else {
+            player.handCards.addAll(pile.cardSet);
+            pile = new Pile();
+            return 0;
         }
-        return true;
     }
 }
