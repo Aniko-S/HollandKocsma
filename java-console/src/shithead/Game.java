@@ -1,7 +1,10 @@
 package shithead;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Game {
     // A játék elején minden játékos 6 lapot kap kézbe, 3-at lefelé fordítva. A kezéből 3-at tesz le felfelé fordítva.
@@ -19,7 +22,7 @@ public class Game {
         pile = new Pile();
     }
 
-    public void draw(Player player) {
+    private void draw(Player player) {
         int i = (int) (Math.random() * deck.size());
         player.handCards.add(deck.get(i));
         deck.remove(i);
@@ -38,14 +41,21 @@ public class Game {
         }
     }
 
-    public void putACardFromTo(int cardId, Set<Card> srcCards, Set<Card> targetCards) {
-        Card goodCard = Deck.getCardFromId(cardId);
-        srcCards.remove(goodCard);
-        targetCards.add(goodCard);
+    private void putACardFromTo(Card card, Set<Card> srcCards, Set<Card> targetCards) {
+        srcCards.remove(card);
+        targetCards.add(card);
     }
 
-    public void putToShownCards(Player player, int id) {
-        putACardFromTo(id, player.handCards, player.shownCards);
+    public boolean putToShownCards(Player player, int[] ids) {
+        Set<Card> cards = Arrays.stream(ids)
+                .mapToObj(Deck::getCardFromId)
+                .filter(card -> player.handCards.contains(card))
+                .collect(Collectors.toSet());
+        if (cards.size() != 3) {
+            return false;
+        }
+        cards.forEach(card -> putACardFromTo(card, player.handCards, player.shownCards));
+        return true;
     }
 
 
@@ -53,6 +63,7 @@ public class Game {
         // 0 : mehet tovább a játék a következő játékossal
         // 1 : rossz lépés, újra az adott játékos van
         // 2 : égetett, így újra az adott játékos van
+        // 3 : nyert
         if (ids.length < 1) {
             return 1;
         }
@@ -72,7 +83,7 @@ public class Game {
     }
 
     private int playCards(Player player, int[] ids) {
-        for (int id: ids) {
+        for (int id : ids) {
             Card playedCard = Deck.getCardFromId(id);
             Card previousCard = pile.getTop();
             if (!player.handCards.isEmpty()) {
@@ -87,6 +98,9 @@ public class Game {
             playFromBlindCards(player, playedCard);
             countEqualCards(playedCard, previousCard);
         }
+        if (player.handCards.isEmpty() && player.blindCards.isEmpty()) {
+            return 3;
+        }
         return isBurn(Deck.getCardFromId(ids[0]));
     }
 
@@ -98,7 +112,7 @@ public class Game {
         if (!card.canPutTo(pile.getTop())) {
             return false;
         }
-        putACardFromTo(card.getId(), player.handCards, pile.cardSet);
+        putACardFromTo(card, player.handCards, pile.cardSet);
         pile.setTop(card.getId());
         if (player.handCards.size() < 3 && deck.size() > 0) {
             draw(player);
@@ -113,14 +127,14 @@ public class Game {
         if (!card.canPutTo(pile.getTop())) {
             return false;
         }
-        putACardFromTo(card.getId(), player.shownCards, pile.cardSet);
+        putACardFromTo(card, player.shownCards, pile.cardSet);
         pile.setTop(card.getId());
         return true;
     }
 
     private void playFromBlindCards(Player player, Card card) {
         if (card.canPutTo(pile.getTop())) {
-            putACardFromTo(card.getId(), player.blindCards, pile.cardSet);
+            putACardFromTo(card, player.blindCards, pile.cardSet);
             pile.setTop(card.getId());
         } else {
             player.handCards.addAll(pile.cardSet);
@@ -151,7 +165,7 @@ public class Game {
         return 2;
     }
 
-    public boolean areEquals(int[] ids) {
+    private boolean areEquals(int[] ids) {
         Card firstCard = Deck.getCardFromId(ids[0]);
         for (int i = 1; i < ids.length; i++) {
             Card actualCard = Deck.getCardFromId(ids[i]);

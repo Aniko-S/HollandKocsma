@@ -18,10 +18,18 @@ public class Main {
         for (Player player : game.players) {
             player.showCards();
             System.out.println("Choose 3 cards to put face-up:");
-            for (int i = 0; i < 3; i++) {
-                int id = scanner.nextInt();
-                scanner.nextLine();
-                game.putToShownCards(player, id);
+            boolean isCorrectStep = false;
+            while (!isCorrectStep) {
+                String answer = scanner.nextLine();
+                String[] idsString = answer.split(" ");
+                int[] ids = new int[idsString.length];
+                for (int j = 0; j < ids.length; j++) {
+                    ids[j] = Integer.parseInt(idsString[j]);
+                }
+                isCorrectStep = game.putToShownCards(player, ids);
+                if (!isCorrectStep) {
+                    System.out.println("Incorrect step");
+                }
             }
             player.showCards();
             System.out.println();
@@ -33,7 +41,7 @@ public class Main {
                 System.out.println("Pile: " + game.pile.getTop() + "\n");
                 player.showCards();
                 System.out.println("0 - Pick up the pile\n");
-                int canGo = 1;
+                int gameState = 1;
                 do {
                     String answer = scanner.nextLine();
                     String[] idsString = answer.split(" ");
@@ -41,17 +49,19 @@ public class Main {
                     for (int j = 0; j < ids.length; j++) {
                         ids[j] = Integer.parseInt(idsString[j]);
                     }
-                    canGo = game.turn(player, ids);
-                    if (canGo == 1) {
+                    gameState = game.turn(player, ids);
+                    if (gameState == 1) {
                         System.out.println("Incorrect step");
                     }
-                    if (canGo == 2) {
+                    if (gameState == 2) {
                         System.out.println("You burned");
                         player.showCards();
                     }
-                } while (canGo != 0 && !(player.blindCards.size() == 0 && player.handCards.size() == 0));
-                if (player.blindCards.size() == 0 && player.handCards.size() == 0) {
-                    winner = player;
+                    if (gameState == 3) {
+                        winner = player;
+                    }
+                } while (gameState != 0 && gameState != 3);
+                if (gameState == 3) {
                     break;
                 }
             }
