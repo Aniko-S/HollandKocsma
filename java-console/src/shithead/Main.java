@@ -48,11 +48,16 @@ public class Main {
                 System.out.println("0 - Pick up the pile\n");
                 int gameState = 1;
                 do {
-                    String answer = scanner.nextLine();
-                    String[] idsString = answer.split(" ");
-                    int[] ids = new int[idsString.length];
-                    for (int j = 0; j < ids.length; j++) {
-                        ids[j] = Integer.parseInt(idsString[j]);
+                    int[] ids;
+                    if (player instanceof Machine) {
+                        ids = ((Machine) player).put(game);
+                    } else {
+                        String answer = scanner.nextLine();
+                        String[] idsString = answer.split(" ");
+                        ids = new int[idsString.length];
+                        for (int j = 0; j < idsString.length; j++) {
+                            ids[j] = Integer.parseInt(idsString[j]);
+                        }
                     }
                     gameState = game.turn(player, ids);
                     if (gameState == 1) {
