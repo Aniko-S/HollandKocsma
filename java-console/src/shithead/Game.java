@@ -41,7 +41,7 @@ public class Game {
         }
     }
 
-    private void putACardFromTo(Card card, Set<Card> srcCards, Set<Card> targetCards) {
+    protected void putACardFromTo(Card card, Set<Card> srcCards, Set<Card> targetCards) {
         srcCards.remove(card);
         targetCards.add(card);
     }
@@ -51,7 +51,7 @@ public class Game {
                 .mapToObj(Deck::getCardFromId)
                 .filter(card -> player.handCards.contains(card))
                 .collect(Collectors.toSet());
-        if (cards.size() != 3) {
+        if (cards.size() != shown) {
             return false;
         }
         cards.forEach(card -> putACardFromTo(card, player.handCards, player.shownCards));

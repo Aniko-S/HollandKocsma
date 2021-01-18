@@ -6,10 +6,11 @@ import java.util.Scanner;
 
 public class Main {
     public static Player player1 = new Player("Aniko");
-    public static Player player2 = new Player("David");
-    public static Player player3 = new Player("Juliska");
-    public static Player player4 = new Player("Jancsika");
-    public static List<Player> players = new ArrayList<>(List.of(player1, player2, player3, player4));
+//    public static Player player2 = new Player("David");
+//    public static Player player3 = new Player("Juliska");
+//    public static Player player4 = new Player("Jancsika");
+    public static Player bot = new Machine();
+    public static List<Player> players = new ArrayList<>(List.of(player1, bot));
     public static Game game = new Game(players);
 
     public static void main(String[] args) {
@@ -17,18 +18,22 @@ public class Main {
         game.deal();
         for (Player player : game.players) {
             player.showCards();
-            System.out.println("Choose 3 cards to put face-up:");
-            boolean isCorrectStep = false;
-            while (!isCorrectStep) {
-                String answer = scanner.nextLine();
-                String[] idsString = answer.split(" ");
-                int[] ids = new int[idsString.length];
-                for (int j = 0; j < ids.length; j++) {
-                    ids[j] = Integer.parseInt(idsString[j]);
-                }
-                isCorrectStep = game.putToShownCards(player, ids);
-                if (!isCorrectStep) {
-                    System.out.println("Incorrect step");
+            if (player instanceof Machine) {
+                ((Machine) player).putToShownCards(game);
+            } else {
+                System.out.println("Choose 3 cards to put face-up:");
+                boolean isCorrectStep = false;
+                while (!isCorrectStep) {
+                    String answer = scanner.nextLine();
+                    String[] idsString = answer.split(" ");
+                    int[] ids = new int[idsString.length];
+                    for (int j = 0; j < ids.length; j++) {
+                        ids[j] = Integer.parseInt(idsString[j]);
+                    }
+                    isCorrectStep = game.putToShownCards(player, ids);
+                    if (!isCorrectStep) {
+                        System.out.println("Incorrect step");
+                    }
                 }
             }
             player.showCards();
