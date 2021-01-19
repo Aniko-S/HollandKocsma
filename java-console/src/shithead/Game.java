@@ -101,9 +101,6 @@ public class Game {
             return false;
         }
         if (ids[0] != 0) {
-            if (pile.getTop() != null && !Deck.getCardFromId(ids[0]).canPutTo(pile.getTop())) {
-                return false;
-            }
             return areEquals(ids);
         }
         return true;
@@ -121,6 +118,9 @@ public class Game {
     }
 
     private int playKnownCards(Player player, int[] ids, Set<Card> playCardSet) {
+        if (pile.getTop() != null && !Deck.getCardFromId(ids[0]).canPutTo(pile.getTop())) {
+            return 1;
+        }
         for (int id : ids) {
             Card playedCard = Deck.getCardFromId(id);
             Card previousCard = pile.getTop();
