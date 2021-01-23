@@ -1,9 +1,10 @@
 import React from 'react';
-import Card from './Card';
+import GameBoard from './GameBoard';
+import './style.css';
 
 function App() {
   return (
-    <Card id={40} />
+    <GameBoard />
   );
 }
 
