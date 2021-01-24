@@ -3,8 +3,12 @@ import GameBoard from './GameBoard';
 import './style.css';
 
 function App() {
+
   return (
-    <GameBoard />
+    <>
+     
+      <GameBoard />
+    </>
   );
 }
 

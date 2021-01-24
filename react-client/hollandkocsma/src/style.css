@@ -11,6 +11,7 @@
 
 .cardList {
   text-align: center;
+  height: 20%;
 }
 
 .card {
@@ -21,7 +22,7 @@
   margin-right: -40px;
 }
 
-.card.shown {
+.card.shown, .card.blind {
   margin: 0px 10px 0px 10px;
 }
 

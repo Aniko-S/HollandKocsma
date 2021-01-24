@@ -1,17 +1,23 @@
 import React from 'react';
+import BlankCard from './BlankCard';
 import CardList from './CardList';
 
-const cardIdList3 = [50, 13, 14, 22, 11];
-const cardIdList4 = [2, 13, 14];
+function Player({ listHand, listShown, blindNumber }) {
+  const blindCards = [];
+  for (let i = 0; i < blindNumber; i++) {
+    blindCards.push(<BlankCard className='blind' />);
+  }
 
-function Player() {
   return (
     <>
       <div className='cardList'>
-        <CardList className='shown' cardIdList={cardIdList4} />
+        {listShown && <CardList className='shown' cardIdList={listShown} />}
       </div>
       <div className='cardList'>
-        <CardList className='hand' cardIdList={cardIdList3} />
+        {blindCards}
+      </div>
+      <div className='cardList'>
+        <CardList className='hand' cardIdList={listHand} />
       </div>
     </>
   );

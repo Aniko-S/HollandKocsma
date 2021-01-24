@@ -1,16 +1,27 @@
 import React from 'react';
 import CardList from './CardList';
+import BlankCard from './BlankCard';
 
-const cardIdList = [12, 13, 14];
-const cardIdList2 = [12, 13, 40];
-function Machine() {
+function Machine({ hand, listShown, blind }) {
+  const handCards = [];
+  const blindCards = [];
+  for (let i = 0; i < hand; i++) {
+    handCards.push(<BlankCard className='hand' />);
+  }
+  for (let i = 0; i < blind; i++) {
+    blindCards.push(<BlankCard className='blind' />);
+  }
+
   return (
     <>
       <div className='cardList'>
-        <CardList className='hand' cardIdList={cardIdList} />
+        {handCards}
       </div>
       <div className='cardList'>
-        <CardList className='shown' cardIdList={cardIdList2} />
+        <CardList className='shown' cardIdList={listShown} />
+      </div>
+      <div className='cardList'>
+        {blindCards}
       </div>
     </>
   );
