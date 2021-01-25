@@ -28,12 +28,14 @@ public class GameService {
         pile = new Pile();
         deal();
         return new GameState(
+                player.getName(),
                 idsFromCardSet(player.handCards),
                 idsFromCardSet(player.shownCards),
                 player.blindCards.size(),
                 machine.handCards.size(),
                 idsFromCardSet(machine.shownCards),
-                machine.blindCards.size());
+                machine.blindCards.size(),
+                !deck.isEmpty());
     }
 
     private void draw(Player player) {

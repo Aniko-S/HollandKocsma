@@ -1,27 +1,16 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import Machine from './Machine';
 import Player from './Player';
 import Table from './Table';
 
-const name = {
-  name: "Aniko"
-};
-
-function GameBoard() {
-  const [gameData, setGameData] = useState();
-
-  async function newGame() {
-    const { data } = await axios.post('http://localhost:8080/game/begin', name);
-    setGameData(data);
-  }
+function GameBoard({ dataArray }) {
+  const [gameData, setGameData] = dataArray;
 
   return (
     <div className='board'>
-      <button onClick={newGame}>Send</button>
       {gameData && <Machine hand={gameData.machineHandCardsNumber} listShown={gameData.machineShownCardsIds} blind={gameData.machineBlindCardsNumber} />}
-      <Table />
-      {gameData && <Player listHand={gameData.playersHandCardsIds} listShown={gameData.playersShownCardsIds} blindNumber={gameData.playersBlindCardsNumber} />}
+      {gameData && <Table deck={gameData.hasDeck} />}
+      {gameData && <Player name={gameData.name} listHand={gameData.playersHandCardsIds} listShown={gameData.playersShownCardsIds} blindNumber={gameData.playersBlindCardsNumber} />}
     </div>
   );
 }

@@ -15,4 +15,8 @@ public class Player {
         blindCards = new HashSet<>();
         shownCards = new HashSet<>();
     }
+
+    public String getName() {
+        return name;
+    }
 }

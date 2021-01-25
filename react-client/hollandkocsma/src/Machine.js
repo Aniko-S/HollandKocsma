@@ -13,17 +13,17 @@ function Machine({ hand, listShown, blind }) {
   }
 
   return (
-    <>
+    <div className='player'>
       <div className='cardList'>
         {handCards}
       </div>
-      <div className='cardList'>
+      {listShown.length > 0 && <div className='cardList'>
         <CardList className='shown' cardIdList={listShown} />
-      </div>
+      </div> }
       <div className='cardList'>
         {blindCards}
       </div>
-    </>
+    </div>
   );
 }
 

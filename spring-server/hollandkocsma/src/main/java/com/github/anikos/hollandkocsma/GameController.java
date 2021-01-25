@@ -11,9 +11,9 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-    @PostMapping("/begin")
+    @PostMapping("/begin/{name}")
     @ResponseStatus(HttpStatus.CREATED)
-    public GameState newGame(@RequestBody String name) {
+    public GameState newGame(@PathVariable String name) {
        return gameService.newGame(name);
     }
 

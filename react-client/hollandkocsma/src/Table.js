@@ -4,10 +4,10 @@ import BlankCard from './BlankCard';
 
 const pile = [1, 2, 3];
 
-function Table() {
+function Table({ deck }) {
   return (
     <div className='table'>
-      <BlankCard />
+      {deck && <BlankCard />}
       <CardList className='pile' cardIdList={pile} />
     </div>
   );
