@@ -4,7 +4,7 @@ import BlankCard from './BlankCard';
 
 const pile = [1, 2, 3];
 
-function Table({ deck }) {
+function Table( { deck }) {
   return (
     <div className='table'>
       {deck && <BlankCard />}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 const cardImages = require.context('./cards');
 
-function Card({ id, className }) {
+function Card({ id, className, setIds }) {
   const [isSelected, setIsSelected] = useState(false);
 
   const select = () => {
@@ -15,7 +15,7 @@ function Card({ id, className }) {
     <img className={isSelected ? `card selected ${className}` : `card ${className}`}
       src={cardImages(`./${imageFileName()}`).default}
       alt={imageFileName()} 
-      onClick={select} />
+      onClick={() => {select(); setIds(id);}} />
   );
 }
 

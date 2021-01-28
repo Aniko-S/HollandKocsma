@@ -16,4 +16,5 @@ public class GameState {
     public Set<Integer> machineShownCardsIds;
     public int machineBlindCardsNumber;
     public boolean hasDeck;
+    public String message;
 }

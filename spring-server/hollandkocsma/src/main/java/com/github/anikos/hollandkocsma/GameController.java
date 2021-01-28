@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @CrossOrigin
 @RequestMapping("game")
@@ -14,7 +16,12 @@ public class GameController {
     @PostMapping("/begin/{name}")
     @ResponseStatus(HttpStatus.CREATED)
     public GameState newGame(@PathVariable String name) {
-       return gameService.newGame(name);
+        return gameService.newGame(name);
+    }
+
+    @PostMapping("/toshown")
+    public GameState game(@RequestBody ArrayList<Integer> ids) {
+        return gameService.putToShownCards(ids);
     }
 
 }

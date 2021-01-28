@@ -2,7 +2,7 @@ import React from 'react';
 import BlankCard from './BlankCard';
 import CardList from './CardList';
 
-function Player({ name, listHand, listShown, blindNumber }) {
+function Player({ name, listHand, listShown, blindNumber, setIds, putCards }) {
   const blindCards = [];
   for (let i = 0; i < blindNumber; i++) {
     blindCards.push(<BlankCard className='blind' />);
@@ -15,9 +15,10 @@ function Player({ name, listHand, listShown, blindNumber }) {
       </div>}
       <div className='cardList'>
         {blindCards}
+        <button onClick={putCards}>Put</button>
       </div>
       <div className='cardList'>
-        <CardList className='hand' cardIdList={listHand} />
+        <CardList className='hand' cardIdList={listHand} setIds={setIds} />
       </div>
     </div>
   );
