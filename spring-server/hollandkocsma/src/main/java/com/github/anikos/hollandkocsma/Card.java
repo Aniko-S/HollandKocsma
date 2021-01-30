@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Data
 @AllArgsConstructor
-public class Card {
+public class Card implements Comparable<Card> {
     private final Deck.Color color;
     private final Deck.Value value;
     private final int id;
@@ -22,6 +22,17 @@ public class Card {
     @Override
     public int hashCode() {
         return Objects.hash(color, value, id);
+    }
+
+    @Override
+    public int compareTo(Card card) {
+        if (this.value.ordinal() < card.value.ordinal()) {
+            return -1;
+        }
+        if (this.value.ordinal() > card.value.ordinal()) {
+            return 1;
+        }
+        return 0;
     }
 
 }

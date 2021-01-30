@@ -1,8 +1,6 @@
 import React from 'react';
-import CardList from './CardList';
-import BlankCard from './BlankCard';
-import Card from './Card';
 import BlindCardList from './BlindCardList';
+import BlindAndShownCardList from './BlindAndShownCardList';
 
 function Machine({ hand, listShown, blind }) {
 
@@ -14,7 +12,7 @@ function Machine({ hand, listShown, blind }) {
         <BlindCardList blindNumber={hand} className='hand' />
       </div>
       <div className='playerLine'>
-        <BlindCardList blindNumber={blind} className='blind' />
+        <BlindAndShownCardList listShown={listShown} />
       </div>
     </>
   );

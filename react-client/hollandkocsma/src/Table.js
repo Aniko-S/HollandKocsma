@@ -1,9 +1,8 @@
 import React from 'react';
-import CardList from './CardList';
 import BlankCard from './BlankCard';
 import Card from './Card';
 
-const pile = [1, 2, 3];
+//<textarea rows='3'>{message}</textarea>
 
 function Table({ deck, message }) {
   return (
@@ -11,7 +10,7 @@ function Table({ deck, message }) {
       <div className='container'>
         <div className='row align-items-center'>
           <div className='col-3'>
-            <textarea rows='3'>{message}</textarea>
+          <textarea rows='3' value={message} readOnly />
           </div>
           <div className='col-6'>
             <div className='cardList'>
