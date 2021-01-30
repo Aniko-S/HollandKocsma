@@ -33,13 +33,20 @@ function GameBoard({ dataArray }) {
   async function putCards() {
     const { data } = await axios.post(`http://localhost:8080/game/toshown`, selectedCardsIds);
     setGameData(data);
+    console.log(gameData.playersShownCardsIds);
   }
 
   return (
     <div className='board'>
-      {gameData && <Machine hand={gameData.machineHandCardsNumber} listShown={gameData.machineShownCardsIds} blind={gameData.machineBlindCardsNumber} />}
-      {gameData && <Table deck={gameData.hasDeck} />}
-      {gameData && <Player name={gameData.name} listHand={gameData.playersHandCardsIds} listShown={gameData.playersShownCardsIds} blindNumber={gameData.playersBlindCardsNumber} setIds={setIds} putCards={putCards} />}
+      <div className='playerSpace'>
+       {gameData && <Machine hand={gameData.machineHandCardsNumber} listShown={gameData.machineShownCardsIds} blind={gameData.machineBlindCardsNumber} />}
+      </div>
+      <div className='tableSpace'>
+        {gameData && <Table deck={gameData.hasDeck} />}
+      </div>
+      <div className='playerSpace'>
+        {gameData && <Player name={gameData.name} listHand={gameData.playersHandCardsIds} listShown={gameData.playersShownCardsIds} blindNumber={gameData.playersBlindCardsNumber} setIds={setIds} putCards={putCards} />}
+      </div>
     </div>
   );
 }

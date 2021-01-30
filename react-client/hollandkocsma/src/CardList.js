@@ -3,9 +3,9 @@ import Card from './Card';
 
 function CardList({ cardIdList, className, setIds }) {
   return (
-    <span>
+    <div className='cardList'>
       {cardIdList.map(id => <Card className={className} key={id} id={id} setIds={setIds} />)}
-    </span>
+    </div>
   );
 }
 

@@ -35,27 +35,32 @@
   margin: 10px;
 }
 
-.player {
+.playerSpace {
   height: 40%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
 }
 
-.table {
+.tableSpace {
   height: 20%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+}
+
+.playerLine {
+  height: 50%;
+}
+
+.tableLine {
+  height: 100%;
 }
 
 .cardList {
-  height: 40%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .card {
-  height: 100px;
+  height: 80%;
 }
 
 .card.hand {
@@ -66,10 +71,22 @@
   margin: 0px 10px 0px 10px;
 }
 
-.card.pile {
-  margin-right: -60px;
+.blindAndShown {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 .card.selected {
   margin-bottom: 20px;
+}
+
+
+.putButton {
+  margin-left: 50px;
+  background-color: grey;
+  color: white;
+  font-size: 18px;
 }

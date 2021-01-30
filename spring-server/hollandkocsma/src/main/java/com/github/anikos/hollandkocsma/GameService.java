@@ -28,7 +28,7 @@ public class GameService {
         return new GameState(
                 player.getName(),
                 idsFromCardSet(player.handCards),
-                idsFromCardSet(player.shownCards),
+                new HashSet<>(Set.of(0, -1, -2)),
                 player.blindCards.size(),
                 machine.handCards.size(),
                 idsFromCardSet(machine.shownCards),

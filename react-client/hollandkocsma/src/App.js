@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import BlindAndShownCardList from './BlindAndShownCardList';
 import GameBoard from './GameBoard';
 import Start from './Start';
 import './style.css';
 
 function App() {
   const dataArray = useState();
+
+  const shown = [1, 2, 3];
 
   return (
     <Router>
