@@ -9,6 +9,7 @@ function Machine({ hand, listShown, blind }) {
 
   return (
     <>
+      <div className='name'>Bob</div>
       <div className='playerLine'>
         <BlindCardList blindNumber={hand} className='hand' />
       </div>

@@ -42,7 +42,7 @@ function GameBoard({ dataArray }) {
        {gameData && <Machine hand={gameData.machineHandCardsNumber} listShown={gameData.machineShownCardsIds} blind={gameData.machineBlindCardsNumber} />}
       </div>
       <div className='tableSpace'>
-        {gameData && <Table deck={gameData.hasDeck} />}
+        {gameData && <Table deck={gameData.hasDeck} message={gameData.message} />}
       </div>
       <div className='playerSpace'>
         {gameData && <Player name={gameData.name} listHand={gameData.playersHandCardsIds} listShown={gameData.playersShownCardsIds} blindNumber={gameData.playersBlindCardsNumber} setIds={setIds} putCards={putCards} />}

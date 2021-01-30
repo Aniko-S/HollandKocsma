@@ -8,12 +8,22 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards }) {
   return (
     <>
       <div className='playerLine'>
-        <BlindAndShownCardList listShown={listShown} putCards={putCards} />
-        
+        <div className='container'>
+          <div className='row align-items-center'>
+            <div className='col-3'></div>
+            <div className='col-6'>
+              <BlindAndShownCardList listShown={listShown} />
+            </div>
+            <div className='col-3'>
+              <button onClick={putCards}>Put</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div className='playerLine'>
         <CardList className='hand' cardIdList={listHand} setIds={setIds} />
       </div>
+      <div className='name'>{name}</div>
     </>
   );
 }

@@ -32,7 +32,7 @@
 .name {
   color: white;
   font-size: 20px;
-  margin: 10px;
+  text-align: center;
 }
 
 .playerSpace {
@@ -44,11 +44,11 @@
 }
 
 .playerLine {
-  height: 50%;
+  height: 45%;
 }
 
 .tableLine {
-  height: 100%;
+  height: 90%;
 }
 
 .cardList {
@@ -83,10 +83,21 @@
   margin-bottom: 20px;
 }
 
-
 .putButton {
   margin-left: 50px;
   background-color: grey;
   color: white;
   font-size: 18px;
+}
+
+.container, .row, .col-6 {
+  height: 100%;
+}
+
+textarea {
+  width: 100%;
+}
+
+.deck {
+  margin-right: 30px;
 }

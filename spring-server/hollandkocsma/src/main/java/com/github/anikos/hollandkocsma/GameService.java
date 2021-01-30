@@ -34,7 +34,7 @@ public class GameService {
                 idsFromCardSet(machine.shownCards),
                 machine.blindCards.size(),
                 !deck.isEmpty(),
-                "");
+                "Choose three cards to put down face-up");
     }
 
     public GameState putToShownCards(ArrayList<Integer> ids) {
