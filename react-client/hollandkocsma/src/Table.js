@@ -1,8 +1,8 @@
 import React from 'react';
 import BlankCard from './BlankCard';
-import Card from './Card';
+import CardList from './CardList';
 
-function Table({ deck, message }) {
+function Table({ deck, pile, message }) {
   return (
     <div className='tableLine'>
       <div className='container'>
@@ -13,7 +13,7 @@ function Table({ deck, message }) {
           <div className='col-6'>
             <div className='cardList'>
               {deck && <BlankCard className='deck' />}
-              <Card id='5' />
+              <CardList cardIdList={pile} />
             </div>
           </div>
         </div>

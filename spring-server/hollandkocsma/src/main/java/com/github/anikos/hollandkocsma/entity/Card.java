@@ -19,6 +19,19 @@ public class Card implements Comparable<Card> {
         return id == card.id && color == card.color && value == card.value;
     }
 
+    public boolean canPutTo(Card card) {
+        if (card == null) {
+            return true;
+        }
+        if (this.value.equals(Deck.Value.TWO) || this.value.equals(Deck.Value.FIVE) || this.value.equals(Deck.Value.TEN)) {
+            return true;
+        }
+        if (card.value.equals(Deck.Value.FIVE)) {
+            return this.value.ordinal() < Deck.Value.FIVE.ordinal();
+        }
+        return this.value.ordinal() >= card.value.ordinal();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(color, value, id);

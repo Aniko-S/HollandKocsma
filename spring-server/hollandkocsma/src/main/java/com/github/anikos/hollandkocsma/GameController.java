@@ -21,8 +21,12 @@ public class GameController {
     }
 
     @PostMapping("/toshown")
-    public GameState game(@RequestBody ArrayList<Integer> ids) {
+    public GameState putToShown(@RequestBody ArrayList<Integer> ids) {
         return gameService.putToShownCards(ids);
     }
 
+    @PostMapping("/game")
+    public GameState game(@RequestBody ArrayList<Integer> ids) {
+        return gameService.turn(ids);
+    }
 }

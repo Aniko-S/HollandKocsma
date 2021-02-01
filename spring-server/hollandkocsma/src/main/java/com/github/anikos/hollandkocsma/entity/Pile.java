@@ -13,4 +13,24 @@ public class Pile {
     public Pile() {
         cardSet = new HashSet<>();
     }
+
+    public Card getTop() {
+        return top;
+    }
+
+    public void setTop(int cardId) {
+        top = Deck.getCardFromId(cardId);
+    }
+
+    public int getEqualCardsCounter() {
+        return equalCardsCounter;
+    }
+
+    public void setEqualCardsCounter(int equalCardsCounter) {
+        this.equalCardsCounter = equalCardsCounter;
+    }
+
+    public void incrementEqualCardsCounter() {
+        equalCardsCounter++;
+    }
 }
