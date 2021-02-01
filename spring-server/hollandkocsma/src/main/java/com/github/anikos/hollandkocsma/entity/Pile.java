@@ -1,10 +1,12 @@
-package com.github.anikos.hollandkocsma;
+package com.github.anikos.hollandkocsma.entity;
+
+import com.github.anikos.hollandkocsma.entity.Card;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class Pile {
-    protected Set<Card> cardSet;
+    public Set<Card> cardSet;
     private Card top;
     private int equalCardsCounter;
 

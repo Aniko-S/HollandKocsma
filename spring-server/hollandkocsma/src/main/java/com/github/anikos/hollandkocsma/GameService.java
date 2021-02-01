@@ -1,5 +1,6 @@
 package com.github.anikos.hollandkocsma;
 
+import com.github.anikos.hollandkocsma.entity.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

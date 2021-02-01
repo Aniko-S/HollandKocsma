@@ -1,4 +1,4 @@
-package com.github.anikos.hollandkocsma;
+package com.github.anikos.hollandkocsma.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,13 +1,15 @@
-package com.github.anikos.hollandkocsma;
+package com.github.anikos.hollandkocsma.entity;
+
+import com.github.anikos.hollandkocsma.entity.Card;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class Player {
     private String name;
-    protected Set<Card> handCards;
-    protected Set<Card> blindCards;
-    protected Set<Card> shownCards;
+    public Set<Card> handCards;
+    public Set<Card> blindCards;
+    public Set<Card> shownCards;
 
     public Player(String name) {
         this.name = name;

@@ -1,4 +1,6 @@
-package com.github.anikos.hollandkocsma;
+package com.github.anikos.hollandkocsma.entity;
+
+import com.github.anikos.hollandkocsma.entity.Card;
 
 import java.util.ArrayList;
 import java.util.List;

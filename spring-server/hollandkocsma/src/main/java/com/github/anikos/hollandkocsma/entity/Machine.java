@@ -1,4 +1,6 @@
-package com.github.anikos.hollandkocsma;
+package com.github.anikos.hollandkocsma.entity;
+
+import com.github.anikos.hollandkocsma.GameService;
 
 import java.util.List;
 import java.util.Optional;
