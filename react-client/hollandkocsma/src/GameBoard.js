@@ -34,10 +34,17 @@ function GameBoard({ dataArray }) {
   async function putCardsToShown() {
     const { data } = await axios.post(`http://localhost:8080/game/toshown`, selectedCardsIds);
     setGameData(data);
-    setFilledShown(true);
+    setTheButtonsFunction(data);
   }
 
-  function putCardsToPile() {
+  const setTheButtonsFunction = (data) => {
+    console.log(data?.isValidStep);
+    if (data?.isValidStep) {
+      setFilledShown(true);
+    }
+  };
+
+  const putCardsToPile = () => {
     console.log("cat");
   }
 
