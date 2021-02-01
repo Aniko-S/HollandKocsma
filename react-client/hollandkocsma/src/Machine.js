@@ -2,8 +2,7 @@ import React from 'react';
 import BlindCardList from './BlindCardList';
 import BlindAndShownCardList from './BlindAndShownCardList';
 
-function Machine({ hand, listShown, blind }) {
-
+function Machine({ hand, listShown }) {
 
   return (
     <>

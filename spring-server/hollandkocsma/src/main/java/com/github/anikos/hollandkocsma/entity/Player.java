@@ -1,7 +1,5 @@
 package com.github.anikos.hollandkocsma.entity;
 
-import com.github.anikos.hollandkocsma.entity.Card;
-
 import java.util.HashSet;
 import java.util.Set;
 

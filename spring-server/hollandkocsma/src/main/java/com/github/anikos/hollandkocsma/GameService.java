@@ -1,16 +1,19 @@
 package com.github.anikos.hollandkocsma;
 
 import com.github.anikos.hollandkocsma.entity.*;
+import com.github.anikos.hollandkocsma.entityforsend.GameState;
+import com.github.anikos.hollandkocsma.entityforsend.MachinesData;
+import com.github.anikos.hollandkocsma.entityforsend.PlayersData;
+import com.github.anikos.hollandkocsma.entityforsend.TablesData;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class GameService {
-    private final int inHands = 6;
-    private final int shown = 3;
-    private final int blind = 3;
+    private static final int inHands = 6;
+    public static final int shown = 3;
+    private static final int blind = 3;
     private Player player;
     private Player machine;
     protected List<Player> players = new ArrayList<>();
@@ -27,40 +30,31 @@ public class GameService {
         pile = new Pile();
         deal();
         return new GameState(
-                player.getName(),
-                idsFromCardSet(player.handCards),
-                new HashSet<>(Set.of(0, -1, -2)),
-                player.blindCards.size(),
-                machine.handCards.size(),
-                new HashSet<>(Set.of(0, -1, -2)),
-                machine.blindCards.size(),
-                !deck.isEmpty(),
-                "Choose three cards to put down face-up");
+                new PlayersData(player),
+                new MachinesData((Machine) machine),
+                new TablesData(true, new HashSet<>(), "Choose three cards to put down face-up"),
+                true
+        );
     }
 
     public GameState putToShownCards(ArrayList<Integer> ids) {
         String message = "Your turn";
-        Set<Integer> playersShownCardsIds = new HashSet<>(Set.of(0, -1, -2));
-        Set<Integer> machinesShownCardsIds = new HashSet<>(Set.of(0, -1, -2));
+        boolean isValid = true;
         if (!canPutToShownCards(ids)) {
             message = "Incorrect step. You have to select three cards.";
+            isValid = false;
         } else {
             ids.forEach(id -> putACardFromTo(Deck.getCardFromId(id), player.handCards, player.shownCards));
-            ((Machine)machine).putToShownCards(this);
-            playersShownCardsIds = idsFromCardSet(player.shownCards);
-            machinesShownCardsIds = idsFromCardSet(machine.shownCards);
+            ((Machine) machine).putToShownCards(this);
         }
         return new GameState(
-                player.getName(),
-                idsFromCardSet(player.handCards),
-                playersShownCardsIds,
-                player.blindCards.size(),
-                machine.handCards.size(),
-                machinesShownCardsIds,
-                machine.blindCards.size(),
-                !deck.isEmpty(),
-                message);
+                new PlayersData(player),
+                new MachinesData((Machine) machine),
+                new TablesData(!deck.isEmpty(), new HashSet<>(), message),
+                isValid
+        );
     }
+
 
     public void putACardFromTo(Card card, Set<Card> srcCards, Set<Card> targetCards) {
         srcCards.remove(card);
@@ -86,7 +80,7 @@ public class GameService {
         deck.remove(i);
     }
 
-    private Set<Integer> idsFromCardSet(Set<Card> cardSet) {
+    public static Set<Integer> idsFromCardSet(Set<Card> cardSet) {
         return cardSet.stream().map(Card::getId).collect(Collectors.toSet());
     }
 

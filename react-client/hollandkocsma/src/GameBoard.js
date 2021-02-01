@@ -44,13 +44,13 @@ function GameBoard({ dataArray }) {
   return (
     <div className='board'>
       <div className='playerSpace'>
-       {gameData && <Machine hand={gameData.machineHandCardsNumber} listShown={gameData.machineShownCardsIds} blind={gameData.machineBlindCardsNumber} />}
+       {gameData?.machinesData && <Machine hand={gameData.machinesData.handCardsNumber} listShown={gameData.machinesData.shownCardsIds} blind={gameData.machinesData.blindCardsNumber} />}
       </div>
       <div className='tableSpace'>
-        {gameData && <Table deck={gameData.hasDeck} message={gameData.message} />}
+        {gameData?.tablesData && <Table deck={gameData.tablesData.hasDeck} message={gameData.tablesData.message} />}
       </div>
       <div className='playerSpace'>
-        {gameData && <Player name={gameData.name} listHand={gameData.playersHandCardsIds} listShown={gameData.playersShownCardsIds} blindNumber={gameData.playersBlindCardsNumber} setIds={setIds} putCards={filledShown ? putCardsToPile : putCardsToShown} />}
+        {gameData?.playersData && <Player name={gameData.playersData.name} listHand={gameData.playersData.handCardsIds} listShown={gameData.playersData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} setIds={setIds} putCards={filledShown ? putCardsToPile : putCardsToShown} />}
       </div>
     </div>
   );

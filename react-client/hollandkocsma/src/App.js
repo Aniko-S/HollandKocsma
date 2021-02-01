@@ -7,8 +7,6 @@ import './style.css';
 function App() {
   const dataArray = useState();
 
-  const shown = [1, 2, 3];
-
   return (
     <Router>
       <Switch>
