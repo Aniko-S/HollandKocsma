@@ -2,8 +2,6 @@ import React from 'react';
 import BlankCard from './BlankCard';
 import Card from './Card';
 
-//<textarea rows='3'>{message}</textarea>
-
 function Table({ deck, message }) {
   return (
     <div className='tableLine'>

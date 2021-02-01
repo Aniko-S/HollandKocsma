@@ -8,6 +8,7 @@ function GameBoard({ dataArray }) {
   const [gameData, setGameData] = dataArray;
 
   const [selectedCardsIds, setSelectedCardsIds] = useState([]);
+  const [filledShown, setFilledShown] = useState(false);
 
   const contains = (id) => {
     for (let i = 0; i < selectedCardsIds.length; i++) {
@@ -30,10 +31,14 @@ function GameBoard({ dataArray }) {
     }
   }
 
-  async function putCards() {
+  async function putCardsToShown() {
     const { data } = await axios.post(`http://localhost:8080/game/toshown`, selectedCardsIds);
     setGameData(data);
-    console.log(gameData.playersShownCardsIds);
+    setFilledShown(true);
+  }
+
+  function putCardsToPile() {
+    console.log("cat");
   }
 
   return (
@@ -45,7 +50,7 @@ function GameBoard({ dataArray }) {
         {gameData && <Table deck={gameData.hasDeck} message={gameData.message} />}
       </div>
       <div className='playerSpace'>
-        {gameData && <Player name={gameData.name} listHand={gameData.playersHandCardsIds} listShown={gameData.playersShownCardsIds} blindNumber={gameData.playersBlindCardsNumber} setIds={setIds} putCards={putCards} />}
+        {gameData && <Player name={gameData.name} listHand={gameData.playersHandCardsIds} listShown={gameData.playersShownCardsIds} blindNumber={gameData.playersBlindCardsNumber} setIds={setIds} putCards={filledShown ? putCardsToPile : putCardsToShown} />}
       </div>
     </div>
   );
