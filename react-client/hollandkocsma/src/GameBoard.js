@@ -47,12 +47,19 @@ function GameBoard({ dataArray }) {
   async function machinePutCardsToPile() {
     const { data } = await axios.get(`http://localhost:8080/game/game`);
     setGameData(data);
+    isMachinesTurnFinished(data);
   }
 
   async function pickUpThePile() {
     const { data } = await axios.post(`http://localhost:8080/game/game`, [0]);
     setGameData(data);
     setSelectedCardsIds([]);
+    isMachinesTurn(data);
+  }
+
+  async function putFromBlind() {
+    const { data } = await axios.post(`http://localhost:8080/game/game`, [-1]);
+    setGameData(data);
     isMachinesTurn(data);
   }
 
@@ -69,6 +76,12 @@ function GameBoard({ dataArray }) {
     }
   }
 
+  const isMachinesTurnFinished = (data) => {
+    if (!data?.isTurnFinished) {
+      machinePutCardsToPile();
+    }
+  }
+
   return (
     <div className='board'>
       <div className='playerSpace'>
@@ -78,7 +91,7 @@ function GameBoard({ dataArray }) {
         {gameData?.tablesData && <Table deck={gameData.tablesData.hasDeck} pile={gameData.tablesData.pileTop} message={gameData.tablesData.message} setIds={setIds} pickUpThePile={pickUpThePile} />}
       </div>
       <div className='playerSpace'>
-        {gameData?.playersData && <Player name={gameData.playersData.name} listHand={gameData.playersData.handCardsIds} listShown={gameData.playersData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} setIds={setIds} putCards={filledShown ? putCardsToPile : putCardsToShown} ids={selectedCardsIds} />}
+        {gameData?.playersData && <Player name={gameData.playersData.name} listHand={gameData.playersData.handCardsIds} listShown={gameData.playersData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} setIds={setIds} putCards={filledShown ? putCardsToPile : putCardsToShown} ids={selectedCardsIds} putFromBlind={putFromBlind} />}
       </div>
     </div>
   );

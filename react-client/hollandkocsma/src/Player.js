@@ -2,7 +2,7 @@ import React from 'react';
 import CardList from './CardList';
 import BlindAndShownCardList from './BlindAndShownCardList';
 
-function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids, isPile }) {
+function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids, putFromBlind }) {
 
   return (
     <>
@@ -11,7 +11,7 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids,
           <div className='row align-items-center'>
             <div className='col-3'></div>
             <div className='col-6'>
-              <BlindAndShownCardList listShown={listShown} />
+              <BlindAndShownCardList listShown={listShown} setIds={setIds} ids={ids} putFromBlind={putFromBlind} />
             </div>
             <div className='col-3'>
               <button onClick={putCards}>Put</button>
@@ -21,7 +21,7 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids,
       </div>
       <div className='playerLine'>
       <div className='cardList'>
-          <CardList className='hand' cardIdList={listHand} setIds={setIds} ids={ids} isPile={false} isCover={true} />
+          <CardList className='hand' cardIdList={listHand} setIds={setIds} ids={ids} isCover={true} />
        </div>
       </div>
       <div className='name'>{name}</div>

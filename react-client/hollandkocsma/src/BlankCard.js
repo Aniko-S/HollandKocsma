@@ -1,7 +1,7 @@
 import React from 'react';
 const cardImages = require.context('./cards');
 
-function BlankCard({ className, left }) {
+function BlankCard({ className, left, putFromBlind }) {
   const imageFileName = () => {
     return 'back.png';
   };
@@ -9,7 +9,9 @@ function BlankCard({ className, left }) {
     <img className={`card ${className}`} 
       style={{left:left+'px'}}
       src={cardImages(`./${imageFileName()}`).default} 
-      alt={imageFileName()} />
+      alt={imageFileName()} 
+      onClick={putFromBlind}
+    />
   );
 }
 

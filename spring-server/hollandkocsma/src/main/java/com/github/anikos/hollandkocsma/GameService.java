@@ -98,7 +98,7 @@ public class GameService {
         if (gameStatus == 0) {
             message = "Your turn";
             isFinished = true;
-            if (ids.get(0) != 0) {
+            if (ids.get(0) != 0 && ids.get(0) != -1) {
                 pile.topCardSet = ids.stream().map(Deck::getCardFromId).collect(Collectors.toSet());
             } else {
                 pile.topCardSet = new HashSet<>();
@@ -154,15 +154,26 @@ public class GameService {
     }
 
     private int turn(Player player, List<Integer> ids) {
-        if (!isValidCardSet(ids)) {
-            log.info("Invalid card set");
-            return 1;
-        }
         if (ids.get(0) == 0) {
             log.info("Pick up the pile");
             player.handCards.addAll(pile.cardSet);
             pile = new Pile();
             return 0;
+        }
+        if (ids.get(0) == -1) {
+            log.info("Put from blind cards");
+            if (!player.handCards.isEmpty() || !player.shownCards.isEmpty()) {
+                return 1;
+            }
+            Optional<Card> first = player.blindCards.stream().findFirst();
+            if (first.isEmpty()) {
+                return 1;
+            }
+            return playFromBlindCards(first.get(), player);
+        }
+        if (!isValidCardSet(ids)) {
+            log.info("Invalid card set");
+            return 1;
         }
         if (!player.handCards.isEmpty()) {
             if (!isTheSetContainsAllCards(player.handCards, ids)) {
@@ -176,11 +187,12 @@ public class GameService {
             }
             return playKnownCards(ids, player, player.shownCards);
         }
-        Card playedCard = Deck.getCardFromId(ids.get(0));
-        if (ids.size() > 1 || !player.blindCards.contains(playedCard)) {
-            return 1;
-        }
-        return playFromBlindCards(playedCard, player);
+        return 1;
+//        Card playedCard = Deck.getCardFromId(ids.get(0));
+//        if (ids.size() > 1 || !player.blindCards.contains(playedCard)) {
+//            return 1;
+//        }
+//        return playFromBlindCards(playedCard, player);
     }
 
     private boolean isValidCardSet(List<Integer> ids) {
@@ -235,6 +247,7 @@ public class GameService {
     }
 
     private int playFromBlindCards(Card card, Player player) {
+        log.info("Blind card: {}", card);
         if (card.canPutTo(pile.getTop())) {
             Card previousCard = pile.getTop();
             putACardFromTo(card, player.blindCards, pile.cardSet);
