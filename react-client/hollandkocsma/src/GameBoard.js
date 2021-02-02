@@ -40,11 +40,13 @@ function GameBoard({ dataArray }) {
   async function putCardsToPile() {
     const { data } = await axios.post(`http://localhost:8080/game/game`, selectedCardsIds);
     setGameData(data);
+    setSelectedCardsIds([]);
     isMachinesTurn(data);
   }
 
   async function machinePutCardsToPile() {
     const { data } = await axios.get(`http://localhost:8080/game/game`);
+    setGameData(data);
   }
 
   const setTheButtonsFunction = (data) => {

@@ -60,14 +60,17 @@ public class GameService {
         );
     }
 
-    public GameState turn(List<Integer> ids) {
+    public GameState playersTurn(List<Integer> ids) {
+        log.info("Player put: {}", ids);
         String message;
         boolean isFinished = false;
-        if (playersTurn(ids) == 0) {
+        int gameStatus = turn(player, ids);
+        log.info("GameStatus: {}", gameStatus);
+        if (gameStatus == 0) {
             message = "Machine's turn";
             isFinished = true;
             pile.topCardSet = ids.stream().map(Deck::getCardFromId).collect(Collectors.toSet());
-        } else if (playersTurn(ids) == 1) {
+        } else if (gameStatus == 1) {
             message = "Incorrect step";
         } else {
             message = "You burn. It's your turn again.";
@@ -83,8 +86,27 @@ public class GameService {
 
     public GameState machinesTurn() {
         List<Integer> ids = ((Machine)machine).put(this);
-        log.info("Ids: {}", ids);
-        return turn(ids);
+        log.info("Machine put: {}", ids);
+        String message;
+        boolean isFinished = false;
+        int gameStatus = turn(machine, ids);
+        log.info("GameStatus: {}", gameStatus);
+        if (gameStatus == 0) {
+            message = "Your turn";
+            isFinished = true;
+            pile.topCardSet = ids.stream().map(Deck::getCardFromId).collect(Collectors.toSet());
+        } else if (gameStatus == 1) {
+            message = "Incorrect step";
+        } else {
+            message = "Machine burn. It's his turn again.";
+            pile.topCardSet = new HashSet<>();
+        }
+        return new GameState(
+                new PlayersData(player),
+                new MachinesData((Machine) machine),
+                new TablesData(!deck.isEmpty(), message, pile),
+                isFinished
+        );
     }
 
     public void putACardFromTo(Card card, Set<Card> srcCards, Set<Card> targetCards) {
@@ -123,12 +145,13 @@ public class GameService {
         return cards.size() == shown;
     }
 
-    private int playersTurn(List<Integer> ids) {
+    private int turn(Player player, List<Integer> ids) {
         if (!isValidCardSet(ids)) {
-            log.debug("Invalid card set");
+            log.info("Invalid card set");
             return 1;
         }
         if (ids.get(0) == 0) {
+            log.info("Pick up the pile");
             player.handCards.addAll(pile.cardSet);
             pile = new Pile();
             return 0;
@@ -137,28 +160,28 @@ public class GameService {
             if (!isTheSetContainsAllCards(player.handCards, ids)) {
                 return 1;
             }
-            return playKnownCards(ids, player.handCards);
+            return playKnownCards(ids, player, player.handCards);
         }
         if (!player.shownCards.isEmpty()) {
             if (!isTheSetContainsAllCards(player.shownCards, ids)) {
                 return 1;
             }
-            return playKnownCards(ids, player.shownCards);
+            return playKnownCards(ids, player, player.shownCards);
         }
         Card playedCard = Deck.getCardFromId(ids.get(0));
         if (ids.size() > 1 || !player.blindCards.contains(playedCard)) {
             return 1;
         }
-        return playFromBlindCards(playedCard);
+        return playFromBlindCards(playedCard, player);
     }
 
     private boolean isValidCardSet(List<Integer> ids) {
         if (ids.size() < 1) {
-            log.debug("No selected card");
+            log.info("No selected card");
             return false;
         }
         if (pile.cardSet.isEmpty() && ids.get(0) == 0) {
-            log.debug("Can't pick up the pile because there is no pile");
+            log.info("Can't pick up the pile because there is no pile");
             return false;
         }
         if (ids.get(0) != 0) {
@@ -172,7 +195,7 @@ public class GameService {
         for (int i = 1; i < ids.size(); i++) {
             Card actualCard = Deck.getCardFromId(ids.get(i));
             if (!firstCard.getValue().equals(actualCard.getValue())) {
-                log.debug("Not equal cards");
+                log.info("Not equal cards");
                 return false;
             }
         }
@@ -186,7 +209,7 @@ public class GameService {
         return cardSet.containsAll(cardSetFromIds);
     }
 
-    private int playKnownCards(List<Integer> ids, Set<Card> playCardSet) {
+    private int playKnownCards(List<Integer> ids, Player player, Set<Card> playCardSet) {
         if (pile.getTop() != null && !Deck.getCardFromId(ids.get(0)).canPutTo(pile.getTop())) {
             return 1;
         }
@@ -200,13 +223,10 @@ public class GameService {
             }
             countEqualCards(playedCard, previousCard);
         }
-        if (player.handCards.isEmpty() && player.blindCards.isEmpty()) {
-            return 3;
-        }
         return isBurn(Deck.getCardFromId(ids.get(0)));
     }
 
-    private int playFromBlindCards(Card card) {
+    private int playFromBlindCards(Card card, Player player) {
         if (card.canPutTo(pile.getTop())) {
             Card previousCard = pile.getTop();
             putACardFromTo(card, player.blindCards, pile.cardSet);

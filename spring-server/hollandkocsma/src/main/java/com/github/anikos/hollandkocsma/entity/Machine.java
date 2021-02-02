@@ -1,6 +1,8 @@
 package com.github.anikos.hollandkocsma.entity;
 
 import com.github.anikos.hollandkocsma.GameService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Machine extends Player {
+    private static final Logger log = LoggerFactory.getLogger(Machine.class);
 
     public Machine() {
         super("Bob");
@@ -31,11 +34,13 @@ public class Machine extends Player {
 
     public List<Integer> put(GameService game) {
         if (handCards.isEmpty() && shownCards.isEmpty()) {
-            return new ArrayList<>(putFromBlindCards());
+            log.info("Machine put from blind");
+            return new ArrayList<>(Set.of(putFromBlindCards()));
         }
         Set<Card> goodCards = searchGoodCards(game);
+        log.info("Machine can put: {}", goodCards);
         if (goodCards.isEmpty()) {
-            return new ArrayList<>(0);
+            return new ArrayList<>(List.of(0));
         }
         Set<Card> notMagicCards = searchNotMagicCards(goodCards);
         if (!notMagicCards.isEmpty()) {
@@ -45,7 +50,7 @@ public class Machine extends Player {
                     .filter(id -> id == goodCard.getId())
                     .collect(Collectors.toList());
         } else {
-            return new ArrayList<>(searchMinCard(goodCards).getId());
+            return new ArrayList<>(Set.of(searchMinCard(goodCards).getId()));
         }
     }
 
