@@ -69,7 +69,11 @@ public class GameService {
         if (gameStatus == 0) {
             message = "Machine's turn";
             isFinished = true;
-            pile.topCardSet = ids.stream().map(Deck::getCardFromId).collect(Collectors.toSet());
+            if (ids.get(0) != 0) {
+                pile.topCardSet = ids.stream().map(Deck::getCardFromId).collect(Collectors.toSet());
+            } else {
+                pile.topCardSet = new HashSet<>();
+            }
         } else if (gameStatus == 1) {
             message = "Incorrect step";
         } else {
