@@ -7,11 +7,13 @@ import java.util.Set;
 
 public class Pile {
     public Set<Card> cardSet;
+    public Set<Card> topCardSet;
     private Card top;
     private int equalCardsCounter;
 
     public Pile() {
         cardSet = new HashSet<>();
+        topCardSet = new HashSet<>();
     }
 
     public Card getTop() {

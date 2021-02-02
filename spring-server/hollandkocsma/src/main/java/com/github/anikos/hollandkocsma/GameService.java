@@ -61,15 +61,20 @@ public class GameService {
     }
 
     public GameState turn(ArrayList<Integer> ids) {
-        playersTurn(ids);
+        String message;
+        Set<Integer> pileIds;
+        if (playersTurn(ids) == 0) {
+            pileIds = new HashSet<>(ids);
+        } else {
+            pileIds = new HashSet<>();
+        }
         return new GameState(
                 new PlayersData(player),
                 new MachinesData((Machine) machine),
-                new TablesData(!deck.isEmpty(), new HashSet<>(), "ok"),
+                new TablesData(!deck.isEmpty(), pileIds, "ok"),
                 true
         );
     }
-
 
     public void putACardFromTo(Card card, Set<Card> srcCards, Set<Card> targetCards) {
         srcCards.remove(card);

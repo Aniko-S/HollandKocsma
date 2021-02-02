@@ -20,7 +20,9 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards }) {
         </div>
       </div>
       <div className='playerLine'>
-        <CardList className='hand' cardIdList={listHand} setIds={setIds} />
+        <div className='cardList'>
+          <CardList className='hand' cardIdList={listHand} setIds={setIds} />
+        </div>
       </div>
       <div className='name'>{name}</div>
     </>

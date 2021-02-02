@@ -7,6 +7,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class TablesData {
     public boolean hasDeck;
-    public Set<Card> pileTop;
+    public Set<Integer> pileTop;
     public String message;
 }

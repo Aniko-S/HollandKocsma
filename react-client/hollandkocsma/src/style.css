@@ -64,11 +64,15 @@
 }
 
 .card.hand {
-  margin-right: -40px;
+  margin-right: -15%;
 }
 
 .card.shown, .card.blind {
   margin: 0px 10px 0px 10px;
+}
+
+.card.pile {
+  margin-right: -40%;
 }
 
 .blindAndShown {

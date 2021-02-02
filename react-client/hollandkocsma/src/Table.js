@@ -13,7 +13,7 @@ function Table({ deck, pile, message }) {
           <div className='col-6'>
             <div className='cardList'>
               {deck && <BlankCard className='deck' />}
-              <CardList cardIdList={pile} />
+              <CardList className='pile' cardIdList={pile} />
             </div>
           </div>
         </div>
