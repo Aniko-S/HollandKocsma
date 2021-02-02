@@ -8,7 +8,9 @@ function Machine({ hand, listShown }) {
     <>
       <div className='name'>Bob</div>
       <div className='playerLine'>
-        <BlindCardList blindNumber={hand} className='hand' />
+        <div className='cardList'>
+          <BlindCardList blindNumber={hand} className='hand' />
+        </div>
       </div>
       <div className='playerLine'>
         <BlindAndShownCardList listShown={listShown} />

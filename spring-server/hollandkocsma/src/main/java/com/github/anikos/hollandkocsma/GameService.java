@@ -60,18 +60,21 @@ public class GameService {
         );
     }
 
-    public GameState turn(ArrayList<Integer> ids) {
-        String message;
-        Set<Integer> pileIds;
-        if (playersTurn(ids) == 0) {
-            pileIds = new HashSet<>(ids);
-        } else {
-            pileIds = new HashSet<>();
+    public GameState playersTurn(ArrayList<Integer> ids) {
+        String message = "";
+        if (playersTurnDetails(ids) == 0) {
+            message = "Machine's turn";
+            pile.topCardSet = ids.stream().map(Deck::getCardFromId).collect(Collectors.toSet());
+        } else if (playersTurnDetails(ids) == 1) {
+            message = "Incorrect step";
+        } else if (playersTurnDetails(ids) == 2) {
+            message = "You burn. It's your turn again.";
+            pile.topCardSet = new HashSet<>();
         }
         return new GameState(
                 new PlayersData(player),
                 new MachinesData((Machine) machine),
-                new TablesData(!deck.isEmpty(), pileIds, "ok"),
+                new TablesData(!deck.isEmpty(), message, pile),
                 true
         );
     }
@@ -112,7 +115,7 @@ public class GameService {
         return cards.size() == shown;
     }
 
-    private int playersTurn(ArrayList<Integer> ids) {
+    private int playersTurnDetails(ArrayList<Integer> ids) {
         if (!isValidCardSet(ids)) {
             log.debug("Invalid card set");
             return 1;
