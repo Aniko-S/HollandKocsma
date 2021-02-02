@@ -6,8 +6,9 @@ function Start({ dataArray }) {
   const [text, setText] = useState('');
 
   async function newGame() {
+    const name = text || 'Player';  
     const [gameData, setGameData] = dataArray;
-    const { data } = await axios.post(`http://localhost:8080/game/begin/${text}`, text);
+    const { data } = await axios.post(`http://localhost:8080/game/begin/${name}`, name);
     setGameData(data);
   }
 

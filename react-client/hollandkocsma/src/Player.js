@@ -2,7 +2,7 @@ import React from 'react';
 import CardList from './CardList';
 import BlindAndShownCardList from './BlindAndShownCardList';
 
-function Player({ name, listHand, listShown, blindNumber, setIds, putCards }) {
+function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids }) {
 
   return (
     <>
@@ -21,7 +21,7 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards }) {
       </div>
       <div className='playerLine'>
         <div className='cardList'>
-          <CardList className='hand' cardIdList={listHand} setIds={setIds} />
+          <CardList className='hand' cardIdList={listHand} setIds={setIds} ids={ids} />
         </div>
       </div>
       <div className='name'>{name}</div>

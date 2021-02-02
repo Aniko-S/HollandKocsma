@@ -1,13 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 const cardImages = require.context('./cards');
 
-function Card({ id, className, setIds }) {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const select = () => {
-    setIsSelected(selected => !selected);
-  };
-
+function Card({ id, className, setIds, isSelected }) {
   const imageFileName = () => {
     return id + '.png';
   };
@@ -15,7 +9,7 @@ function Card({ id, className, setIds }) {
     <img className={isSelected ? `card selected ${className}` : `card ${className}`}
       src={cardImages(`./${imageFileName()}`).default}
       alt={imageFileName()} 
-      onClick={() => {select(); setIds(id);}} />
+      onClick={() => setIds(id)} />
   );
 }
 

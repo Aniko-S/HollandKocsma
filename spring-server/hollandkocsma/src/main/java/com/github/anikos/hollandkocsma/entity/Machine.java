@@ -35,7 +35,7 @@ public class Machine extends Player {
     public List<Integer> put(GameService game) {
         if (handCards.isEmpty() && shownCards.isEmpty()) {
             log.info("Machine put from blind");
-            return new ArrayList<>(Set.of(putFromBlindCards()));
+            return new ArrayList<>(List.of(putFromBlindCards()));
         }
         Set<Card> goodCards = searchGoodCards(game);
         log.info("Machine can put: {}", goodCards);
@@ -50,7 +50,7 @@ public class Machine extends Player {
                     .filter(id -> id == goodCard.getId())
                     .collect(Collectors.toList());
         } else {
-            return new ArrayList<>(Set.of(searchMinCard(goodCards).getId()));
+            return new ArrayList<>(List.of(searchMinCard(goodCards).getId()));
         }
     }
 
