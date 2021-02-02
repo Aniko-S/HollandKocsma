@@ -37,16 +37,27 @@ function GameBoard({ dataArray }) {
     setTheButtonsFunction(data);
   }
 
+  async function putCardsToPile() {
+    const { data } = await axios.post(`http://localhost:8080/game/game`, selectedCardsIds);
+    setGameData(data);
+    isMachinesTurn(data);
+  }
+
+  async function machinePutCardsToPile() {
+    const { data } = await axios.get(`http://localhost:8080/game/game`);
+  }
+
   const setTheButtonsFunction = (data) => {
-    if (data?.isValidStep) {
+    if (data?.isTurnFinished) {
       setFilledShown(true);
       setSelectedCardsIds([]);
     }
   };
 
-  async function putCardsToPile() {
-    const { data } = await axios.post(`http://localhost:8080/game/game`, selectedCardsIds);
-    setGameData(data);
+  const isMachinesTurn = (data) => {
+    if (data?.isTurnFinished) {
+      machinePutCardsToPile();
+    }
   }
 
   return (

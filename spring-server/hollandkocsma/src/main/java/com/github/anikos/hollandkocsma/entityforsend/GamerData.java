@@ -9,11 +9,13 @@ public abstract class GamerData {
     public final String name;
     public Set<Integer> shownCardsIds;
     public final int blindCardsNumber;
+    public boolean isWinner;
 
     public GamerData(Player player) {
         name = player.getName();
         fillShownCardsIds(player);
         blindCardsNumber = player.blindCards.size();
+        isWinner = player.handCards.isEmpty() && player.shownCards.isEmpty() && player.blindCards.isEmpty();
     }
 
     private void fillShownCardsIds(Player player) {

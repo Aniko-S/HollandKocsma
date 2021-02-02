@@ -27,6 +27,11 @@ public class GameController {
 
     @PostMapping("/game")
     public GameState game(@RequestBody ArrayList<Integer> ids) {
-        return gameService.playersTurn(ids);
+        return gameService.turn(ids);
+    }
+
+    @GetMapping("/game")
+    public GameState game() {
+        return gameService.machinesTurn();
     }
 }

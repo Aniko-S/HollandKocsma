@@ -2,6 +2,7 @@ package com.github.anikos.hollandkocsma.entity;
 
 import com.github.anikos.hollandkocsma.GameService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,10 +29,57 @@ public class Machine extends Player {
         }
     }
 
-    private Card searchMaxCard(Set<Card> cardSet) {
+    public List<Integer> put(GameService game) {
+        if (handCards.isEmpty() && shownCards.isEmpty()) {
+            return new ArrayList<>(putFromBlindCards());
+        }
+        Set<Card> goodCards = searchGoodCards(game);
+        if (goodCards.isEmpty()) {
+            return new ArrayList<>(0);
+        }
+        Set<Card> notMagicCards = searchNotMagicCards(goodCards);
+        if (!notMagicCards.isEmpty()) {
+            Card goodCard = searchMinCard(notMagicCards);
+            return goodCards.stream()
+                    .map(Card::getId)
+                    .filter(id -> id == goodCard.getId())
+                    .collect(Collectors.toList());
+        } else {
+            return new ArrayList<>(searchMinCard(goodCards).getId());
+        }
+    }
+
+    public Card searchMaxCard(Set<Card> cardSet) {
         Optional<Card> maxCard = cardSet.stream().max(Card::compareTo);
         return maxCard.orElse(null);
     }
 
+    public Card searchMinCard(Set<Card> cardSet) {
+        Optional<Card> minCard = cardSet.stream().min(Card::compareTo);
+        return minCard.orElse(null);
+    }
 
+    public int putFromBlindCards() {
+        return blindCards.stream().findFirst().get().getId();
+    }
+
+    public Set<Card> searchGoodCards(GameService game) {
+        if (!handCards.isEmpty()) {
+            return handCards.stream().filter(card ->
+                    card.canPutTo(game.pile.getTop()))
+                    .collect(Collectors.toSet());
+        } else {
+            return shownCards.stream().filter(card ->
+                    card.canPutTo(game.pile.getTop()))
+                    .collect(Collectors.toSet());
+        }
+    }
+
+    public Set<Card> searchNotMagicCards(Set<Card> goodCards) {
+        return goodCards.stream().filter(card ->
+                !card.getValue().equals(Deck.Value.FIVE)
+                        && !card.getValue().equals(Deck.Value.TWO)
+                        && !card.getValue().equals(Deck.Value.TEN))
+                .collect(Collectors.toSet());
+    }
 }
