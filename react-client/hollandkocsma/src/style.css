@@ -63,10 +63,6 @@
   height: 80%;
 }
 
-.card.hand {
-  margin-right: -10%;
-}
-
 .card.shown, .card.blind {
   margin: 0px 10px 0px 10px;
 }

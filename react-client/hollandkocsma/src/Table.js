@@ -2,7 +2,7 @@ import React from 'react';
 import BlankCard from './BlankCard';
 import CardList from './CardList';
 
-function Table({ deck, pile, message }) {
+function Table({ deck, pile, message, setIds, pickUpThePile }) {
   return (
     <div className='tableLine'>
       <div className='container'>
@@ -13,7 +13,7 @@ function Table({ deck, pile, message }) {
           <div className='col-6'>
             <div className='cardList'>
               {deck && <BlankCard className='deck' />}
-              <CardList className='pile' cardIdList={pile} />
+              <CardList className='pile' cardIdList={pile} setIds={setIds} pickUpThePile={pickUpThePile} isPile={true} />
             </div>
           </div>
         </div>

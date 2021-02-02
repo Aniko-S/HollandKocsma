@@ -49,6 +49,13 @@ function GameBoard({ dataArray }) {
     setGameData(data);
   }
 
+  async function pickUpThePile() {
+    const { data } = await axios.post(`http://localhost:8080/game/game`, [0]);
+    setGameData(data);
+    setSelectedCardsIds([]);
+    isMachinesTurn(data);
+  }
+
   const setTheButtonsFunction = (data) => {
     if (data?.isTurnFinished) {
       setFilledShown(true);
@@ -68,7 +75,7 @@ function GameBoard({ dataArray }) {
        {gameData?.machinesData && <Machine hand={gameData.machinesData.handCardsNumber} listShown={gameData.machinesData.shownCardsIds} blind={gameData.machinesData.blindCardsNumber} />}
       </div>
       <div className='tableSpace'>
-        {gameData?.tablesData && <Table deck={gameData.tablesData.hasDeck} pile={gameData.tablesData.pileTop} message={gameData.tablesData.message} />}
+        {gameData?.tablesData && <Table deck={gameData.tablesData.hasDeck} pile={gameData.tablesData.pileTop} message={gameData.tablesData.message} setIds={setIds} pickUpThePile={pickUpThePile} />}
       </div>
       <div className='playerSpace'>
         {gameData?.playersData && <Player name={gameData.playersData.name} listHand={gameData.playersData.handCardsIds} listShown={gameData.playersData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} setIds={setIds} putCards={filledShown ? putCardsToPile : putCardsToShown} ids={selectedCardsIds} />}

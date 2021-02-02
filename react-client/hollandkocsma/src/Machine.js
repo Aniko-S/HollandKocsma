@@ -9,7 +9,7 @@ function Machine({ hand, listShown }) {
       <div className='name'>Bob</div>
       <div className='playerLine'>
         <div className='cardList'>
-          <BlindCardList blindNumber={hand} className='hand' />
+          <BlindCardList blindNumber={hand} className='hand' isCover={true} />
         </div>
       </div>
       <div className='playerLine'>
