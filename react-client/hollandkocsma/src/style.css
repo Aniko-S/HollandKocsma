@@ -25,11 +25,21 @@
   font-size: 20px;
 }
 
-.input, .button {
+.button {
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+.input, .button.name {
   margin: 30px;
 }
 
-.okbutton {
+.button.name, button.put {
+  background-color: white;
+  color: rgb(10, 51, 10);
+}
+
+.button.ok {
   background-color: rgb(10, 51, 10);
   color: white;
 }
@@ -86,13 +96,6 @@
 
 .card.selected {
   margin-bottom: 20px;
-}
-
-.putButton {
-  margin-left: 50px;
-  background-color: grey;
-  color: white;
-  font-size: 18px;
 }
 
 .container, .row, .col-6 {

@@ -11,7 +11,7 @@ function PopUp({ title, body }) {
       <Modal.Body>{body}</Modal.Body>
       <Modal.Footer>
         <Link to=''>
-          <button className='btn okbutton'>OK</button>
+          <button className='button.ok'>OK</button>
         </Link>
       </Modal.Footer>
     </Modal>

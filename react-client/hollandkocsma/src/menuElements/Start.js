@@ -20,7 +20,7 @@ function Start({ dataArray }) {
       
       <input className='input' type='text' value={text} placeholder='Your name' onChange={e => setText(e.target.value)} />
       <Link to='/game'>
-        <button className='button' onClick={newGame}>Start the game</button>
+        <button className='button name' onClick={newGame}>Start the game</button>
       </Link>
     </div>
   );

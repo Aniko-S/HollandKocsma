@@ -14,7 +14,7 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids,
               <BlindAndShownCardList listShown={listShown} setIds={setIds} ids={ids} putFromBlind={putFromBlind} blindNumber={blindNumber} />
             </div>
             <div className='col-3'>
-              <button onClick={putCards}>Put</button>
+              <button className='button put' onClick={putCards}>Put</button>
             </div>
           </div>
         </div>
