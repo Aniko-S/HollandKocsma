@@ -42,14 +42,12 @@ function GameBoard({ dataArray }) {
     const { data } = await axios.post(`http://localhost:8080/game/game`, selectedCardsIds);
     setGameData(data);
     setSelectedCardsIds([]);
-    isGameFinished(data);
     isMachinesTurn(data);
   }
 
   async function machinePutCardsToPile() {
     const { data } = await axios.get(`http://localhost:8080/game/game`);
     setGameData(data);
-    isGameFinished(data);
     isMachinesTurnFinished(data);
   }
 
@@ -63,7 +61,6 @@ function GameBoard({ dataArray }) {
   async function playerPutFromBlind() {
     const { data } = await axios.post(`http://localhost:8080/game/game`, [-1]);
     setGameData(data);
-    isGameFinished(data);
     isMachinesTurn(data);
   }
 
@@ -86,18 +83,7 @@ function GameBoard({ dataArray }) {
     }
   }
 
-  const isGameFinished = (data) => {
-    if (data?.machinesData?.isWinner) {
-      console.log("Machine win");
-      <PopUp title='Sorry' body='Play one more game' />
-    } else if (data?.playersData?.isWinner) {
-      console.log("Player win");
-      <PopUp title='Congrat' body='Play one more game' />
-    }
-  }
-
   return (
-   
     <div className='board'>
       {gameData?.machinesData?.isWinner && <PopUp title='Sorry, Bob is the winner' body='Play again, maybe you will have more luck in the next game.' />}
       {gameData?.playersData?.isWinner && <PopUp title='Congratulations, you are the winner' body='Play again to test your luck' />}
