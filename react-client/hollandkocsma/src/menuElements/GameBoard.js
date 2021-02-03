@@ -47,7 +47,7 @@ function GameBoard({ dataArray }) {
 
   async function machinePutCardsToPile() {
     const { data } = await axios.get(`http://localhost:8080/game/game`);
-    setGameData(data);
+    setTimeout(() => setGameData(data), 2000);
     isMachinesTurnFinished(data);
   }
 
