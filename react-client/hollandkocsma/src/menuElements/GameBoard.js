@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import Machine from '../mainPartitions/Machine';
 import Player from '../mainPartitions/Player';
 import Table from '../mainPartitions/Table';
-import axios from 'axios';
+import PopUp from '../PopUp';
 
 function GameBoard({ dataArray }) {
   const [gameData, setGameData] = dataArray;
@@ -31,35 +32,38 @@ function GameBoard({ dataArray }) {
     }
   }
 
-  async function putCardsToShown() {
+  async function playerPutCardsToShown() {
     const { data } = await axios.post(`http://localhost:8080/game/toshown`, selectedCardsIds);
     setGameData(data);
     setTheButtonsFunction(data);
   }
 
-  async function putCardsToPile() {
+  async function playerPutCardsToPile() {
     const { data } = await axios.post(`http://localhost:8080/game/game`, selectedCardsIds);
     setGameData(data);
     setSelectedCardsIds([]);
+    isGameFinished(data);
     isMachinesTurn(data);
   }
 
   async function machinePutCardsToPile() {
     const { data } = await axios.get(`http://localhost:8080/game/game`);
     setGameData(data);
+    isGameFinished(data);
     isMachinesTurnFinished(data);
   }
 
-  async function pickUpThePile() {
+  async function playerPickUpThePile() {
     const { data } = await axios.post(`http://localhost:8080/game/game`, [0]);
     setGameData(data);
     setSelectedCardsIds([]);
     isMachinesTurn(data);
   }
 
-  async function putFromBlind() {
+  async function playerPutFromBlind() {
     const { data } = await axios.post(`http://localhost:8080/game/game`, [-1]);
     setGameData(data);
+    isGameFinished(data);
     isMachinesTurn(data);
   }
 
@@ -82,16 +86,29 @@ function GameBoard({ dataArray }) {
     }
   }
 
+  const isGameFinished = (data) => {
+    if (data?.machinesData?.isWinner) {
+      console.log("Machine win");
+      <PopUp title='Sorry' body='Play one more game' />
+    } else if (data?.playersData?.isWinner) {
+      console.log("Player win");
+      <PopUp title='Congrat' body='Play one more game' />
+    }
+  }
+
   return (
+   
     <div className='board'>
+      {gameData?.machinesData?.isWinner && <PopUp title='Sorry, Bob is the winner' body='Play again, maybe you will have more luck in the next game.' />}
+      {gameData?.playersData?.isWinner && <PopUp title='Congratulations, you are the winner' body='Play again to test your lucky' />}
       <div className='playerSpace'>
        {gameData?.machinesData && <Machine hand={gameData.machinesData.handCardsNumber} listShown={gameData.machinesData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} />}
       </div>
       <div className='tableSpace'>
-        {gameData?.tablesData && <Table deck={gameData.tablesData.hasDeck} pile={gameData.tablesData.pileTop} message={gameData.tablesData.message} setIds={setIds} pickUpThePile={pickUpThePile} />}
+        {gameData?.tablesData && <Table deck={gameData.tablesData.hasDeck} pile={gameData.tablesData.pileTop} message={gameData.tablesData.message} setIds={setIds} pickUpThePile={playerPickUpThePile} />}
       </div>
       <div className='playerSpace'>
-        {gameData?.playersData && <Player name={gameData.playersData.name} listHand={gameData.playersData.handCardsIds} listShown={gameData.playersData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} setIds={setIds} putCards={filledShown ? putCardsToPile : putCardsToShown} ids={selectedCardsIds} putFromBlind={putFromBlind} />}
+        {gameData?.playersData && <Player name={gameData.playersData.name} listHand={gameData.playersData.handCardsIds} listShown={gameData.playersData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} setIds={setIds} putCards={filledShown ? playerPutCardsToPile : playerPutCardsToShown} ids={selectedCardsIds} putFromBlind={playerPutFromBlind} />}
       </div>
     </div>
   );
