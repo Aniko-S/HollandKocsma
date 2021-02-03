@@ -127,6 +127,7 @@ public class GameService {
             message = "Machine burn. It's his turn again.";
             pile.topCardSet = new HashSet<>();
         }
+        log.info("Machine's hand cards: {}", machine.handCards);
         return new GameState(
                 new PlayersData(player),
                 new MachinesData((Machine) machine),

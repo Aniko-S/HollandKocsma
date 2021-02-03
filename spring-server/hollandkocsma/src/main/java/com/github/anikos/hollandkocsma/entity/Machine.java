@@ -46,8 +46,8 @@ public class Machine extends Player {
         if (!notMagicCards.isEmpty()) {
             Card goodCard = searchMinCard(notMagicCards);
             return goodCards.stream()
+                    .filter(card -> card.getValue().equals(goodCard.getValue()))
                     .map(Card::getId)
-                    .filter(id -> id == goodCard.getId())
                     .collect(Collectors.toList());
         } else {
             return new ArrayList<>(List.of(searchMinCard(goodCards).getId()));

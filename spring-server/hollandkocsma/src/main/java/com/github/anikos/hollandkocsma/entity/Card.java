@@ -48,4 +48,7 @@ public class Card implements Comparable<Card> {
         return 0;
     }
 
+    public Deck.Value getValue() {
+        return value;
+    }
 }
