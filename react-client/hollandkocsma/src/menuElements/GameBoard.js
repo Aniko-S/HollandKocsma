@@ -100,7 +100,7 @@ function GameBoard({ dataArray }) {
    
     <div className='board'>
       {gameData?.machinesData?.isWinner && <PopUp title='Sorry, Bob is the winner' body='Play again, maybe you will have more luck in the next game.' />}
-      {gameData?.playersData?.isWinner && <PopUp title='Congratulations, you are the winner' body='Play again to test your lucky' />}
+      {gameData?.playersData?.isWinner && <PopUp title='Congratulations, you are the winner' body='Play again to test your luck' />}
       <div className='playerSpace'>
        {gameData?.machinesData && <Machine hand={gameData.machinesData.handCardsNumber} listShown={gameData.machinesData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} />}
       </div>
