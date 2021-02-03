@@ -1,6 +1,6 @@
 import React from 'react';
-import BlindCardList from './BlindCardList';
-import BlindAndShownCardList from './BlindAndShownCardList';
+import BlindCardList from '../cardLists/BlindCardList';
+import BlindAndShownCardList from '../cardLists/BlindAndShownCardList';
 
 function Machine({ hand, listShown }) {
 

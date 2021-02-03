@@ -1,5 +1,5 @@
 import React from 'react';
-import BlindAndShownCard from './BlindAndShownCard';
+import BlindAndShownCard from '../cardFiles/BlindAndShownCard';
 
 function BlindAndShownCardList({ listShown, setIds, ids, putFromBlind, blindNumber }) {
 

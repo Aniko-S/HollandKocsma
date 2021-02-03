@@ -1,5 +1,5 @@
 import React from 'react';
-import BlankCard from './BlankCard';
+import BlankCard from '../cardFiles/BlankCard';
 
 function BlindCardList({ blindNumber, className, isCover }) {
   const blindCards = [];

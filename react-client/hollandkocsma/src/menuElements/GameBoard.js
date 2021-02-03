@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Machine from './Machine';
-import Player from './Player';
-import Table from './Table';
+import Machine from '../mainPartitions/Machine';
+import Player from '../mainPartitions/Player';
+import Table from '../mainPartitions/Table';
 import axios from 'axios';
 
 function GameBoard({ dataArray }) {

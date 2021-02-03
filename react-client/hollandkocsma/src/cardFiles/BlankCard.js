@@ -1,5 +1,5 @@
 import React from 'react';
-const cardImages = require.context('./cards');
+const cardImages = require.context('../cardImages');
 
 function BlankCard({ className, left, putFromBlind }) {
   const imageFileName = () => {

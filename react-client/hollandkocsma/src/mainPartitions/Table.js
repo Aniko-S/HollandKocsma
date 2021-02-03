@@ -1,6 +1,6 @@
 import React from 'react';
-import BlankCard from './BlankCard';
-import CardList from './CardList';
+import BlankCard from '../cardFiles/BlankCard';
+import CardList from '../cardLists/CardList';
 
 function Table({ deck, pile, message, setIds, pickUpThePile }) {
   return (

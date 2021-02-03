@@ -1,6 +1,6 @@
 import React from 'react';
-import CardList from './CardList';
-import BlindAndShownCardList from './BlindAndShownCardList';
+import CardList from '../cardLists/CardList';
+import BlindAndShownCardList from '../cardLists/BlindAndShownCardList';
 
 function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids, putFromBlind }) {
 

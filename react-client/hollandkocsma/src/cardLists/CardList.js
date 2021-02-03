@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from './Card';
+import Card from '../cardFiles/Card';
 
 function CardList({ cardIdList, className, setIds, ids, pickUpThePile, isPile, isCover }) {
   const firstLeft = cardIdList ? ((cardIdList.length - 1) * 30) / 2 : 0;
