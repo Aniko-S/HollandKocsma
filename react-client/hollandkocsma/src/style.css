@@ -29,6 +29,11 @@
   margin: 10px;
 }
 
+.okbutton {
+  background-color: rgb(10, 51, 10);
+  color: white;
+}
+
 .name {
   color: white;
   font-size: 20px;
