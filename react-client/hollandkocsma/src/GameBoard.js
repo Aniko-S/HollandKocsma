@@ -85,7 +85,7 @@ function GameBoard({ dataArray }) {
   return (
     <div className='board'>
       <div className='playerSpace'>
-       {gameData?.machinesData && <Machine hand={gameData.machinesData.handCardsNumber} listShown={gameData.machinesData.shownCardsIds} blind={gameData.machinesData.blindCardsNumber} />}
+       {gameData?.machinesData && <Machine hand={gameData.machinesData.handCardsNumber} listShown={gameData.machinesData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} />}
       </div>
       <div className='tableSpace'>
         {gameData?.tablesData && <Table deck={gameData.tablesData.hasDeck} pile={gameData.tablesData.pileTop} message={gameData.tablesData.message} setIds={setIds} pickUpThePile={pickUpThePile} />}

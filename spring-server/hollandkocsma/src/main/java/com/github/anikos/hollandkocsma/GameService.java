@@ -32,6 +32,8 @@ public class GameService {
         deck = cardList.deck;
         pile = new Pile();
         deal();
+        log.info("Players blind cards: {}", player.blindCards);
+        log.info("Machines blind cards: {}", machine.blindCards);
         return new GameState(
                 new PlayersData(player),
                 new MachinesData((Machine) machine),
@@ -60,7 +62,15 @@ public class GameService {
         );
     }
 
-    public GameState playersTurn(List<Integer> ids) {
+    public GameState playersTurn(List<Integer> answer) {
+        List<Integer> ids;
+        if (answer.get(0) == -1) {
+            log.info("Player put from blind cards");
+            Card playedCard = player.blindCards.stream().findFirst().orElseThrow();
+            ids = List.of(playedCard.getId());
+        } else {
+            ids = answer;
+        }
         log.info("Player put: {}", ids);
         String message;
         boolean isFinished = false;
@@ -89,7 +99,15 @@ public class GameService {
     }
 
     public GameState machinesTurn() {
-        List<Integer> ids = ((Machine)machine).put(this);
+        List<Integer> ids;
+        List<Integer> answer = ((Machine)machine).put(this);
+        if (answer.get(0) == -1) {
+            log.info("Machine put from blind cards");
+            Card playedCard = machine.blindCards.stream().findFirst().orElseThrow();
+            ids = List.of(playedCard.getId());
+        } else {
+            ids = answer;
+        }
         log.info("Machine put: {}", ids);
         String message;
         boolean isFinished = false;
@@ -154,45 +172,56 @@ public class GameService {
     }
 
     private int turn(Player player, List<Integer> ids) {
+        log.info("{} put: {}", player.getName(), ids);
+        // pick up the pile
         if (ids.get(0) == 0) {
             log.info("Pick up the pile");
             player.handCards.addAll(pile.cardSet);
             pile = new Pile();
             return 0;
         }
-        if (ids.get(0) == -1) {
-            log.info("Put from blind cards");
-            if (!player.handCards.isEmpty() || !player.shownCards.isEmpty()) {
-                return 1;
-            }
-            Optional<Card> first = player.blindCards.stream().findFirst();
-            if (first.isEmpty()) {
-                return 1;
-            }
-            return playFromBlindCards(first.get(), player);
-        }
+//        if (ids.get(0) == -1) {
+//            log.info("Put from blind cards");
+//            if (!player.handCards.isEmpty() || !player.shownCards.isEmpty()) {
+//                return 1;
+//            }
+//            Optional<Card> first = player.blindCards.stream().findFirst();
+//            if (first.isEmpty()) {
+//                return 1;
+//            }
+//            return playFromBlindCards(first.get(), player);
+//        }
+
+        // play cards
         if (!isValidCardSet(ids)) {
             log.info("Invalid card set");
             return 1;
         }
+        // play from hand
         if (!player.handCards.isEmpty()) {
+            log.info("Play from hand");
             if (!isTheSetContainsAllCards(player.handCards, ids)) {
+                log.info("Cards not found in hand");
                 return 1;
             }
             return playKnownCards(ids, player, player.handCards);
         }
+        // play from shown
         if (!player.shownCards.isEmpty()) {
+            log.info("Play from shown");
             if (!isTheSetContainsAllCards(player.shownCards, ids)) {
+                log.info("Cards not found in shown");
                 return 1;
             }
             return playKnownCards(ids, player, player.shownCards);
         }
-        return 1;
-//        Card playedCard = Deck.getCardFromId(ids.get(0));
-//        if (ids.size() > 1 || !player.blindCards.contains(playedCard)) {
-//            return 1;
-//        }
-//        return playFromBlindCards(playedCard, player);
+        // play from blind
+        Card playedCard = Deck.getCardFromId(ids.get(0));
+        if (ids.size() > 1 || !player.blindCards.contains(playedCard)) {
+            log.info("Cards not found in blind or choose more blind card");
+            return 1;
+        }
+        return playFromBlindCards(playedCard, player);
     }
 
     private boolean isValidCardSet(List<Integer> ids) {
@@ -231,6 +260,7 @@ public class GameService {
 
     private int playKnownCards(List<Integer> ids, Player player, Set<Card> playCardSet) {
         if (pile.getTop() != null && !Deck.getCardFromId(ids.get(0)).canPutTo(pile.getTop())) {
+            log.info("Can't put this card");
             return 1;
         }
         for (int id : ids) {
@@ -258,6 +288,7 @@ public class GameService {
             }
             return isBurn(card);
         } else {
+            putACardFromTo(card, player.blindCards, pile.cardSet);
             player.handCards.addAll(pile.cardSet);
             pile = new Pile();
             return 0;

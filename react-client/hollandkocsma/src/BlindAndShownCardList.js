@@ -1,7 +1,7 @@
 import React from 'react';
 import BlindAndShownCard from './BlindAndShownCard';
 
-function BlindAndShownCardList({ listShown, setIds, ids, putFromBlind }) {
+function BlindAndShownCardList({ listShown, setIds, ids, putFromBlind, blindNumber }) {
 
   return (
     <div className='cardList'>

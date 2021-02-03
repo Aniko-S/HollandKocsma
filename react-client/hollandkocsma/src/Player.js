@@ -11,7 +11,7 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids,
           <div className='row align-items-center'>
             <div className='col-3'></div>
             <div className='col-6'>
-              <BlindAndShownCardList listShown={listShown} setIds={setIds} ids={ids} putFromBlind={putFromBlind} />
+              <BlindAndShownCardList listShown={listShown} setIds={setIds} ids={ids} putFromBlind={putFromBlind} blindNumber={blindNumber} />
             </div>
             <div className='col-3'>
               <button onClick={putCards}>Put</button>
