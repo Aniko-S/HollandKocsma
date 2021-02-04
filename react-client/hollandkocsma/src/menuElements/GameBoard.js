@@ -85,16 +85,36 @@ function GameBoard({ dataArray }) {
 
   return (
     <div className='board'>
-      {gameData?.machinesData?.isWinner && <PopUp title='Sorry, Bob is the winner' body='Play again, maybe you will have more luck in the next game.' />}
-      {gameData?.playersData?.isWinner && <PopUp title='Congratulations, you are the winner' body='Play again to test your luck' />}
+      {gameData?.machinesData?.isWinner 
+        && <PopUp title='Sorry, Bob is the winner' 
+              body='Play again, maybe you will have more luck in the next game.' />}
+      {gameData?.playersData?.isWinner 
+        && <PopUp title='Congratulations, you are the winner' 
+              body='Play again to test your luck' />}
       <div className='playerSpace'>
-       {gameData?.machinesData && <Machine hand={gameData.machinesData.handCardsNumber} listShown={gameData.machinesData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} />}
+        {gameData?.machinesData 
+          && <Machine hand={gameData.machinesData.handCardsNumber} 
+                listShown={gameData.machinesData.shownCardsIds} 
+                blindNumber={gameData.machinesData.blindCardsNumber} />}
       </div>
       <div className='tableSpace'>
-        {gameData?.tablesData && <Table deck={gameData.tablesData.hasDeck} pile={gameData.tablesData.pileTop} message={gameData.tablesData.message} setIds={setIds} pickUpThePile={playerPickUpThePile} />}
+        {gameData?.tablesData 
+          && <Table deck={gameData.tablesData.hasDeck} 
+                pile={gameData.tablesData.pileTop} 
+                message={gameData.tablesData.message} 
+                setIds={setIds} 
+                pickUpThePile={playerPickUpThePile} />}
       </div>
       <div className='playerSpace'>
-        {gameData?.playersData && <Player name={gameData.playersData.name} listHand={gameData.playersData.handCardsIds} listShown={gameData.playersData.shownCardsIds} blindNumber={gameData.machinesData.blindCardsNumber} setIds={setIds} putCards={filledShown ? playerPutCardsToPile : playerPutCardsToShown} ids={selectedCardsIds} putFromBlind={playerPutFromBlind} />}
+        {gameData?.playersData 
+          && <Player name={gameData.playersData.name} 
+                listHand={gameData.playersData.handCardsIds} 
+                listShown={gameData.playersData.shownCardsIds} 
+                blindNumber={gameData.machinesData.blindCardsNumber} 
+                setIds={setIds} 
+                putCards={filledShown ? playerPutCardsToPile : playerPutCardsToShown} 
+                ids={selectedCardsIds} 
+                putFromBlind={playerPutFromBlind} />}
       </div>
     </div>
   );

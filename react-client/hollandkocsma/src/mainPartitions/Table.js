@@ -13,7 +13,12 @@ function Table({ deck, pile, message, setIds, pickUpThePile }) {
           <div className='col-6'>
             <div className='cardList'>
               {deck && <BlankCard className='deck' avaliable={false} />}
-              <CardList className='pile' cardIdList={pile} setIds={setIds} pickUpThePile={pickUpThePile} isPile={true} />
+              <CardList className='pile' 
+                cardIdList={pile} 
+                setIds={setIds} 
+                pickUpThePile={pickUpThePile} 
+                isPile={true} 
+              />
             </div>
           </div>
         </div>

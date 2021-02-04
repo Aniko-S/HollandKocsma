@@ -24,5 +24,3 @@ function Card({ id, className, setIds, isSelected, pickUpThePile, isPile, left }
 }
 
 export default Card;
-
-// onClick-ben setIds(id) vagy setIds(0) attol fuggoen, hogy az isPile flag true-e
