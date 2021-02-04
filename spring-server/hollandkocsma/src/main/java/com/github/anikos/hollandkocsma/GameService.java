@@ -85,7 +85,10 @@ public class GameService {
                 pile.topCardSet = new HashSet<>();
             }
         } else if (gameStatus == 1) {
-            message = "Incorrect step";
+            message = "Incorrect step. You have to put one or more cards with the same value "
+                    + createMessage()
+                    + ", or you can put magic card (2, 5, 10). "
+                    + "If you can't put any cards, you have to pick up the pile.";
         } else {
             message = "You burn. It's your turn again.";
             pile.topCardSet = new HashSet<>();
@@ -100,7 +103,7 @@ public class GameService {
 
     public GameState machinesTurn() {
         List<Integer> ids;
-        List<Integer> answer = ((Machine)machine).put(this);
+        List<Integer> answer = ((Machine) machine).put(this);
         if (answer.get(0) == -1) {
             log.info("Machine put from blind cards");
             Card playedCard = machine.blindCards.stream().findFirst().orElseThrow();
@@ -181,18 +184,6 @@ public class GameService {
             pile = new Pile();
             return 0;
         }
-//        if (ids.get(0) == -1) {
-//            log.info("Put from blind cards");
-//            if (!player.handCards.isEmpty() || !player.shownCards.isEmpty()) {
-//                return 1;
-//            }
-//            Optional<Card> first = player.blindCards.stream().findFirst();
-//            if (first.isEmpty()) {
-//                return 1;
-//            }
-//            return playFromBlindCards(first.get(), player);
-//        }
-
         // play cards
         if (!isValidCardSet(ids)) {
             log.info("Invalid card set");
@@ -317,5 +308,12 @@ public class GameService {
     private int burn() {
         pile = new Pile();
         return 2;
+    }
+
+    private String createMessage() {
+        if (pile.getTop().getValue().equals(Deck.Value.FIVE)) {
+            return "less than or equals to FIVE";
+        }
+        return "greater than or equals to " + pile.getTop().getValue().toString();
     }
 }

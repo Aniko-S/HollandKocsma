@@ -7,7 +7,7 @@ function BlindAndShownCard({ shownId, setIds, ids, putFromBlind, blindAvailable,
     <span className='blindAndShown'>
       {shownId > 0 ? 
         <Card id={shownId} 
-              className='shown' 
+              type='shown' 
               setIds={setIds} 
               isSelected={ids?.includes(shownId)}
               available={shownAvailable} 

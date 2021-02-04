@@ -8,7 +8,7 @@ function Table({ deck, pile, message, setIds, pickUpThePile }) {
       <div className='container'>
         <div className='row align-items-center'>
           <div className='col-3'>
-          <textarea rows='3' value={message} readOnly />
+            <textarea rows='4' value={message} readOnly />
           </div>
           <div className='col-6'>
             <div className='cardList'>
@@ -22,6 +22,7 @@ function Table({ deck, pile, message, setIds, pickUpThePile }) {
               />
             </div>
           </div>
+          <div className='col-3'></div>
         </div>
       </div>
     </div>

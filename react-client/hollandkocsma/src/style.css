@@ -7,6 +7,7 @@
   justify-content: space-between;
   padding: 5px;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .start {
@@ -56,6 +57,8 @@
 
 .tableSpace {
   height: 20%;
+  display: flex;
+  align-items: center;
 }
 
 .playerLine {
@@ -64,6 +67,7 @@
 
 .tableLine {
   height: 90%;
+  flex: 1;
 }
 
 .cardList {
@@ -72,6 +76,14 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+
+.cardList.low {
+  height: 80%;
+}
+
+.cardList.low .card {
+  margin-top: 4%;
 }
 
 .card {
@@ -103,7 +115,7 @@
 }
 
 textarea {
-  width: 100%;
+  width: 140%;
 }
 
 .deck {
@@ -117,3 +129,8 @@ textarea {
 .card.available:hover {
   cursor: pointer
 }
+
+.container {
+  max-width: 100%;
+}
+

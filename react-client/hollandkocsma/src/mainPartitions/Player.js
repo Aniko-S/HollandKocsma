@@ -32,7 +32,7 @@ function Player({ name, listHand, listShown, setIds, putCards, ids, putFromBlind
         </div>
       </div>
       <div className='playerLine'>
-        <div className='cardList'>
+        <div className={listHand.length > 25 ? 'cardList low' : 'cardList'}>
           <CardList className='hand'
             cardIdList={listHand}
             setIds={setIds}

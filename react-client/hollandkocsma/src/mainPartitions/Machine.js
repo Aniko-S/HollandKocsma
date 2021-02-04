@@ -8,7 +8,7 @@ function Machine({ hand, listShown }) {
     <>
       <div className='name'>Bob</div>
       <div className='playerLine'>
-        <div className='cardList'>
+        <div className={hand.length > 25 ? 'cardList low' : 'cardList'}>
           <BlindCardList blindNumber={hand} className='hand' isCover={true} />
         </div>
       </div>
