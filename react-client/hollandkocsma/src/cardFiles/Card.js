@@ -1,7 +1,7 @@
 import React from 'react';
 const cardImages = require.context('../cardImages');
 
-function Card({ id, className, setIds, isSelected, pickUpThePile, isPile, left }) {
+function Card({ id, type, setIds, isSelected, pickUpThePile, isPile, left, available }) {
   const imageFileName = () => {
     return id + '.png';
   };
@@ -14,12 +14,18 @@ function Card({ id, className, setIds, isSelected, pickUpThePile, isPile, left }
     }
   }
 
+  const cardClass = available 
+    ? isSelected 
+      ? `card selected ${type} available`
+      : `card ${type} available`  
+    : `card ${type} disavailable`;
+
   return (
-    <img className={isSelected ? `card selected ${className}` : `card ${className}`}
+    <img className={cardClass}
       style={{left:left+'px'}}
       src={cardImages(`./${imageFileName()}`).default}
       alt={imageFileName()} 
-      onClick={onClick} />
+      onClick={available ? onClick : ''} />
   );
 }
 

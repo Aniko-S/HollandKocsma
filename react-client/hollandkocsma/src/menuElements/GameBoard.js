@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Machine from '../mainPartitions/Machine';
 import Player from '../mainPartitions/Player';
@@ -103,18 +103,21 @@ function GameBoard({ dataArray }) {
                 pile={gameData.tablesData.pileTop} 
                 message={gameData.tablesData.message} 
                 setIds={setIds} 
-                pickUpThePile={playerPickUpThePile} />}
+                pickUpThePile={playerPickUpThePile}      
+              />
+        }
       </div>
       <div className='playerSpace'>
         {gameData?.playersData 
           && <Player name={gameData.playersData.name} 
                 listHand={gameData.playersData.handCardsIds} 
                 listShown={gameData.playersData.shownCardsIds} 
-                blindNumber={gameData.machinesData.blindCardsNumber} 
                 setIds={setIds} 
                 putCards={filledShown ? playerPutCardsToPile : playerPutCardsToShown} 
                 ids={selectedCardsIds} 
-                putFromBlind={playerPutFromBlind} />}
+                putFromBlind={playerPutFromBlind}
+              />
+        }
       </div>
     </div>
   );

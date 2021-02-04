@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CardList from '../cardLists/CardList';
 import BlindAndShownCardList from '../cardLists/BlindAndShownCardList';
 
-function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids, putFromBlind }) {
-  const [blindAvaliable, setBlindAvailable] = useState(false);
+function Player({ name, listHand, listShown, setIds, putCards, ids, putFromBlind }) {
+  const [blindAvailable, setBlindAvailable] = useState(false);
 
+  useEffect(() => {
+    if (listHand.length === 0) {
+      setBlindAvailable(true);
+    }
+  }, [listHand.length]);
 
   return (
     <>
@@ -16,8 +21,7 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids,
               <BlindAndShownCardList listShown={listShown}
                 setIds={setIds} ids={ids}
                 putFromBlind={putFromBlind}
-                blindNumber={blindNumber}
-                avaliable={blindAvaliable}
+                blindAvailable={blindAvailable}
               />
             </div>
             <div className='col-3'>
@@ -33,6 +37,7 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids,
             setIds={setIds}
             ids={ids}
             isCover={true}
+            available={true}
           />
         </div>
       </div>

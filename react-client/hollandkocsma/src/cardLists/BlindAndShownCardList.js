@@ -1,7 +1,7 @@
 import React from 'react';
 import BlindAndShownCard from '../cardFiles/BlindAndShownCard';
 
-function BlindAndShownCardList({ listShown, setIds, ids, putFromBlind, avaliable }) {
+function BlindAndShownCardList({ listShown, setIds, ids, putFromBlind, blindAvailable }) {
 
   return (
     <div className='cardList'>
@@ -11,7 +11,7 @@ function BlindAndShownCardList({ listShown, setIds, ids, putFromBlind, avaliable
           setIds={setIds} 
           ids={ids} 
           putFromBlind={putFromBlind} 
-          avaliable={avaliable}
+          blindAvailable={blindAvailable}
         />)}
     </div>
   );

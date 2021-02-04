@@ -18,6 +18,7 @@ function Table({ deck, pile, message, setIds, pickUpThePile }) {
                 setIds={setIds} 
                 pickUpThePile={pickUpThePile} 
                 isPile={true} 
+                available={true}
               />
             </div>
           </div>
