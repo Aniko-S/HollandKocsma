@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import BlindAndShownCard from '../cardFiles/BlindAndShownCard';
 
-function BlindAndShownCardList({ listShown, setIds, ids, putFromBlind, blindAvailable }) {
+function BlindAndShownCardList({ listShown, setIds, ids, putFromBlind, blindAvailable, shownAvailable }) {
 
   const [cards, setCards] = useState([]);
 
@@ -11,15 +11,8 @@ function BlindAndShownCardList({ listShown, setIds, ids, putFromBlind, blindAvai
       setCards(listShown);
       return;
     }
-    console.log('listShown: ', listShown);
-    console.log('cards: ', cards);
-
     const cardsNotContainsId = difference[0];
-    console.log('cardsNotContainsId: ', cardsNotContainsId);
-   // const listShownNotContainsIndex = cards.findIndex(() => cards.filter(id => !listShown.includes(id))[0]);
-
     const listShownNotContainsIndex = cards.findIndex(id => !listShown.includes(id));
-    console.log('listShownNotContainsIndex: ', listShownNotContainsIndex);
     const newCards = [...cards];
     newCards[listShownNotContainsIndex] = cardsNotContainsId;
     setCards(newCards);
@@ -34,6 +27,7 @@ function BlindAndShownCardList({ listShown, setIds, ids, putFromBlind, blindAvai
           ids={ids} 
           putFromBlind={putFromBlind} 
           blindAvailable={blindAvailable}
+          shownAvailable={shownAvailable}
         />)}
     </div>
   );

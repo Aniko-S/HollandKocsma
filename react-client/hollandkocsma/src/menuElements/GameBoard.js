@@ -72,7 +72,7 @@ function GameBoard({ dataArray }) {
   };
 
   const isMachinesTurn = (data) => {
-    if (data?.isTurnFinished) {
+    if (data?.isTurnFinished && !data?.playersData?.isWinner) {
       machinePutCardsToPile();
     }
   }

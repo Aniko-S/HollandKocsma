@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card';
 import BlankCard from './BlankCard';
 
-function BlindAndShownCard({ shownId, setIds, ids, putFromBlind, blindAvailable }) {
+function BlindAndShownCard({ shownId, setIds, ids, putFromBlind, blindAvailable, shownAvailable }) {
   return (
     <span className='blindAndShown'>
       {shownId > 0 ? 
@@ -10,7 +10,7 @@ function BlindAndShownCard({ shownId, setIds, ids, putFromBlind, blindAvailable 
               className='shown' 
               setIds={setIds} 
               isSelected={ids?.includes(shownId)}
-              available={true} 
+              available={shownAvailable} 
         /> 
         : <BlankCard className='blind' putFromBlind={putFromBlind} available={blindAvailable} />}
     </span>

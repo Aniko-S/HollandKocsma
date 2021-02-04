@@ -22,6 +22,7 @@ function Player({ name, listHand, listShown, setIds, putCards, ids, putFromBlind
                 setIds={setIds} ids={ids}
                 putFromBlind={putFromBlind}
                 blindAvailable={blindAvailable}
+                shownAvailable={listHand.length === 0}
               />
             </div>
             <div className='col-3'>
