@@ -11,7 +11,11 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids,
           <div className='row align-items-center'>
             <div className='col-3'></div>
             <div className='col-6'>
-              <BlindAndShownCardList listShown={listShown} setIds={setIds} ids={ids} putFromBlind={putFromBlind} blindNumber={blindNumber} />
+              <BlindAndShownCardList listShown={listShown} 
+                setIds={setIds} ids={ids} 
+                putFromBlind={putFromBlind} 
+                blindNumber={blindNumber} 
+              />
             </div>
             <div className='col-3'>
               <button className='button put' onClick={putCards}>Put</button>
@@ -21,7 +25,12 @@ function Player({ name, listHand, listShown, blindNumber, setIds, putCards, ids,
       </div>
       <div className='playerLine'>
       <div className='cardList'>
-          <CardList className='hand' cardIdList={listHand} setIds={setIds} ids={ids} isCover={true} />
+          <CardList className='hand' 
+            cardIdList={listHand} 
+            setIds={setIds} 
+            ids={ids} 
+            isCover={true} 
+          />
        </div>
       </div>
       <div className='name'>{name}</div>
