@@ -109,3 +109,11 @@ textarea {
 .deck {
   margin-right: 30px;
 }
+
+.card.disavailable:hover {
+  cursor: not-allowed
+}
+
+.card.available:hover {
+  cursor: pointer
+}
