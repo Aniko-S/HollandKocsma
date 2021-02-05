@@ -79,9 +79,9 @@ public class GameService {
         if (gameStatus == 0) {
             message = "Machine's turn";
             isFinished = true;
-            if (ids.get(0) != 0) {
+            if (ids.get(0) != 0 && answer.get(0) != -1) {
                 pile.topCardSet = ids.stream().map(Deck::getCardFromId).collect(Collectors.toSet());
-            } else {
+            } else if (answer.get(0) != -1) {
                 pile.topCardSet = new HashSet<>();
             }
         } else if (gameStatus == 1) {
@@ -119,9 +119,9 @@ public class GameService {
         if (gameStatus == 0) {
             message = "Your turn";
             isFinished = true;
-            if (ids.get(0) != 0 && ids.get(0) != -1) {
+            if (ids.get(0) != 0 && answer.get(0) != -1) {
                 pile.topCardSet = ids.stream().map(Deck::getCardFromId).collect(Collectors.toSet());
-            } else {
+            } else if (answer.get(0) != -1) {
                 pile.topCardSet = new HashSet<>();
             }
         } else if (gameStatus == 1) {
@@ -274,6 +274,7 @@ public class GameService {
             Card previousCard = pile.getTop();
             putACardFromTo(card, player.blindCards, pile.cardSet);
             pile.setTop(card.getId());
+            pile.topCardSet = new HashSet<>(Set.of(card));
             countEqualCards(card, previousCard);
             if (player.blindCards.isEmpty()) {
                 return 3;
