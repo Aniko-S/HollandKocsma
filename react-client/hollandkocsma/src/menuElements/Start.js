@@ -8,10 +8,7 @@ function Start({ dataArray }) {
   async function newGame() {
     const name = text || "Player";
     const setGameData = dataArray[1];
-    const { data } = await axios.post(
-      `http://localhost:8080/game/begin/${name}`,
-      name
-    );
+    const { data } = await axios.post(`/game/begin/${name}`, name);
     setGameData(data);
   }
 
