@@ -20,7 +20,7 @@ public abstract class GamerData {
         name = player.getName();
         blindCardsNumber = player.blindCards.size();
         fillShownCardsIds(player);
-        log.info("BlindCardsNumber: {}", blindCardsNumber);
+        log.info("Player:{}, blindCardsNumber: {}", player.getName(), blindCardsNumber);
         isWinner = player.handCards.isEmpty() && player.shownCards.isEmpty() && player.blindCards.isEmpty();
     }
 
