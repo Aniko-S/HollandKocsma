@@ -33,8 +33,9 @@ function GameBoard({ dataArray }) {
   };
 
   async function playerPutCardsToShown() {
+    const gameId = gameData.gameId;
     const { data } = await axios.post(
-      `http://localhost:8080/game/toshown`,
+      `http://localhost:8080/game/toshown/${gameId}`,
       selectedCardsIds
     );
     setGameData(data);
@@ -42,8 +43,9 @@ function GameBoard({ dataArray }) {
   }
 
   async function playerPutCardsToPile() {
+    const gameId = gameData.gameId;
     const { data } = await axios.post(
-      `http://localhost:8080/game/game`,
+      `http://localhost:8080/game/game/${gameId}`,
       selectedCardsIds
     );
     setGameData(data);
@@ -52,20 +54,29 @@ function GameBoard({ dataArray }) {
   }
 
   async function machinePutCardsToPile() {
-    const { data } = await axios.get(`http://localhost:8080/game/game`);
+    const gameId = gameData.gameId;
+    const { data } = await axios.get(
+      `http://localhost:8080/game/game/${gameId}`
+    );
     setTimeout(() => setGameData(data), 1000);
     isMachinesTurnFinished(data);
   }
 
   async function playerPickUpThePile() {
-    const { data } = await axios.post(`http://localhost:8080/game/game`, [0]);
+    const gameId = gameData.gameId;
+    const {
+      data,
+    } = await axios.post(`http://localhost:8080/game/game/${gameId}`, [0]);
     setGameData(data);
     setSelectedCardsIds([]);
     isMachinesTurn(data);
   }
 
   async function playerPutFromBlind() {
-    const { data } = await axios.post(`http://localhost:8080/game/game`, [-1]);
+    const gameId = gameData.gameId;
+    const {
+      data,
+    } = await axios.post(`http://localhost:8080/game/game/${gameId}`, [-1]);
     setGameData(data);
     isMachinesTurn(data);
   }
