@@ -17,26 +17,18 @@ public class GameService {
     private static final int inHands = 6;
     public static final int shown = 3;
     private static final int blind = 3;
-    private Player player;
-    private Player machine;
-    protected List<Player> players;
-    protected List<Card> deck;
-    public Pile pile;
+    List<Game> games = new ArrayList<>();
 
     public GameState newGame(String name) {
-        players = new ArrayList<>();
-        player = new Player(name);
-        machine = new Machine();
-        players.add(player);
-        players.add(machine);
-        Deck cardList = new Deck();
-        deck = cardList.deck;
-        pile = new Pile();
-        deal();
-        log.info("Players: {}", players);
+        Player player = new Player(name);
+        Game game = new Game(player, games.size());
+        games.add(game);
+        deal(game);
+        log.info("Players: {}", game.players);
         return new GameState(
+                game.id,
                 new PlayersData(player),
-                new MachinesData((Machine) machine),
+                new MachinesData(game.machine),
                 new TablesData(true, new HashSet<>(), "Choose three cards to put down face-up"),
                 true
         );
@@ -146,16 +138,16 @@ public class GameService {
         targetCards.add(card);
     }
 
-    private void deal() {
-        log.info("Deal to: {}", players);
-        for (Player player : players) {
+    private void deal(Game game) {
+        log.info("Deal to: {}", game.players);
+        for (Player player : game.players) {
             for (int i = 0; i < inHands; i++) {
-                draw(player);
+                draw(player, game.deck);
             }
             for (int i = 0; i < blind; i++) {
-                int rand = (int) (Math.random() * deck.size());
-                player.blindCards.add(deck.get(rand));
-                deck.remove(rand);
+                int rand = (int) (Math.random() * game.deck.size());
+                player.blindCards.add(game.deck.get(rand));
+                game.deck.remove(rand);
             }
         }
     }

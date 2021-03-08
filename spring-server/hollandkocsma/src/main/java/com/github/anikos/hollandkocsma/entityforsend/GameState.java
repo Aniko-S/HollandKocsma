@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class GameState {
+    public int gameId;
     public PlayersData playersData;
     public MachinesData machinesData;
     public TablesData tablesData;

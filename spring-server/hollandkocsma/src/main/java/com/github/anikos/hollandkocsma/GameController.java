@@ -20,18 +20,18 @@ public class GameController {
         return gameService.newGame(name);
     }
 
-    @PostMapping("/toshown")
-    public GameState putToShown(@RequestBody ArrayList<Integer> ids) {
-        return gameService.putToShownCards(ids);
+    @PostMapping("/toshown/{gameId}")
+    public GameState putToShown(@PathVariable int gameId, @RequestBody ArrayList<Integer> ids) {
+        return gameService.putToShownCards(gameId, ids);
     }
 
-    @PostMapping("/game")
-    public GameState game(@RequestBody ArrayList<Integer> ids) {
-        return gameService.playersTurn(ids);
+    @PostMapping("/game/{gameId}")
+    public GameState game(@PathVariable int gameId, @RequestBody ArrayList<Integer> ids) {
+        return gameService.playersTurn(gameId, ids);
     }
 
-    @GetMapping("/game")
-    public GameState game() {
-        return gameService.machinesTurn();
+    @GetMapping("/game/{gameId}")
+    public GameState game(@PathVariable int gameId) {
+        return gameService.machinesTurn(gameId);
     }
 }
