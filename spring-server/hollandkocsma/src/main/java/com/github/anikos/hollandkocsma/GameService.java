@@ -19,11 +19,12 @@ public class GameService {
     private static final int blind = 3;
     private Player player;
     private Player machine;
-    protected List<Player> players = new ArrayList<>();
+    protected List<Player> players;
     protected List<Card> deck;
     public Pile pile;
 
     public GameState newGame(String name) {
+        players = new ArrayList<>();
         player = new Player(name);
         machine = new Machine();
         players.add(player);
@@ -32,8 +33,7 @@ public class GameService {
         deck = cardList.deck;
         pile = new Pile();
         deal();
-        log.info("Players blind cards: {}", player.blindCards);
-        log.info("Machines blind cards: {}", machine.blindCards);
+        log.info("Players: {}", players);
         return new GameState(
                 new PlayersData(player),
                 new MachinesData((Machine) machine),
@@ -71,12 +71,13 @@ public class GameService {
         } else {
             ids = answer;
         }
-        log.info("Player put: {}", ids);
-        String message;
+        String message = "";
         boolean isFinished = false;
         int gameStatus = turn(player, ids);
         log.info("GameStatus: {}", gameStatus);
-        if (gameStatus == 0) {
+        if (gameStatus == 3) {
+            isFinished = true;
+        } else if (gameStatus == 0) {
             message = "Machine's turn";
             isFinished = true;
             if (ids.get(0) != 0 && answer.get(0) != -1) {
@@ -111,12 +112,13 @@ public class GameService {
         } else {
             ids = answer;
         }
-        log.info("Machine put: {}", ids);
-        String message;
+        String message = "";
         boolean isFinished = false;
         int gameStatus = turn(machine, ids);
         log.info("GameStatus: {}", gameStatus);
-        if (gameStatus == 0) {
+        if (gameStatus == 3) {
+            isFinished = true;
+        } else if (gameStatus == 0) {
             message = "Your turn";
             isFinished = true;
             if (ids.get(0) != 0 && answer.get(0) != -1) {
@@ -145,6 +147,7 @@ public class GameService {
     }
 
     private void deal() {
+        log.info("Deal to: {}", players);
         for (Player player : players) {
             for (int i = 0; i < inHands; i++) {
                 draw(player);
@@ -176,7 +179,15 @@ public class GameService {
     }
 
     private int turn(Player player, List<Integer> ids) {
-        log.info("{} put: {}", player.getName(), ids);
+        log.info("Cards number in deck: {}", deck.size());
+        log.info("{} put:", player.getName());
+        for (int id: ids) {
+            if (id == 0) {
+                log.info("0");
+            } else {
+                log.info("{}", Deck.getCardFromId(id));
+            }
+        }
         // pick up the pile
         if (ids.get(0) == 0) {
             log.info("Pick up the pile");
