@@ -6,6 +6,7 @@ import Table from "../mainPartitions/Table";
 import PopUp from "../PopUp";
 
 function GameBoard({ dataArray }) {
+  const requestUrl = "https://evening-headland-15880.herokuapp.com";
   const [gameData, setGameData] = dataArray;
 
   const [selectedCardsIds, setSelectedCardsIds] = useState([]);
@@ -35,7 +36,7 @@ function GameBoard({ dataArray }) {
   async function playerPutCardsToShown() {
     const gameId = gameData.gameId;
     const { data } = await axios.post(
-      `/game/toshown/${gameId}`,
+      `${requestUrl}/game/toshown/${gameId}`,
       selectedCardsIds
     );
     setGameData(data);
@@ -44,7 +45,10 @@ function GameBoard({ dataArray }) {
 
   async function playerPutCardsToPile() {
     const gameId = gameData.gameId;
-    const { data } = await axios.post(`/game/game/${gameId}`, selectedCardsIds);
+    const { data } = await axios.post(
+      `${requestUrl}/game/game/${gameId}`,
+      selectedCardsIds
+    );
     setGameData(data);
     setSelectedCardsIds([]);
     isMachinesTurn(data);
@@ -52,14 +56,14 @@ function GameBoard({ dataArray }) {
 
   async function machinePutCardsToPile() {
     const gameId = gameData.gameId;
-    const { data } = await axios.get(`/game/game/${gameId}`);
+    const { data } = await axios.get(`${requestUrl}/game/game/${gameId}`);
     setTimeout(() => setGameData(data), 1000);
     isMachinesTurnFinished(data);
   }
 
   async function playerPickUpThePile() {
     const gameId = gameData.gameId;
-    const { data } = await axios.post(`/game/game/${gameId}`, [0]);
+    const { data } = await axios.post(`${requestUrl}/game/game/${gameId}`, [0]);
     setGameData(data);
     setSelectedCardsIds([]);
     isMachinesTurn(data);
@@ -67,7 +71,9 @@ function GameBoard({ dataArray }) {
 
   async function playerPutFromBlind() {
     const gameId = gameData.gameId;
-    const { data } = await axios.post(`/game/game/${gameId}`, [-1]);
+    const { data } = await axios.post(`${requestUrl}/game/game/${gameId}`, [
+      -1,
+    ]);
     setGameData(data);
     isMachinesTurn(data);
   }

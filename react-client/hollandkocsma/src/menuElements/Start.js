@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Start({ dataArray }) {
+  const requestUrl = "https://evening-headland-15880.herokuapp.com";
   const [text, setText] = useState("");
 
   async function newGame() {
     const name = text || "Player";
     const setGameData = dataArray[1];
-    const { data } = await axios.post(`/game/begin/${name}`, name);
+    const { data } = await axios.post(`${requestUrl}/game/begin/${name}`, name);
     setGameData(data);
   }
 
