@@ -32,7 +32,7 @@ public class Machine extends Player {
         }
     }
 
-    public List<Integer> put(GameService game) {
+    public List<Integer> put(Game game) {
         if (handCards.isEmpty() && shownCards.isEmpty()) {
             log.info("Machine put from blind");
             return new ArrayList<>(List.of(-1));
@@ -68,7 +68,7 @@ public class Machine extends Player {
         return blindCards.stream().findFirst().get().getId();
     }
 
-    public Set<Card> searchGoodCards(GameService game) {
+    public Set<Card> searchGoodCards(Game game) {
         if (!handCards.isEmpty()) {
             return handCards.stream().filter(card ->
                     card.canPutTo(game.pile.getTop()))
