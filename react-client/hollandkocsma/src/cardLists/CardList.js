@@ -9,9 +9,12 @@ function CardList({
   pickUpThePile,
   isPile,
   isCover,
+  coverWidth,
   available,
+  center,
 }) {
-  const firstLeft = cardIdList ? ((cardIdList.length - 1) * 30) / 2 : 0;
+  const firstLeft =
+    center && cardIdList ? ((cardIdList.length - 1) * coverWidth) / 2 : 10;
   return (
     <div className="cardList">
       {cardIdList.map((id, idx) => (
@@ -19,7 +22,7 @@ function CardList({
           type={className}
           key={id}
           id={id}
-          left={isCover ? firstLeft - idx * 30 : 0}
+          left={isCover ? firstLeft - idx * coverWidth : 0}
           setIds={setIds}
           isSelected={ids?.includes(id)}
           pickUpThePile={pickUpThePile}

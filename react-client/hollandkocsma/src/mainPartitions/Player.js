@@ -52,6 +52,8 @@ function Player({
             setIds={setIds}
             ids={ids}
             isCover={true}
+            coverWidth={30}
+            center={true}
             available={isPlayersTurn}
           />
         </div>
