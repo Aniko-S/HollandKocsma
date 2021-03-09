@@ -15,7 +15,7 @@ function Card({
     return id + ".png";
   };
 
-  const onClick = () => {
+  const handleClick = () => {
     if (isPile) {
       pickUpThePile();
     } else {
@@ -35,7 +35,7 @@ function Card({
       style={{ left: left + "px" }}
       src={cardImages(`./${imageFileName()}`).default}
       alt={imageFileName()}
-      onClick={available ? onClick : ""}
+      onClick={available ? handleClick : undefined}
     />
   );
 }

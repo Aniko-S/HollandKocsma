@@ -15,7 +15,7 @@ function BlankCard({ className, left, putFromBlind, available }) {
       style={{ left: left + "px" }}
       src={cardImages(`./${imageFileName()}`).default}
       alt={imageFileName()}
-      onClick={available ? putFromBlind : ""}
+      onClick={available ? putFromBlind : undefined}
     />
   );
 }
