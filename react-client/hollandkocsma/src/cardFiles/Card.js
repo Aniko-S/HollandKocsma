@@ -23,15 +23,11 @@ function Card({
     }
   };
 
-  const cardClass = available
-    ? isSelected
-      ? `card selected ${type} available`
-      : `card ${type} available`
-    : `card ${type} disavailable`;
-
   return (
     <img
-      className={cardClass}
+      className={`card ${type} ${isSelected && "selected"} ${
+        available ? "available" : "disavailable"
+      }`}
       style={{ left: left + "px" }}
       src={cardImages(`./${imageFileName()}`).default}
       alt={imageFileName()}

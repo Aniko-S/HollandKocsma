@@ -7,11 +7,9 @@ function BlankCard({ className, left, putFromBlind, available }) {
   };
   return (
     <img
-      className={
-        available
-          ? `card ${className} available`
-          : `card ${className} disavailable`
-      }
+      className={`card ${className} ${
+        available ? "available" : "disavailable"
+      }`}
       style={{ left: left + "px" }}
       src={cardImages(`./${imageFileName()}`).default}
       alt={imageFileName()}
