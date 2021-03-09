@@ -6,8 +6,10 @@ import Table from "../mainPartitions/Table";
 import PopUp from "../PopUp";
 
 function GameBoard({ dataArray }) {
-  const requestUrl = "https://evening-headland-15880.herokuapp.com";
+  // const requestUrl = "https://evening-headland-15880.herokuapp.com";
+  const requestUrl = "http://localhost:8080/";
   const [gameData, setGameData] = dataArray;
+  const [isPlayersTurn, setIsPlayersTurn] = useState(true);
 
   const [selectedCardsIds, setSelectedCardsIds] = useState([]);
   const [filledShown, setFilledShown] = useState(false);
@@ -57,8 +59,10 @@ function GameBoard({ dataArray }) {
   async function machinePutCardsToPile() {
     const gameId = gameData.gameId;
     const { data } = await axios.get(`${requestUrl}/game/game/${gameId}`);
-    setTimeout(() => setGameData(data), 1000);
-    isMachinesTurnFinished(data);
+    setTimeout(() => {
+      setGameData(data);
+      isMachinesTurnFinished(data);
+    }, 1000);
   }
 
   async function playerPickUpThePile() {
@@ -87,14 +91,13 @@ function GameBoard({ dataArray }) {
 
   const isMachinesTurn = (data) => {
     if (data?.isTurnFinished && !data?.playersData?.isWinner) {
+      setIsPlayersTurn(false);
       machinePutCardsToPile();
     }
   };
 
   const isMachinesTurnFinished = (data) => {
-    if (!data?.isTurnFinished) {
-      machinePutCardsToPile();
-    }
+    data?.isTurnFinished ? setIsPlayersTurn(true) : machinePutCardsToPile();
   };
 
   return (
@@ -143,6 +146,7 @@ function GameBoard({ dataArray }) {
             }
             ids={selectedCardsIds}
             putFromBlind={playerPutFromBlind}
+            isPlayersTurn={isPlayersTurn}
           />
         )}
       </div>

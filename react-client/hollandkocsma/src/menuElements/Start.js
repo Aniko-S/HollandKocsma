@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Start({ dataArray }) {
-  const requestUrl = "https://evening-headland-15880.herokuapp.com";
+  //const requestUrl = "https://evening-headland-15880.herokuapp.com";
+  const requestUrl = "http://localhost:8080";
   const [text, setText] = useState("");
 
   async function newGame() {
