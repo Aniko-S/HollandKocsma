@@ -13,14 +13,6 @@ function Player({
   isPlayersTurn,
   buttonText,
 }) {
-  const [blindAvailable, setBlindAvailable] = useState(false);
-
-  useEffect(() => {
-    if (listHand.length === 0) {
-      setBlindAvailable(true);
-    }
-  }, [listHand.length]);
-
   return (
     <>
       <div className="playerLine">
@@ -33,7 +25,11 @@ function Player({
                 setIds={setIds}
                 ids={ids}
                 putFromBlind={putFromBlind}
-                blindAvailable={isPlayersTurn && blindAvailable}
+                blindAvailable={
+                  isPlayersTurn &&
+                  listHand.length === 0 &&
+                  listShown.length === 0
+                }
                 shownAvailable={isPlayersTurn && listHand.length === 0}
               />
             </div>
