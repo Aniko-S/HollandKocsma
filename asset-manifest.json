@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/Shed_card_game/static/css/main.bb07c235.chunk.css",
-    "main.js": "/Shed_card_game/static/js/main.53cbd682.chunk.js",
-    "main.js.map": "/Shed_card_game/static/js/main.53cbd682.chunk.js.map",
+    "main.css": "/Shed_card_game/static/css/main.4d9ab172.chunk.css",
+    "main.js": "/Shed_card_game/static/js/main.1fbb4407.chunk.js",
+    "main.js.map": "/Shed_card_game/static/js/main.1fbb4407.chunk.js.map",
     "runtime-main.js": "/Shed_card_game/static/js/runtime-main.bef50b82.js",
     "runtime-main.js.map": "/Shed_card_game/static/js/runtime-main.bef50b82.js.map",
     "static/css/2.150d169a.chunk.css": "/Shed_card_game/static/css/2.150d169a.chunk.css",
@@ -12,7 +12,7 @@
     "static/js/3.002ff343.chunk.js.map": "/Shed_card_game/static/js/3.002ff343.chunk.js.map",
     "index.html": "/Shed_card_game/index.html",
     "static/css/2.150d169a.chunk.css.map": "/Shed_card_game/static/css/2.150d169a.chunk.css.map",
-    "static/css/main.bb07c235.chunk.css.map": "/Shed_card_game/static/css/main.bb07c235.chunk.css.map",
+    "static/css/main.4d9ab172.chunk.css.map": "/Shed_card_game/static/css/main.4d9ab172.chunk.css.map",
     "static/js/2.99d233e9.chunk.js.LICENSE.txt": "/Shed_card_game/static/js/2.99d233e9.chunk.js.LICENSE.txt",
     "static/media/10.png": "/Shed_card_game/static/media/10.e7af060a.png",
     "static/media/11.png": "/Shed_card_game/static/media/11.54db3cc7.png",
@@ -60,7 +60,7 @@
     "static/js/runtime-main.bef50b82.js",
     "static/css/2.150d169a.chunk.css",
     "static/js/2.99d233e9.chunk.js",
-    "static/css/main.bb07c235.chunk.css",
-    "static/js/main.53cbd682.chunk.js"
+    "static/css/main.4d9ab172.chunk.css",
+    "static/js/main.1fbb4407.chunk.js"
   ]
 }
