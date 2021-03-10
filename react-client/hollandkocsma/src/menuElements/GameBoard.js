@@ -10,6 +10,7 @@ function GameBoard({ dataArray }) {
   const requestUrl = "http://localhost:8080/";
   const [gameData, setGameData] = dataArray;
   const [isPlayersTurn, setIsPlayersTurn] = useState(true);
+  const [message, setMessage] = useState("");
 
   const [selectedCardsIds, setSelectedCardsIds] = useState([]);
   const [filledShown, setFilledShown] = useState(false);
@@ -46,6 +47,13 @@ function GameBoard({ dataArray }) {
   }
 
   async function playerPutCardsToPile() {
+    if (selectedCardsIds.length === 0) {
+      setMessage(
+        "You must select at least one card. You can select a card by clicking on it. If you can't play any card you have to pick up the pile by clicking on it."
+      );
+      return;
+    }
+    setMessage("");
     const gameId = gameData.gameId;
     const { data } = await axios.post(
       `${requestUrl}/game/game/${gameId}`,
@@ -128,7 +136,7 @@ function GameBoard({ dataArray }) {
           <Table
             deck={gameData.tablesData.hasDeck}
             pile={gameData.tablesData.pileTop}
-            message={gameData.tablesData.message}
+            message={message || gameData.tablesData.message}
             setIds={setIds}
             pickUpThePile={playerPickUpThePile}
             isPlayersTurn={isPlayersTurn}
