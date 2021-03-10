@@ -7,8 +7,8 @@ function Rules() {
       <Collapse title="Start" id="start">
         The game played with one regular 52-card deck. The cards rank highest to
         lowest A, K, Q, J, 10, . . . , 2. Each player is dealt 3 face-down cards
-        in a row (blind cards) and 6 hand cards. Each player put down 3 cards
-        face-up from 6 hand cards.
+        in a row (blind cards) and 6 hand cards. Each player selects 3 cards to
+        put down face-up from 6 hand cards.
       </Collapse>
       <Collapse title="Regular rules" id="regular">
         The first player begins a discard pile on the table, playing face-up
