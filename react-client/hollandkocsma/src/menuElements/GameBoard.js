@@ -10,6 +10,7 @@ function GameBoard({ dataArray }) {
   const requestUrl = "http://localhost:8080/";
   const [gameData, setGameData] = dataArray;
   const [isPlayersTurn, setIsPlayersTurn] = useState(true);
+  const [buttonText, setButtonText] = useState("Put down");
   const [message, setMessage] = useState("");
 
   const [selectedCardsIds, setSelectedCardsIds] = useState([]);
@@ -44,6 +45,7 @@ function GameBoard({ dataArray }) {
     );
     setGameData(data);
     setTheButtonsFunction(data);
+    setButtonText("Play");
   }
 
   async function playerPutCardsToPile() {
@@ -156,6 +158,7 @@ function GameBoard({ dataArray }) {
             ids={selectedCardsIds}
             putFromBlind={playerPutFromBlind}
             isPlayersTurn={isPlayersTurn}
+            buttonText={buttonText}
           />
         )}
       </div>

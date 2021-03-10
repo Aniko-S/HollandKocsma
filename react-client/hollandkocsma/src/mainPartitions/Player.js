@@ -11,6 +11,7 @@ function Player({
   ids,
   putFromBlind,
   isPlayersTurn,
+  buttonText,
 }) {
   const [blindAvailable, setBlindAvailable] = useState(false);
 
@@ -38,7 +39,7 @@ function Player({
             </div>
             <div className="col-3">
               <button className="button put" onClick={putCards}>
-                Put
+                {buttonText}
               </button>
             </div>
           </div>
