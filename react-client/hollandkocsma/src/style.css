@@ -19,6 +19,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  overflow: auto;
 }
 
 .nametext {
@@ -34,7 +35,8 @@
 
 .input,
 .button.name {
-  margin: 30px;
+  margin: 20px;
+  font-size: 18px;
 }
 
 .button.name,
@@ -157,5 +159,11 @@ textarea {
 }
 
 .accordion {
-  width: 50%;
+  width: 100%;
+  max-width: 800px;
+  overflow: auto;
+}
+
+.rule {
+  margin: 7px 0px 7px 0px;
 }
