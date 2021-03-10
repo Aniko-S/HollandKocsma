@@ -2,7 +2,7 @@ import React from "react";
 import BlankCard from "../cardFiles/BlankCard";
 import CardList from "../cardLists/CardList";
 
-function Table({ deck, pile, message, setIds, pickUpThePile }) {
+function Table({ deck, pile, message, setIds, pickUpThePile, isPlayersTurn }) {
   return (
     <div className="tableLine">
       <div className="container">
@@ -20,7 +20,7 @@ function Table({ deck, pile, message, setIds, pickUpThePile }) {
               setIds={setIds}
               pickUpThePile={pickUpThePile}
               isPile={true}
-              available={true}
+              available={isPlayersTurn}
               isCover={true}
               coverWidth={70}
             />

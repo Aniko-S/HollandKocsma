@@ -131,6 +131,7 @@ function GameBoard({ dataArray }) {
             message={gameData.tablesData.message}
             setIds={setIds}
             pickUpThePile={playerPickUpThePile}
+            isPlayersTurn={isPlayersTurn}
           />
         )}
       </div>
