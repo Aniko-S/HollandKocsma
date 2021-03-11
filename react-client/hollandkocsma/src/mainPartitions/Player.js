@@ -13,6 +13,7 @@ function Player({
   isPlayersTurn,
   buttonText,
 }) {
+  const shownCardsNumber = listShown.filter((id) => id > 0).length;
   return (
     <>
       <div className="playerLine">
@@ -25,7 +26,11 @@ function Player({
                 setIds={setIds}
                 ids={ids}
                 putFromBlind={putFromBlind}
-                blindAvailable={isPlayersTurn && listHand.length === 0}
+                blindAvailable={
+                  isPlayersTurn &&
+                  listHand.length === 0 &&
+                  shownCardsNumber === 0
+                }
                 shownAvailable={isPlayersTurn && listHand.length === 0}
               />
             </div>
