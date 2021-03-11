@@ -25,11 +25,7 @@ function Player({
                 setIds={setIds}
                 ids={ids}
                 putFromBlind={putFromBlind}
-                blindAvailable={
-                  isPlayersTurn &&
-                  listHand.length === 0 &&
-                  listShown.length === 0
-                }
+                blindAvailable={isPlayersTurn && listHand.length === 0}
                 shownAvailable={isPlayersTurn && listHand.length === 0}
               />
             </div>
