@@ -6,8 +6,8 @@ import "./style.css";
 
 function App() {
   const dataArray = useState();
-  const requestUrl = "https://localhost:8081";
-  // const requestUrl = "https://evening-headland-15880.herokuapp.com";
+  // const requestUrl = "http://localhost:8080";
+  const requestUrl = "https://evening-headland-15880.herokuapp.com";
 
   return (
     <Router basename={process.env.PUBLIC_URL}>
