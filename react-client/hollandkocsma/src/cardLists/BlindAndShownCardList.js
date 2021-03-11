@@ -9,28 +9,24 @@ function BlindAndShownCardList({
   blindAvailable,
   shownAvailable,
 }) {
-  const [cards, setCards] = useState([]);
+  const [shownCardsIds, setShownCardsIds] = useState([]);
 
   useEffect(() => {
-    const difference = listShown.filter((id) => !cards.includes(id));
-    if (difference.length !== 1) {
-      setCards(listShown);
+    if (shownCardsIds.filter((id) => id > 0).length === 0) {
+      setShownCardsIds(listShown);
       return;
     }
-    const cardsNotContainsId = difference[0];
-    const listShownNotContainsIndex = cards.findIndex(
-      (id) => !listShown.includes(id)
+    const tempShownCardsIds = shownCardsIds.map((id) =>
+      listShown.includes(id) ? id : -1
     );
-    const newCards = [...cards];
-    newCards[listShownNotContainsIndex] = cardsNotContainsId;
-    setCards(newCards);
-  }, [listShown, cards]);
+    setShownCardsIds(tempShownCardsIds);
+  }, [listShown]);
 
   return (
     <div className="cardList">
-      {cards.map((id) => (
+      {shownCardsIds.map((id, index) => (
         <BlindAndShownCard
-          key={id}
+          key={index}
           shownId={id}
           setIds={setIds}
           ids={ids}
