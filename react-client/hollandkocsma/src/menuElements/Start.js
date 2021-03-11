@@ -4,9 +4,7 @@ import axios from "axios";
 import Rules from "../Rules";
 import Accordion from "../Accordion";
 
-function Start({ dataArray }) {
-  //const requestUrl = "https://evening-headland-15880.herokuapp.com";
-  const requestUrl = "http://localhost:8080";
+function Start({ dataArray, requestUrl }) {
   const [text, setText] = useState("");
 
   async function newGame() {

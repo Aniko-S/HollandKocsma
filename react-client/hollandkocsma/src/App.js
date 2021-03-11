@@ -6,15 +6,17 @@ import "./style.css";
 
 function App() {
   const dataArray = useState();
+  const requestUrl = "https://localhost:8081";
+  // const requestUrl = "https://evening-headland-15880.herokuapp.com";
 
   return (
     <Router basename={process.env.PUBLIC_URL}>
       <Switch>
         <Route path="/game">
-          <GameBoard dataArray={dataArray} />
+          <GameBoard dataArray={dataArray} requestUrl={requestUrl} />
         </Route>
         <Route path="">
-          <Start dataArray={dataArray} />
+          <Start dataArray={dataArray} requestUrl={requestUrl} />
         </Route>
       </Switch>
     </Router>

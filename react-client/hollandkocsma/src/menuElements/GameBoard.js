@@ -5,9 +5,7 @@ import Player from "../mainPartitions/Player";
 import Table from "../mainPartitions/Table";
 import PopUp from "../PopUp";
 
-function GameBoard({ dataArray }) {
-  // const requestUrl = "https://evening-headland-15880.herokuapp.com";
-  const requestUrl = "http://localhost:8080/";
+function GameBoard({ dataArray, requestUrl }) {
   const [gameData, setGameData] = dataArray;
   const [isPlayersTurn, setIsPlayersTurn] = useState(true);
   const [buttonText, setButtonText] = useState("Put down");
