@@ -1,6 +1,7 @@
 package com.github.anikos.hollandkocsma.entityforsend;
 
 import lombok.AllArgsConstructor;
+import java.util.List;
 
 @AllArgsConstructor
 public class GameState {
@@ -9,4 +10,6 @@ public class GameState {
     public MachinesData machinesData;
     public TablesData tablesData;
     public boolean isTurnFinished;
+    public boolean isBurned;
+    public List<Integer> selectedIds;
 }
