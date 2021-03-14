@@ -1,7 +1,6 @@
 package com.github.anikos.hollandkocsma.entityforsend;
 
 import com.github.anikos.hollandkocsma.GameService;
-import com.github.anikos.hollandkocsma.entity.Machine;
 import com.github.anikos.hollandkocsma.entity.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
