@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/Shed_card_game/static/css/main.4d9ab172.chunk.css",
-    "main.js": "/Shed_card_game/static/js/main.51e06d15.chunk.js",
-    "main.js.map": "/Shed_card_game/static/js/main.51e06d15.chunk.js.map",
-    "runtime-main.js": "/Shed_card_game/static/js/runtime-main.bef50b82.js",
-    "runtime-main.js.map": "/Shed_card_game/static/js/runtime-main.bef50b82.js.map",
+    "main.js": "/Shed_card_game/static/js/main.ba8a5bef.chunk.js",
+    "main.js.map": "/Shed_card_game/static/js/main.ba8a5bef.chunk.js.map",
+    "runtime-main.js": "/Shed_card_game/static/js/runtime-main.115158d2.js",
+    "runtime-main.js.map": "/Shed_card_game/static/js/runtime-main.115158d2.js.map",
     "static/css/2.150d169a.chunk.css": "/Shed_card_game/static/css/2.150d169a.chunk.css",
-    "static/js/2.1b0b8a01.chunk.js": "/Shed_card_game/static/js/2.1b0b8a01.chunk.js",
-    "static/js/2.1b0b8a01.chunk.js.map": "/Shed_card_game/static/js/2.1b0b8a01.chunk.js.map",
-    "static/js/3.002ff343.chunk.js": "/Shed_card_game/static/js/3.002ff343.chunk.js",
-    "static/js/3.002ff343.chunk.js.map": "/Shed_card_game/static/js/3.002ff343.chunk.js.map",
+    "static/js/2.356d0bea.chunk.js": "/Shed_card_game/static/js/2.356d0bea.chunk.js",
+    "static/js/2.356d0bea.chunk.js.map": "/Shed_card_game/static/js/2.356d0bea.chunk.js.map",
+    "static/js/3.7729f7c5.chunk.js": "/Shed_card_game/static/js/3.7729f7c5.chunk.js",
+    "static/js/3.7729f7c5.chunk.js.map": "/Shed_card_game/static/js/3.7729f7c5.chunk.js.map",
     "index.html": "/Shed_card_game/index.html",
     "static/css/2.150d169a.chunk.css.map": "/Shed_card_game/static/css/2.150d169a.chunk.css.map",
     "static/css/main.4d9ab172.chunk.css.map": "/Shed_card_game/static/css/main.4d9ab172.chunk.css.map",
-    "static/js/2.1b0b8a01.chunk.js.LICENSE.txt": "/Shed_card_game/static/js/2.1b0b8a01.chunk.js.LICENSE.txt",
+    "static/js/2.356d0bea.chunk.js.LICENSE.txt": "/Shed_card_game/static/js/2.356d0bea.chunk.js.LICENSE.txt",
     "static/media/10.png": "/Shed_card_game/static/media/10.e7af060a.png",
     "static/media/11.png": "/Shed_card_game/static/media/11.54db3cc7.png",
     "static/media/12.png": "/Shed_card_game/static/media/12.62b7562f.png",
@@ -57,10 +57,10 @@
     "static/media/back.png": "/Shed_card_game/static/media/back.5f771695.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.bef50b82.js",
+    "static/js/runtime-main.115158d2.js",
     "static/css/2.150d169a.chunk.css",
-    "static/js/2.1b0b8a01.chunk.js",
+    "static/js/2.356d0bea.chunk.js",
     "static/css/main.4d9ab172.chunk.css",
-    "static/js/main.51e06d15.chunk.js"
+    "static/js/main.ba8a5bef.chunk.js"
   ]
 }
