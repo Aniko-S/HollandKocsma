@@ -59,18 +59,31 @@ function GameBoard({ dataArray, requestUrl }) {
       `${requestUrl}/game/game/${gameId}`,
       selectedCardsIds
     );
-    setGameData(data);
-    setSelectedCardsIds([]);
-    isMachinesTurn(data);
+    if (data.isBurned) {
+      setGameDataFirst(data);
+      setTimeout(() => {
+        setRealGameDataPlayer(data);
+      }, 500);
+    } else {
+      setRealGameDataPlayer(data);
+    }
   }
 
   async function machinePutCardsToPile() {
     const gameId = gameData.gameId;
     const { data } = await axios.get(`${requestUrl}/game/game/${gameId}`);
-    setTimeout(() => {
-      setGameData(data);
-      isMachinesTurnFinished(data);
-    }, 1000);
+    if (data.isBurned) {
+      setTimeout(() => {
+        setGameDataFirst(data);
+        setTimeout(() => {
+          setRealGameDataMachine(data);
+        }, 500);
+      }, 1000);
+    } else {
+      setTimeout(() => {
+        setRealGameDataMachine(data);
+      }, 1000);
+    }
   }
 
   async function playerPickUpThePile() {
@@ -106,6 +119,26 @@ function GameBoard({ dataArray, requestUrl }) {
 
   const isMachinesTurnFinished = (data) => {
     data?.isTurnFinished ? setIsPlayersTurn(true) : machinePutCardsToPile();
+  };
+
+  const setGameDataFirst = (data) => {
+    setGameData({
+      ...data,
+      tablesData: { ...data.tablesData, pileTop: data.selectedIds },
+    });
+    setIsPlayersTurn(false);
+  };
+
+  const setRealGameDataPlayer = (data) => {
+    setGameData(data);
+    setSelectedCardsIds([]);
+    setIsPlayersTurn(true);
+    isMachinesTurn(data);
+  };
+
+  const setRealGameDataMachine = (data) => {
+    setGameData(data);
+    isMachinesTurnFinished(data);
   };
 
   return (
