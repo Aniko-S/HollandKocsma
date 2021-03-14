@@ -90,7 +90,7 @@ public class GameService {
                     + ", or you can put magic card (2, 5, 10). "
                     + "If you can't put any cards, you have to pick up the pile.";
         } else {
-            message = "You burn. It's your turn again.";
+            message = "You burned. It's your turn again.";
             game.pile.topCardSet = new HashSet<>();
         }
         return new GameState(
@@ -132,7 +132,7 @@ public class GameService {
         } else if (gameStatus == 1) {
             message = "Incorrect step";
         } else {
-            message = "Machine burn. It's his turn again.";
+            message = "Machine burned. It's his turn again.";
             game.pile.topCardSet = new HashSet<>();
         }
         log.info("Machine's hand cards: {}", game.machine.handCards);
