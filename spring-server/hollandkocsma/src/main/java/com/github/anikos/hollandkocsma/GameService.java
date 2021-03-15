@@ -32,7 +32,8 @@ public class GameService {
                 new TablesData(true, new HashSet<>(), "Choose three cards to put down face-up"),
                 true,
                 false,
-                new ArrayList<>()
+                new ArrayList<>(),
+                false
         );
     }
 
@@ -56,7 +57,8 @@ public class GameService {
                 new TablesData(!game.deck.isEmpty(), new HashSet<>(), message),
                 isValid,
                 false,
-                new ArrayList<>()
+                new ArrayList<>(),
+                false
         );
     }
 
@@ -100,7 +102,8 @@ public class GameService {
                 new TablesData(!game.deck.isEmpty(), message, game.pile),
                 isFinished,
                 gameStatus == 2,
-                ids
+                ids,
+                answer.get(0) == -1
         );
     }
 
@@ -143,7 +146,8 @@ public class GameService {
                 new TablesData(!game.deck.isEmpty(), message, game.pile),
                 isFinished,
                 gameStatus == 2,
-                ids
+                ids,
+                answer.get(0) == -1
         );
     }
 

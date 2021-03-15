@@ -12,4 +12,5 @@ public class GameState {
     public boolean isTurnFinished;
     public boolean isBurned;
     public List<Integer> selectedIds;
+    public boolean isFromBlind;
 }
