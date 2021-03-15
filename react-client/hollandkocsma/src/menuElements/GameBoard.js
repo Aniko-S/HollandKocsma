@@ -186,7 +186,6 @@ function GameBoard({ dataArray, requestUrl }) {
           <Machine
             hand={gameData.machinesData.handCardsNumber}
             listShown={gameData.machinesData.shownCardsIds}
-            blindNumber={gameData.machinesData.blindCardsNumber}
           />
         )}
       </div>
