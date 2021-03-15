@@ -114,8 +114,19 @@ function GameBoard({ dataArray, requestUrl }) {
     const { data } = await axios.post(`${requestUrl}/game/game/${gameId}`, [
       -1,
     ]);
-    setGameData(data);
-    isMachinesTurn(data);
+    const oldGameData = { ...gameData };
+    console.log("blind ", oldGameData);
+    setGameData({
+      ...data,
+      playersData: {
+        ...data.playersData,
+        handCardsIds: oldGameData.playersData.handCardsIds,
+      },
+      tablesData: { ...oldGameData.tablesData, pileTop: data.selectedIds },
+    });
+    setTimeout(() => {
+      setRealGameDataPlayer(data);
+    }, 500);
   }
 
   const setTheButtonsFunction = (data) => {
