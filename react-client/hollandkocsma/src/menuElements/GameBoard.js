@@ -79,6 +79,21 @@ function GameBoard({ dataArray, requestUrl }) {
           setRealGameDataMachine(data);
         }, 500);
       }, 1000);
+    } else if (data.isFromBlind) {
+      setTimeout(() => {
+        const oldGameData = { ...gameData };
+        setGameData({
+          ...data,
+          machinesData: {
+            ...data.machinesData,
+            handCardsNumber: oldGameData.machinesData.handCardsNumber,
+          },
+          tablesData: { ...oldGameData.tablesData, pileTop: data.selectedIds },
+        });
+        setTimeout(() => {
+          setRealGameDataMachine(data);
+        }, 500);
+      }, 1000);
     } else {
       setTimeout(() => {
         setRealGameDataMachine(data);
