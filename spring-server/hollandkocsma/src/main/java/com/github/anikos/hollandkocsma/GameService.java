@@ -25,16 +25,16 @@ public class GameService {
         games.add(game);
         deal(game);
         log.info("Players: {}", game.players);
-        return new GameState(
-                game.id,
-                new PlayersData(player),
-                new MachinesData(game.machine),
-                new TablesData(true, new HashSet<>(), "Choose three cards to put down face-up"),
-                true,
-                false,
-                new ArrayList<>(),
-                false
-        );
+        TablesData tablesData = TablesData.builder()
+                .hasDeck(true)
+                .message("Choose three cards to put down face-up")
+                .build();
+        return GameState.builder()
+                .gameId(game.id)
+                .playersData(new PlayersData(player))
+                .machinesData(new MachinesData(game.machine))
+                .tablesData(tablesData)
+                .build();
     }
 
     public GameState putToShownCards(int gameId, ArrayList<Integer> ids) {
@@ -50,16 +50,17 @@ public class GameService {
             (game.machine).putToShownCards(this);
             log.info("Can put");
         }
-        return new GameState(
-                gameId,
-                new PlayersData(game.player),
-                new MachinesData(game.machine),
-                new TablesData(!game.deck.isEmpty(), new HashSet<>(), message),
-                isValid,
-                false,
-                new ArrayList<>(),
-                false
-        );
+        TablesData tablesData = TablesData.builder()
+                .hasDeck(!game.deck.isEmpty())
+                .message(message)
+                .build();
+        return GameState.builder()
+                .gameId(game.id)
+                .playersData(new PlayersData(game.player))
+                .machinesData(new MachinesData(game.machine))
+                .tablesData(tablesData)
+                .isTurnFinished(isValid)
+                .build();
     }
 
     public GameState playersTurn(int gameId, List<Integer> answer) {
@@ -95,16 +96,21 @@ public class GameService {
             message = "You burned. It's your turn again.";
             game.pile.topCardSet = new HashSet<>();
         }
-        return new GameState(
-                gameId,
-                new PlayersData(game.player),
-                new MachinesData(game.machine),
-                new TablesData(!game.deck.isEmpty(), message, game.pile),
-                isFinished,
-                gameStatus == 2,
-                ids,
-                answer.get(0) == -1
-        );
+        TablesData tablesData = TablesData.builder()
+                .hasDeck(!game.deck.isEmpty())
+                .message(message)
+                .pileTop(game.pile.topCardSet.stream().map(Card::getId).collect(Collectors.toSet()))
+                .build();
+        return GameState.builder()
+                .gameId(game.id)
+                .playersData(new PlayersData(game.player))
+                .machinesData(new MachinesData(game.machine))
+                .tablesData(tablesData)
+                .isTurnFinished(isFinished)
+                .isBurned(gameStatus == 2)
+                .isFromBlind(answer.get(0) == -1)
+                .selectedIds(ids)
+                .build();
     }
 
     public GameState machinesTurn(int gameId) {
@@ -139,16 +145,21 @@ public class GameService {
             game.pile.topCardSet = new HashSet<>();
         }
         log.info("Machine's hand cards: {}", game.machine.handCards);
-        return new GameState(
-                gameId,
-                new PlayersData(game.player),
-                new MachinesData(game.machine),
-                new TablesData(!game.deck.isEmpty(), message, game.pile),
-                isFinished,
-                gameStatus == 2,
-                ids,
-                answer.get(0) == -1
-        );
+        TablesData tablesData = TablesData.builder()
+                .hasDeck(!game.deck.isEmpty())
+                .message(message)
+                .pileTop(game.pile.topCardSet.stream().map(Card::getId).collect(Collectors.toSet()))
+                .build();
+        return GameState.builder()
+                .gameId(game.id)
+                .playersData(new PlayersData(game.player))
+                .machinesData(new MachinesData(game.machine))
+                .tablesData(tablesData)
+                .isTurnFinished(isFinished)
+                .isBurned(gameStatus == 2)
+                .isFromBlind(answer.get(0) == -1)
+                .selectedIds(ids)
+                .build();
     }
 
     public void putACardFromTo(Card card, Set<Card> srcCards, Set<Card> targetCards) {

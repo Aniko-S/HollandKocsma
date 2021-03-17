@@ -17,7 +17,7 @@ function CardList({
     center && cardIdList ? ((cardIdList.length - 1) * coverWidth) / 2 : 10;
   return (
     <div className="cardList">
-      {cardIdList.map((id, idx) => (
+      {cardIdList?.map((id, idx) => (
         <Card
           type={className}
           key={id}

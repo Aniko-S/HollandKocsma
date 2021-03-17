@@ -1,8 +1,11 @@
 package com.github.anikos.hollandkocsma.entityforsend;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import java.util.List;
 
+@Builder
 @AllArgsConstructor
 public class GameState {
     public int gameId;

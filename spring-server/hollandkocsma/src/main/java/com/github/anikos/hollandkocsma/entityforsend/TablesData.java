@@ -3,9 +3,12 @@ package com.github.anikos.hollandkocsma.entityforsend;
 import com.github.anikos.hollandkocsma.entity.Card;
 import com.github.anikos.hollandkocsma.entity.Pile;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Builder
 @AllArgsConstructor
 public class TablesData {
     public boolean hasDeck;
