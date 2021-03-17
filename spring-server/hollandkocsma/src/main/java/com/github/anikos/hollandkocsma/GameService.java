@@ -382,4 +382,11 @@ public class GameService {
                 gameStateBuilder.isTurnFinished(true);
         }
     }
+
+
+//    public void orderByAsc(int gameId) {
+//        Game game = getGameFromId(gameId);
+//        List<Card> handCardList = game.player.handCards.stream().collect(Collectors.toList());
+//        Collections.sort(handCardList);
+//    }
 }
