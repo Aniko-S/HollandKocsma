@@ -8,6 +8,7 @@ import com.github.anikos.hollandkocsma.entityforsend.TablesData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,82 +40,94 @@ public class GameService {
 
     public GameState putToShownCards(int gameId, ArrayList<Integer> ids) {
         Game game = getGameFromId(gameId);
-        String message = "Your turn";
-        boolean isValid = true;
+        TablesData.TablesDataBuilder tablesDataBuilder = TablesData.builder()
+                .hasDeck(!game.deck.isEmpty());
+        GameState.GameStateBuilder gameStateBuilder = GameState.builder().gameId(game.id);
+
         if (!canPutToShownCards(ids, game)) {
-            message = "Incorrect step. You have to select three cards.";
-            isValid = false;
+            tablesDataBuilder.message("Incorrect step. You have to select three cards.");
+            gameStateBuilder.isTurnFinished(false);
             log.info("Can't put");
         } else {
+            tablesDataBuilder.message("Your turn");
+            gameStateBuilder.isTurnFinished(true);
             ids.forEach(id -> putACardFromTo(Deck.getCardFromId(id), game.player.handCards, game.player.shownCards));
             (game.machine).putToShownCards(this);
             log.info("Can put");
         }
-        TablesData tablesData = TablesData.builder()
-                .hasDeck(!game.deck.isEmpty())
-                .message(message)
-                .build();
-        return GameState.builder()
-                .gameId(game.id)
+        return gameStateBuilder
                 .playersData(new PlayersData(game.player))
                 .machinesData(new MachinesData(game.machine))
-                .tablesData(tablesData)
-                .isTurnFinished(isValid)
+                .tablesData(tablesDataBuilder.build())
                 .build();
     }
 
     public GameState playersTurn(int gameId, List<Integer> answer) {
         Game game = getGameFromId(gameId);
+        TablesData.TablesDataBuilder tablesDataBuilder = TablesData.builder();
+        GameState.GameStateBuilder gameStateBuilder = GameState.builder()
+                .gameId(game.id);
+
         List<Integer> ids;
         if (answer.get(0) == -1) {
             log.info("Player put from blind cards");
-            Card playedCard = game.player.blindCards.stream().findFirst().orElseThrow();
+            Card playedCard = game.player.blindCards.stream()
+                    .findFirst()
+                    .orElseThrow();
             ids = List.of(playedCard.getId());
+            gameStateBuilder.isFromBlind(true);
         } else {
             ids = answer;
+            gameStateBuilder.isFromBlind(false);
         }
-        String message = "";
-        boolean isFinished = false;
-        int gameStatus = turn(game.player, ids, game);
+
+        int gameStatus = turn(game.player, ids, game, tablesDataBuilder);
         log.info("GameStatus: {}", gameStatus);
-        if (gameStatus == 3) {
-            isFinished = true;
-        } else if (gameStatus == 0) {
-            message = "Machine's turn";
-            isFinished = true;
-            if (ids.get(0) != 0 && answer.get(0) != -1) {
-                game.pile.topCardSet = ids.stream().map(Deck::getCardFromId).collect(Collectors.toSet());
-            } else if (answer.get(0) != -1) {
+
+        switch (gameStatus) {
+            case 0:
+                gameStateBuilder.isTurnFinished(true);
+                tablesDataBuilder.message("Machine's turn");
+                if (ids.get(0) != 0 && answer.get(0) != -1) {
+                    game.pile.topCardSet = ids.stream()
+                            .map(Deck::getCardFromId)
+                            .collect(Collectors.toSet());
+                } else if (answer.get(0) != -1) {
+                    game.pile.topCardSet = new HashSet<>();
+                }
+                break;
+            case 1:
+                gameStateBuilder.isTurnFinished(false);
+                break;
+            case 2:
+                gameStateBuilder
+                        .isTurnFinished(false)
+                        .isBurned(true);
+                tablesDataBuilder.message("You burned. It's your turn again.");
                 game.pile.topCardSet = new HashSet<>();
-            }
-        } else if (gameStatus == 1) {
-            message = "Incorrect step. You have to put one or more cards with the same value "
-                    + createMessage(game)
-                    + ", or you can put magic card (2, 5, 10). "
-                    + "If you can't put any cards, you have to pick up the pile.";
-        } else {
-            message = "You burned. It's your turn again.";
-            game.pile.topCardSet = new HashSet<>();
+                break;
+            case 3:
+                gameStateBuilder.isTurnFinished(true);
         }
-        TablesData tablesData = TablesData.builder()
+
+        tablesDataBuilder
                 .hasDeck(!game.deck.isEmpty())
-                .message(message)
-                .pileTop(game.pile.topCardSet.stream().map(Card::getId).collect(Collectors.toSet()))
-                .build();
-        return GameState.builder()
-                .gameId(game.id)
+                .pileTop(game.pile.topCardSet.stream()
+                        .map(Card::getId)
+                        .collect(Collectors.toSet()));
+        return gameStateBuilder
                 .playersData(new PlayersData(game.player))
                 .machinesData(new MachinesData(game.machine))
-                .tablesData(tablesData)
-                .isTurnFinished(isFinished)
-                .isBurned(gameStatus == 2)
-                .isFromBlind(answer.get(0) == -1)
+                .tablesData(tablesDataBuilder.build())
                 .selectedIds(ids)
                 .build();
     }
 
     public GameState machinesTurn(int gameId) {
         Game game = getGameFromId(gameId);
+        TablesData.TablesDataBuilder tablesDataBuilder = TablesData.builder();
+        GameState.GameStateBuilder gameStateBuilder = GameState.builder()
+                .gameId(game.id);
         List<Integer> ids;
         List<Integer> answer = (game.machine).put(game);
         if (answer.get(0) == -1) {
@@ -126,7 +139,7 @@ public class GameService {
         }
         String message = "";
         boolean isFinished = false;
-        int gameStatus = turn(game.machine, ids, game);
+        int gameStatus = turn(game.machine, ids, game, tablesDataBuilder);
         log.info("GameStatus: {}", gameStatus);
         if (gameStatus == 3) {
             isFinished = true;
@@ -199,10 +212,12 @@ public class GameService {
         return cards.size() == shown;
     }
 
-    private int turn(Player player, List<Integer> ids, Game game) {
+    private int turn(Player player,
+                     List<Integer> ids, Game game,
+                     TablesData.TablesDataBuilder tablesDataBuilder) {
         log.info("Cards number in deck: {}", game.deck.size());
         log.info("{} put:", player.getName());
-        for (int id: ids) {
+        for (int id : ids) {
             if (id == 0) {
                 log.info("0");
             } else {
@@ -218,6 +233,7 @@ public class GameService {
         }
         // play cards
         if (!isValidCardSet(ids, game)) {
+            tablesDataBuilder.message("The played cards must be of the same rank.");
             log.info("Invalid card set");
             return 1;
         }
@@ -228,7 +244,7 @@ public class GameService {
                 log.info("Cards not found in hand");
                 return 1;
             }
-            return playKnownCards(ids, player, player.handCards, game);
+            return playKnownCards(ids, player, player.handCards, game, tablesDataBuilder);
         }
         // play from shown
         if (!player.shownCards.isEmpty()) {
@@ -237,7 +253,7 @@ public class GameService {
                 log.info("Cards not found in shown");
                 return 1;
             }
-            return playKnownCards(ids, player, player.shownCards, game);
+            return playKnownCards(ids, player, player.shownCards, game, tablesDataBuilder);
         }
         // play from blind
         Card playedCard = Deck.getCardFromId(ids.get(0));
@@ -282,9 +298,11 @@ public class GameService {
         return cardSet.containsAll(cardSetFromIds);
     }
 
-    private int playKnownCards(List<Integer> ids, Player player, Set<Card> playCardSet, Game game) {
+    private int playKnownCards(List<Integer> ids, Player player, Set<Card> playCardSet, Game game, TablesData.TablesDataBuilder tablesDataBuilder) {
         if (game.pile.getTop() != null && !Deck.getCardFromId(ids.get(0)).canPutTo(game.pile.getTop())) {
             log.info("Can't put this card");
+            String message = "The card or cards played must be of " + createMessage(game) + ", or it can be wildcard (2, 5, 10).";
+            tablesDataBuilder.message(message);
             return 1;
         }
         for (int id : ids) {
@@ -345,9 +363,9 @@ public class GameService {
 
     private String createMessage(Game game) {
         if (game.pile.getTop().getValue().equals(Deck.Value.FIVE)) {
-            return "less than or equals to FIVE";
+            return "equal to or of lower rank than FIVE";
         }
-        return "greater than or equals to " + game.pile.getTop().getValue().toString();
+        return "equal to or of higher rank than " + game.pile.getTop().getValue().toString();
     }
 
     public Game getGameFromId(int id) {
