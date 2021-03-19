@@ -45,7 +45,7 @@ public class Card implements Comparable<Card> {
         if (this.value.ordinal() > card.value.ordinal()) {
             return 1;
         }
-        return 0;
+        return Integer.compare(this.id, card.id);
     }
 
     public Deck.Value getValue() {
