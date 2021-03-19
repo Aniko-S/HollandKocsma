@@ -102,6 +102,12 @@ function useGame(requestUrl, dataArray) {
     }, 500);
   }
 
+  async function orderByAsc() {
+    const gameId = gameData.gameId;
+    const { data } = await axios.get(`${requestUrl}/game/game/${gameId}/asc`);
+    setGameData({ ...gameData, playersData: { ...data.playersData } });
+  }
+
   const contains = (id) => {
     for (let i = 0; i < selectedCardsIds.length; i++) {
       if (selectedCardsIds[i] === id) {
@@ -173,6 +179,7 @@ function useGame(requestUrl, dataArray) {
     filledShown,
     selectedCardsIds,
     buttonText,
+    orderByAsc,
   };
 }
 
