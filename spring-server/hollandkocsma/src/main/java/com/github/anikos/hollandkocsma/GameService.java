@@ -386,10 +386,12 @@ public class GameService {
         }
     }
 
-
-//    public void orderByAsc(int gameId) {
-//        Game game = getGameFromId(gameId);
-//        List<Card> handCardList = game.player.handCards.stream().collect(Collectors.toList());
-//        Collections.sort(handCardList);
-//    }
+    public GameState orderByAsc(int gameId) {
+        Game game = getGameFromId(gameId);
+        game.player.handCards = new TreeSet<>(game.player.handCards);
+        return GameState.builder()
+                .gameId(game.id)
+                .playersData(new PlayersData(game.player))
+                .build();
+    }
 }
