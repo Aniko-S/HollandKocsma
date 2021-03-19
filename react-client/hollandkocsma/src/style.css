@@ -117,8 +117,7 @@ button.put {
 }
 
 .container,
-.row,
-.col-6 {
+.row {
   height: 100%;
 }
 
