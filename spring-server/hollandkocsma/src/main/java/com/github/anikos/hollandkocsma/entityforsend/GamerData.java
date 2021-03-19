@@ -4,14 +4,17 @@ import com.github.anikos.hollandkocsma.GameService;
 import com.github.anikos.hollandkocsma.entity.Player;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class GamerData {
     private static final Logger log = LoggerFactory.getLogger(GamerData.class);
 
     public final String name;
-    public Set<Integer> shownCardsIds;
+    public List<Integer> shownCardsIds;
     public final int blindCardsNumber;
     public boolean isWinner;
 
@@ -27,10 +30,10 @@ public abstract class GamerData {
         if (player.shownCards.size() != 0) {
             shownCardsIds = GameService.idsFromCardSet(player.shownCards);
         } else {
-            shownCardsIds = new HashSet<>();
+            shownCardsIds = new ArrayList<>();
         }
         for (int i = shownCardsIds.size(); i < blindCardsNumber; i++) {
-            shownCardsIds.add(i - 3);   // it must be 0 or negative
+            shownCardsIds.add(-1);
         }
     }
 }

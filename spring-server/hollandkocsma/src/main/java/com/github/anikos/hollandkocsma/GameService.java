@@ -155,8 +155,8 @@ public class GameService {
         game.deck.remove(i);
     }
 
-    public static Set<Integer> idsFromCardSet(Set<Card> cardSet) {
-        return cardSet.stream().map(Card::getId).collect(Collectors.toSet());
+    public static List<Integer> idsFromCardSet(Set<Card> cardSet) {
+        return cardSet.stream().map(Card::getId).collect(Collectors.toList());
     }
 
     private boolean canPutToShownCards(ArrayList<Integer> ids, Game game) {
