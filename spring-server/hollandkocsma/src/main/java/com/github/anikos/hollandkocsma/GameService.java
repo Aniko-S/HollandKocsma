@@ -49,7 +49,8 @@ public class GameService {
             gameStateBuilder.isTurnFinished(false);
             log.info("Can't put");
         } else {
-            tablesDataBuilder.message("Your turn");
+            String message = game.player.getName() + "'s turn";
+            tablesDataBuilder.message(message);
             gameStateBuilder.isTurnFinished(true);
             ids.forEach(id -> putACardFromTo(Deck.getCardFromId(id), game.player.handCards, game.player.shownCards));
             (game.machine).putToShownCards(this);
@@ -68,10 +69,19 @@ public class GameService {
         GameState.GameStateBuilder gameStateBuilder = GameState.builder()
                 .gameId(game.id);
 
-        List<Integer> ids = setIds(answer, game, gameStateBuilder);
+        List<Integer> ids = setIds(game.player, answer, gameStateBuilder);
         int gameStatus = turn(game.player, ids, game, tablesDataBuilder);
         log.info("GameStatus: {}", gameStatus);
-        gameAndBuilderSettings(gameStatus, answer, ids, game, tablesDataBuilder, gameStateBuilder);
+        gameAndBuilderSettings(
+                gameStatus,
+                answer,
+                ids,
+                game,
+                tablesDataBuilder,
+                gameStateBuilder,
+                game.player.getName(),
+                game.machine.getName()
+        );
 
         tablesDataBuilder
                 .hasDeck(!game.deck.isEmpty())
@@ -91,49 +101,31 @@ public class GameService {
         TablesData.TablesDataBuilder tablesDataBuilder = TablesData.builder();
         GameState.GameStateBuilder gameStateBuilder = GameState.builder()
                 .gameId(game.id);
-        List<Integer> ids;
+
         List<Integer> answer = (game.machine).put(game);
-        if (answer.get(0) == -1) {
-            log.info("Machine put from blind cards");
-            Card playedCard = game.machine.blindCards.stream().findFirst().orElseThrow();
-            ids = List.of(playedCard.getId());
-        } else {
-            ids = answer;
-        }
-        String message = "";
-        boolean isFinished = false;
+        List<Integer> ids = setIds(game.machine, answer, gameStateBuilder);
         int gameStatus = turn(game.machine, ids, game, tablesDataBuilder);
         log.info("GameStatus: {}", gameStatus);
-        if (gameStatus == 3) {
-            isFinished = true;
-        } else if (gameStatus == 0) {
-            message = "Your turn";
-            isFinished = true;
-            if (ids.get(0) != 0 && answer.get(0) != -1) {
-                game.pile.topCardSet = ids.stream().map(Deck::getCardFromId).collect(Collectors.toSet());
-            } else if (answer.get(0) != -1) {
-                game.pile.topCardSet = new HashSet<>();
-            }
-        } else if (gameStatus == 1) {
-            message = "Incorrect step";
-        } else {
-            message = "Machine burned. It's his turn again.";
-            game.pile.topCardSet = new HashSet<>();
-        }
+        gameAndBuilderSettings(
+                gameStatus,
+                answer,
+                ids,
+                game,
+                tablesDataBuilder,
+                gameStateBuilder,
+                game.machine.getName(),
+                game.player.getName());
         log.info("Machine's hand cards: {}", game.machine.handCards);
-        TablesData tablesData = TablesData.builder()
+
+        tablesDataBuilder
                 .hasDeck(!game.deck.isEmpty())
-                .message(message)
-                .pileTop(game.pile.topCardSet.stream().map(Card::getId).collect(Collectors.toSet()))
-                .build();
-        return GameState.builder()
-                .gameId(game.id)
+                .pileTop(game.pile.topCardSet.stream()
+                        .map(Card::getId)
+                        .collect(Collectors.toSet()));
+        return gameStateBuilder
                 .playersData(new PlayersData(game.player))
                 .machinesData(new MachinesData(game.machine))
-                .tablesData(tablesData)
-                .isTurnFinished(isFinished)
-                .isBurned(gameStatus == 2)
-                .isFromBlind(answer.get(0) == -1)
+                .tablesData(tablesDataBuilder.build())
                 .selectedIds(ids)
                 .build();
     }
@@ -341,10 +333,12 @@ public class GameService {
         }
     }
 
-    private List<Integer> setIds(List<Integer> answer, Game game, GameState.GameStateBuilder gameStateBuilder) {
+    private List<Integer> setIds(Player player,
+                                 List<Integer> answer,
+                                 GameState.GameStateBuilder gameStateBuilder) {
         if (answer.get(0) == -1) {
-            log.info("Player put from blind cards");
-            Card playedCard = game.player.blindCards.stream()
+            log.info("{} put from blind cards", player.getName());
+            Card playedCard = player.blindCards.stream()
                     .findFirst()
                     .orElseThrow();
             gameStateBuilder.isFromBlind(true);
@@ -355,11 +349,19 @@ public class GameService {
         }
     }
 
-    private void gameAndBuilderSettings(int gameStatus, List<Integer> answer, List<Integer> ids, Game game, TablesData.TablesDataBuilder tablesDataBuilder, GameState.GameStateBuilder gameStateBuilder) {
+    private void gameAndBuilderSettings(int gameStatus,
+                                        List<Integer> answer,
+                                        List<Integer> ids,
+                                        Game game,
+                                        TablesData.TablesDataBuilder tablesDataBuilder,
+                                        GameState.GameStateBuilder gameStateBuilder,
+                                        String playerName,
+                                        String nextPlayerName) {
         switch (gameStatus) {
             case 0:
                 gameStateBuilder.isTurnFinished(true);
-                tablesDataBuilder.message("Machine's turn");
+                String message = nextPlayerName + "'s turn";
+                tablesDataBuilder.message(message);
                 if (ids.get(0) != 0 && answer.get(0) != -1) {
                     game.pile.topCardSet = ids.stream()
                             .map(Deck::getCardFromId)
@@ -375,7 +377,8 @@ public class GameService {
                 gameStateBuilder
                         .isTurnFinished(false)
                         .isBurned(true);
-                tablesDataBuilder.message("You burned. It's your turn again.");
+                message = playerName + " burned. It's " + playerName + "'s turn again.";
+                tablesDataBuilder.message(message);
                 game.pile.topCardSet = new HashSet<>();
                 break;
             case 3:
