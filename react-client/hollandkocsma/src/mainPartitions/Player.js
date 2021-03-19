@@ -24,9 +24,6 @@ function Player({
               <button className="button put mx-3" onClick={orderByAsc}>
                 Order by asc
               </button>
-              <button className="button put mx-3" onClick={putCards}>
-                Order by desc
-              </button>
             </div>
             <div className="col-4 h-100">
               <BlindAndShownCardList
