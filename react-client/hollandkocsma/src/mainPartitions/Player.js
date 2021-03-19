@@ -20,11 +20,7 @@ function Player({
       <div className="playerLine">
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-4 d-flex justify-content-center">
-              <button className="button put mx-3" onClick={orderByAsc}>
-                Order by asc
-              </button>
-            </div>
+            <div className="col-4"></div>
             <div className="col-4 h-100">
               <BlindAndShownCardList
                 listShown={listShown}
@@ -39,9 +35,12 @@ function Player({
                 shownAvailable={isPlayersTurn && listHand.length === 0}
               />
             </div>
-            <div className="col-4">
-              <button className="button put" onClick={putCards}>
+            <div className="col-4 d-flex">
+              <button className="button put mx-3" onClick={putCards}>
                 {buttonText}
+              </button>
+              <button className="button put mx-5" onClick={orderByAsc}>
+                Sort
               </button>
             </div>
           </div>
