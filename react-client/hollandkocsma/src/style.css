@@ -123,6 +123,7 @@ button.put {
 
 textarea {
   width: 80%;
+  max-width: 300px;
 }
 
 .deck {

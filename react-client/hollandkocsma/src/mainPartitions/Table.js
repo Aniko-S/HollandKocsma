@@ -8,7 +8,7 @@ function Table({ deck, pile, message, setIds, pickUpThePile, isPlayersTurn }) {
       <div className="container">
         <div className="row align-items-center">
           <div className="col-4 d-flex justify-content-center">
-            <textarea rows="4" value={message} readOnly />
+            <textarea rows="3" value={message} readOnly />
           </div>
 
           <div className="col-2 h-100 d-flex align-items-center justify-content-end">
