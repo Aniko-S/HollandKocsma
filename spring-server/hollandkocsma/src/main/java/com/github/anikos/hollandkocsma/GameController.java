@@ -34,4 +34,9 @@ public class GameController {
     public GameState game(@PathVariable int gameId) {
         return gameService.machinesTurn(gameId);
     }
+
+    @GetMapping("/game/{gameId}/asc")
+    public GameState orderByAsc(@PathVariable int gameId) {
+        return gameService.orderByAsc(gameId);
+    }
 }
