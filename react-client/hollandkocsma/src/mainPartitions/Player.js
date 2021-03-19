@@ -12,6 +12,7 @@ function Player({
   putFromBlind,
   isPlayersTurn,
   buttonText,
+  orderByAsc,
 }) {
   const shownCardsNumber = listShown.filter((id) => id > 0).length;
   return (
@@ -19,8 +20,15 @@ function Player({
       <div className="playerLine">
         <div className="container">
           <div className="row align-items-center">
-            <div className="col-3"></div>
-            <div className="col-6">
+            <div className="col-4 d-flex justify-content-center">
+              <button className="button put mx-3" onClick={orderByAsc}>
+                Order by asc
+              </button>
+              <button className="button put mx-3" onClick={putCards}>
+                Order by desc
+              </button>
+            </div>
+            <div className="col-4 h-100">
               <BlindAndShownCardList
                 listShown={listShown}
                 setIds={setIds}
@@ -34,7 +42,7 @@ function Player({
                 shownAvailable={isPlayersTurn && listHand.length === 0}
               />
             </div>
-            <div className="col-3">
+            <div className="col-4">
               <button className="button put" onClick={putCards}>
                 {buttonText}
               </button>

@@ -18,6 +18,7 @@ function GameBoard({ dataArray, requestUrl }) {
     filledShown,
     selectedCardsIds,
     buttonText,
+    orderByAsc,
   } = useGame(requestUrl, dataArray);
 
   return (
@@ -68,6 +69,7 @@ function GameBoard({ dataArray, requestUrl }) {
             putFromBlind={playerPutFromBlind}
             isPlayersTurn={isPlayersTurn}
             buttonText={buttonText}
+            orderByAsc={orderByAsc}
           />
         )}
       </div>
