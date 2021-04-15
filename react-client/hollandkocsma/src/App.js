@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import GameBoard from "./menuElements/GameBoard";
 import Start from "./menuElements/Start";
+import StartSinglePlayer from "./menuElements/StartSinglePlayer";
+import StartMultiPlayer from "./menuElements/StartMultiPlayer";
 import "./style.css";
 
 function App() {
@@ -15,8 +17,14 @@ function App() {
         <Route path="/game">
           <GameBoard dataArray={dataArray} requestUrl={requestUrl} />
         </Route>
+        <Route path="/single">
+          <StartSinglePlayer dataArray={dataArray} requestUrl={requestUrl} />
+        </Route>
+        <Route path="/multi">
+          <StartMultiPlayer dataArray={dataArray} requestUrl={requestUrl} />
+        </Route>
         <Route path="">
-          <Start dataArray={dataArray} requestUrl={requestUrl} />
+          <Start />
         </Route>
       </Switch>
     </Router>
