@@ -11,7 +11,7 @@ function BlindAndShownCard({
   shownAvailable,
 }) {
   return (
-    <span className="blindAndShown">
+    <span className="blindAndShownCard">
       {shownId > 0 ? (
         <Card
           id={shownId}
