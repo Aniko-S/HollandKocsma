@@ -8,7 +8,6 @@ function Card({
   isSelected,
   pickUpThePile,
   isPile,
-  left,
   available,
 }) {
   const imageFileName = () => {
@@ -28,7 +27,6 @@ function Card({
       className={`card ${type} ${isSelected && "selected"} ${
         available ? "available" : "disavailable"
       }`}
-      style={{ left: left + "px" }}
       src={cardImages(`./${imageFileName()}`).default}
       alt={imageFileName()}
       onClick={available ? handleClick : undefined}

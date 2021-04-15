@@ -47,15 +47,12 @@ function Player({
         </div>
       </div>
       <div className="playerLine">
-        <div className={listHand.length > 25 ? "cardList low" : "cardList"}>
+        <div className="d-flex justify-content-center h-100">
           <CardList
-            className="hand"
+            cardType="hand"
             cardIdList={listHand}
             setIds={setIds}
             ids={ids}
-            isCover={true}
-            coverWidth={30}
-            center={true}
             available={isPlayersTurn}
           />
         </div>

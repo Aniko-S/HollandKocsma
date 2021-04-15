@@ -7,8 +7,8 @@ function Machine({ hand, listShown }) {
     <>
       <div className="name">Bob</div>
       <div className="playerLine">
-        <div className={hand.length > 25 ? "cardList low" : "cardList"}>
-          <BlindCardList blindNumber={hand} className="hand" isCover={true} />
+        <div className="d-flex justify-content-center h-100">
+          <BlindCardList blindNumber={hand} cardType="hand" isCover={true} />
         </div>
       </div>
       <div className="playerLine">

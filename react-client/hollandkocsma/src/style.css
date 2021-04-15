@@ -78,21 +78,17 @@ button.put {
 .cardList {
   height: 100%;
   display: flex;
-  flex-direction: row;
   align-items: center;
+  overflow-x: overlay;
+}
+
+.cardList.blindAndShown {
   justify-content: center;
-}
-
-.cardList.low {
-  height: 80%;
-}
-
-.cardList.low .card {
-  margin-top: 4%;
 }
 
 .card {
   height: 80%;
+  flex-shrink: 0;
 }
 
 .card.shown,
@@ -101,7 +97,16 @@ button.put {
 }
 
 .card.pile {
-  margin-right: -40%;
+  margin-right: -40px;
+}
+
+.card.hand {
+  margin-right: -30px;
+  height: 80%;
+}
+
+.card.last {
+  margin-right: 0px;
 }
 
 .blindAndShownCard {

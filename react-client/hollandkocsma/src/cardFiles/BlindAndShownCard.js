@@ -22,7 +22,7 @@ function BlindAndShownCard({
         />
       ) : (
         <BlankCard
-          className="blind"
+          type="blind"
           putFromBlind={putFromBlind}
           available={blindAvailable}
         />

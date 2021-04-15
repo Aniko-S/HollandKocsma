@@ -1,20 +1,18 @@
 import React from "react";
 import BlankCard from "../cardFiles/BlankCard";
 
-function BlindCardList({ blindNumber, className, isCover }) {
+function BlindCardList({ blindNumber, cardType }) {
   const blindCards = [];
   for (let i = 0; i < blindNumber; i++) {
     blindCards.push({ id: i });
   }
-  const firstLeft = blindNumber ? ((blindNumber - 1) * 30) / 2 : 0;
 
   return (
     <div className="cardList">
       {blindCards.map((card, idx) => (
         <BlankCard
           key={card.id}
-          className={className}
-          left={isCover ? firstLeft - idx * 30 : 0}
+          type={`${cardType} ${idx === blindCards.length - 1 && "last"}`}
         />
       ))}
     </div>

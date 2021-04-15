@@ -23,7 +23,7 @@ function BlindAndShownCardList({
   }, [listShown]);
 
   return (
-    <div className="cardList">
+    <div className="cardList blindAndShown">
       {shownCardsIds.map((id, index) => (
         <BlindAndShownCard
           key={index}

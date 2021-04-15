@@ -16,13 +16,12 @@ function Table({ deck, pile, message, setIds, pickUpThePile, isPlayersTurn }) {
           </div>
           <div className="col-2 h-100 d-flex justify-content-start">
             <CardList
+              cardType="pile"
               cardIdList={pile}
               setIds={setIds}
               pickUpThePile={pickUpThePile}
               isPile={true}
               available={isPlayersTurn}
-              isCover={true}
-              coverWidth={70}
             />
           </div>
           <div className="col-4"></div>
