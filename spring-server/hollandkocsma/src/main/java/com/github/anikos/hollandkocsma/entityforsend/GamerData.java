@@ -21,11 +21,11 @@ public abstract class GamerData {
     public GamerData(Player player) {
         name = player.getName();
         blindCardsNumber = player.blindCards.size();
-      //  fillShownCardsIds(player);
+        fillShownCardsIds(player);
         log.info("Player:{}, blindCardsNumber: {}", player.getName(), blindCardsNumber);
         isWinner = player.handCards.isEmpty() && player.shownCards.isEmpty() && player.blindCards.isEmpty();
     }
-/*
+
     private void fillShownCardsIds(Player player) {
         if (player.shownCards.size() != 0) {
             shownCardsIds = GameService.idsFromCardSet(player.shownCards);
@@ -36,6 +36,4 @@ public abstract class GamerData {
             shownCardsIds.add(-1);
         }
     }
-
- */
 }

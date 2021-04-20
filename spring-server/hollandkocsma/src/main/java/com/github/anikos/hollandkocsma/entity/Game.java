@@ -12,10 +12,10 @@ public class Game {
     public List<Card> deck;
     public Pile pile;
 
-    public Game(String name) {
+    public Game(Player player) {
         id = UUID.randomUUID().toString();
         players = new ArrayList<>();
-        addPlayer(new Player(name));
+        addPlayer(player);
         Deck cardList = new Deck();
         deck = cardList.deck;
         pile = new Pile();

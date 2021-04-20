@@ -2,13 +2,14 @@ package com.github.anikos.hollandkocsma;
 
 import com.github.anikos.hollandkocsma.entity.*;
 import com.github.anikos.hollandkocsma.entityforsend.GameState;
-import com.github.anikos.hollandkocsma.entityforsend.MachinesData;
-import com.github.anikos.hollandkocsma.entityforsend.PlayersData;
+import com.github.anikos.hollandkocsma.entityforsend.MyData;
+import com.github.anikos.hollandkocsma.entityforsend.OthersData;
 import com.github.anikos.hollandkocsma.entityforsend.TablesData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -19,9 +20,11 @@ public class GameService {
     List<Game> games = new ArrayList<>();
 
     public GameState gameWithMachine(String name) {
-        Game game = createGame(name);
-        game.addPlayer(new Machine());
-    //    deal(game);
+        Player player = new Player(name);
+        Machine machine = new Machine();
+        Game game = createGame(player);
+        game.addPlayer(machine);
+        deal(game);
         log.info("Players: {}", game.players);
         TablesData tablesData = TablesData.builder()
                 .hasDeck(true)
@@ -29,19 +32,19 @@ public class GameService {
                 .build();
         return GameState.builder()
                 .gameId(game.id)
-                .playersData1(new PlayersData(game.players.get(0)))
-                .playersData2(new PlayersData(game.players.get(1)))
+                .myData(new MyData(player))
+                .othersData(new OthersData(machine))
                 .tablesData(tablesData)
                 .build();
     }
 
     public String createMultiplayerGame(String name) {
-        Game game = createGame(name);
+        Game game = createGame(new Player(name));
         return game.id;
     }
 
-    public Game createGame(String name) {
-        Game game = new Game(name);
+    public Game createGame(Player player) {
+        Game game = new Game(player);
         games.add(game);
         return game;
     }
@@ -148,7 +151,7 @@ public class GameService {
         srcCards.remove(card);
         targetCards.add(card);
     }
-
+*/
     private void deal(Game game) {
         log.info("Deal to: {}", game.players);
         for (Player player : game.players) {
@@ -172,7 +175,7 @@ public class GameService {
     public static List<Integer> idsFromCardSet(Set<Card> cardSet) {
         return cardSet.stream().map(Card::getId).collect(Collectors.toList());
     }
-
+/*
     private boolean canPutToShownCards(ArrayList<Integer> ids, Game game) {
         Set<Card> cards = ids.stream()
                 .map(Deck::getCardFromId)
