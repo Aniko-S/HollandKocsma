@@ -8,9 +8,7 @@ function CreatedMultiPlayerGame({ requestUrl }) {
       <div className="base-text">
         Your friends can join the game at this link:
       </div>
-      <div className="base-text">
-        {requestUrl}/{id}/join
-      </div>
+      <div className="base-text">localhost:3000/{id}/join</div>
     </div>
   );
 }
