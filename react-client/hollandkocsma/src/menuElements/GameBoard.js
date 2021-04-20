@@ -23,23 +23,23 @@ function GameBoard({ dataArray, requestUrl }) {
 
   return (
     <div className="board">
-      {gameData?.machinesData?.isWinner && (
+      {gameData?.othersData?.isWinner && (
         <PopUp
           title="Sorry, Bob is the winner"
           body="Play again, maybe you will have more luck in the next game."
         />
       )}
-      {gameData?.playersData?.isWinner && (
+      {gameData?.myData?.isWinner && (
         <PopUp
           title="Congratulations, you are the winner"
           body="Play again to test your luck"
         />
       )}
       <div className="playerSpace">
-        {gameData?.machinesData && (
+        {gameData?.othersData && (
           <Machine
-            hand={gameData.machinesData.handCardsNumber}
-            listShown={gameData.machinesData.shownCardsIds}
+            hand={gameData.othersData.handCardsNumber}
+            listShown={gameData.othersData.shownCardsIds}
           />
         )}
       </div>
@@ -56,11 +56,11 @@ function GameBoard({ dataArray, requestUrl }) {
         )}
       </div>
       <div className="playerSpace">
-        {gameData?.playersData && (
+        {gameData?.myData && (
           <Player
-            name={gameData.playersData.name}
-            listHand={gameData.playersData.handCardsIds}
-            listShown={gameData.playersData.shownCardsIds}
+            name={gameData.myData.name}
+            listHand={gameData.myData.handCardsIds}
+            listShown={gameData.myData.shownCardsIds}
             setIds={setIds}
             putCards={
               filledShown ? playerPutCardsToPile : playerPutCardsToShown
