@@ -8,9 +8,7 @@ import com.github.anikos.hollandkocsma.entityforsend.TablesData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -20,11 +18,10 @@ public class GameService {
     private static final int blind = 3;
     List<Game> games = new ArrayList<>();
 
-    public GameState newGame(String name) {
-        Player player = new Player(name);
-        Game game = new Game(player, games.size());
-        games.add(game);
-        deal(game);
+    public GameState gameWithMachine(String name) {
+        Game game = createGame(name);
+        game.addPlayer(new Machine());
+    //    deal(game);
         log.info("Players: {}", game.players);
         TablesData tablesData = TablesData.builder()
                 .hasDeck(true)
@@ -32,12 +29,30 @@ public class GameService {
                 .build();
         return GameState.builder()
                 .gameId(game.id)
-                .playersData(new PlayersData(player))
-                .machinesData(new MachinesData(game.machine))
+                .playersData1(new PlayersData(game.players.get(0)))
+                .playersData2(new PlayersData(game.players.get(1)))
                 .tablesData(tablesData)
                 .build();
     }
 
+    public String createMultiplayerGame(String name) {
+        Game game = createGame(name);
+        game.addPlayer(new Machine());
+        return game.id;
+    }
+
+    public Game createGame(String name) {
+        Game game = new Game(name);
+        games.add(game);
+        return game;
+    }
+
+    public ArrayList<Player> join(String gameId, String name) {
+        Game game = getGameFromId(gameId);
+        game.addPlayer(new Player(name));
+        return game.players;
+    }
+/*
     public GameState putToShownCards(int gameId, ArrayList<Integer> ids) {
         Game game = getGameFromId(gameId);
         TablesData.TablesDataBuilder tablesDataBuilder = TablesData.builder()
@@ -49,11 +64,11 @@ public class GameService {
             gameStateBuilder.isTurnFinished(false);
             log.info("Can't put");
         } else {
-            String message = game.player.getName() + "'s turn";
+            String message = game.players.get(0).getName() + "'s turn";
             tablesDataBuilder.message(message);
             gameStateBuilder.isTurnFinished(true);
-            ids.forEach(id -> putACardFromTo(Deck.getCardFromId(id), game.player.handCards, game.player.shownCards));
-            (game.machine).putToShownCards(this);
+            ids.forEach(id -> putACardFromTo(Deck.getCardFromId(id), game.players.get(0).handCards, game.player.shownCards));
+            game.players.get(1).putToShownCards(this);
             log.info("Can put");
         }
         return gameStateBuilder
@@ -322,17 +337,18 @@ public class GameService {
         }
         return "equal to or of higher rank than " + game.pile.getTop().getValue().toString();
     }
+    */
 
-    public Game getGameFromId(int id) {
+    public Game getGameFromId(String id) {
         Optional<Game> goodGame = games.stream().filter(game ->
-                game.id == id).findAny();
+                game.id.equals(id)).findAny();
         if (goodGame.isPresent()) {
             return goodGame.get();
         } else {
             throw new RuntimeException("Incorrect game id");
         }
     }
-
+/*
     private List<Integer> setIds(Player player,
                                  List<Integer> answer,
                                  GameState.GameStateBuilder gameStateBuilder) {
@@ -394,4 +410,7 @@ public class GameService {
                 .playersData(new PlayersData(game.player))
                 .build();
     }
+
+ */
 }
+

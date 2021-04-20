@@ -16,7 +16,7 @@ public class Machine extends Player {
     public Machine() {
         super("Bob");
     }
-
+/*
     public void putToShownCards(GameService game) {
         List<Card> goodCards = handCards.stream().filter(
                 card ->
@@ -31,7 +31,7 @@ public class Machine extends Player {
             game.putACardFromTo(searchMaxCard(handCards), handCards, shownCards);
         }
     }
-
+*/
     public List<Integer> put(Game game) {
         if (handCards.isEmpty() && shownCards.isEmpty()) {
             log.info("Machine put from blind");

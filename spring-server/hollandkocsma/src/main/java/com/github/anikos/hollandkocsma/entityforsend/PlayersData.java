@@ -9,6 +9,6 @@ public class PlayersData extends GamerData {
 
     public PlayersData(Player player) {
         super(player);
-        handCardsIds = GameService.idsFromCardSet(player.handCards);
+      //  handCardsIds = GameService.idsFromCardSet(player.handCards);
     }
 }
