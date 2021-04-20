@@ -4,12 +4,14 @@ import GameBoard from "./menuElements/GameBoard";
 import Start from "./menuElements/Start";
 import StartSinglePlayer from "./menuElements/StartSinglePlayer";
 import StartMultiPlayer from "./menuElements/StartMultiPlayer";
+import CreatedMultiPlayerGame from "./menuElements/CreatedMultiPlayerGame";
+import JoinToMultiPlayerGame from "./menuElements/JoinToMultiPlayerGame";
 import "./style.css";
 
 function App() {
   const dataArray = useState();
-  // const requestUrl = "http://localhost:8080";
-  const requestUrl = "https://evening-headland-15880.herokuapp.com";
+  const requestUrl = "http://localhost:8080";
+  // const requestUrl = "https://evening-headland-15880.herokuapp.com";
 
   return (
     <Router basename={process.env.PUBLIC_URL}>
@@ -20,8 +22,14 @@ function App() {
         <Route path="/single">
           <StartSinglePlayer dataArray={dataArray} requestUrl={requestUrl} />
         </Route>
-        <Route path="/multi">
-          <StartMultiPlayer dataArray={dataArray} requestUrl={requestUrl} />
+        <Route path="/multi/create">
+          <StartMultiPlayer requestUrl={requestUrl} />
+        </Route>
+        <Route path="/multi/:id/created">
+          <CreatedMultiPlayerGame requestUrl={requestUrl} />
+        </Route>
+        <Route path="/:id/join">
+          <JoinToMultiPlayerGame requestUrl={requestUrl} />
         </Route>
         <Route path="">
           <Start />
