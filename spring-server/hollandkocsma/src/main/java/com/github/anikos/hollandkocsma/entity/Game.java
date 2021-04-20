@@ -4,24 +4,24 @@ import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Game {
-    public int id;
-    public Player player;
-    public Machine machine;
-    public List<Player> players;
+    public String id;
+    public ArrayList<Player> players;
     public List<Card> deck;
     public Pile pile;
 
-    public Game(Player player, int gamesNumber) {
-        id = gamesNumber;
-        this.player = player;
-        this.machine = new Machine();
+    public Game(String name) {
+        id = UUID.randomUUID().toString();
         players = new ArrayList<>();
-        players.add(player);
-        players.add(machine);
+        addPlayer(new Player(name));
         Deck cardList = new Deck();
         deck = cardList.deck;
         pile = new Pile();
+    }
+
+    public void addPlayer(Player player) {
+        players.add(player);
     }
 }

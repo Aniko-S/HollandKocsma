@@ -8,9 +8,9 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class GameState {
-    public int gameId;
-    public PlayersData playersData;
-    public MachinesData machinesData;
+    public String gameId;
+    public PlayersData playersData1;
+    public PlayersData playersData2;
     public TablesData tablesData;
     public boolean isTurnFinished;
     public boolean isBurned;
