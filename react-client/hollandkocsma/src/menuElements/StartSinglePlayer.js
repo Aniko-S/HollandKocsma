@@ -10,7 +10,10 @@ function StartSinglePlayer({ dataArray, requestUrl }) {
   async function newGame() {
     const name = text || "Player";
     const setGameData = dataArray[1];
-    const { data } = await axios.post(`${requestUrl}/game/begin/${name}`, name);
+    const { data } = await axios.post(
+      `${requestUrl}/game/single/begin/${name}`,
+      name
+    );
     setGameData(data);
   }
 
