@@ -4,11 +4,11 @@ import com.github.anikos.hollandkocsma.GameService;
 import com.github.anikos.hollandkocsma.entity.Player;
 import java.util.List;
 
-public class PlayersData extends GamerData {
+public class MyData extends GamerData {
     public List<Integer> handCardsIds;
 
-    public PlayersData(Player player) {
+    public MyData(Player player) {
         super(player);
-      //  handCardsIds = GameService.idsFromCardSet(player.handCards);
+        handCardsIds = GameService.idsFromCardSet(player.handCards);
     }
 }
