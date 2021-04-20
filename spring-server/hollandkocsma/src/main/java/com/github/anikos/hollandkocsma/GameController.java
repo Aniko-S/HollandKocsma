@@ -1,5 +1,6 @@
 package com.github.anikos.hollandkocsma;
 
+import com.github.anikos.hollandkocsma.entity.Player;
 import com.github.anikos.hollandkocsma.entityforsend.GameState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,12 +15,23 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-    @PostMapping("/begin/{name}")
+    @PostMapping("/single/begin/{name}")
     @ResponseStatus(HttpStatus.CREATED)
-    public GameState newGame(@PathVariable String name) {
-        return gameService.newGame(name);
+    public GameState gameWithMachine(@PathVariable String name) {
+        return gameService.gameWithMachine(name);
     }
 
+    @PostMapping("/multi/create/{name}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String createMultiplayerGame(@PathVariable String name) {
+        return gameService.createMultiplayerGame(name);
+    }
+
+    @PostMapping("/multi/{gameId}/{name}")
+    public ArrayList<Player> join(@PathVariable String gameId, @PathVariable String name) {
+        return gameService.join(gameId, name);
+    }
+/*
     @PostMapping("/toshown/{gameId}")
     public GameState putToShown(@PathVariable int gameId, @RequestBody ArrayList<Integer> ids) {
         return gameService.putToShownCards(gameId, ids);
@@ -39,4 +51,6 @@ public class GameController {
     public GameState orderByAsc(@PathVariable int gameId) {
         return gameService.orderByAsc(gameId);
     }
+
+ */
 }
