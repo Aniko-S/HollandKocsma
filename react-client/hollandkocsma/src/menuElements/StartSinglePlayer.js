@@ -18,13 +18,13 @@ function StartSinglePlayer({ dataArray, requestUrl }) {
   }
 
   return (
-    <div className="start">
+    <div className="base-container">
       <div className="text-center">
-        <h2 className="text-white">You play against Bob.</h2>
-        <h2 className="text-white">Good luck!</h2>
+        <h2>You play against Bob.</h2>
+        <h2>Good luck!</h2>
       </div>
       <div className="d-flex flex-column align-items-center">
-        <div className="nametext">Enter your name and start the game.</div>
+        <div className="base-text">Enter your name and start the game.</div>
         <input
           className="input"
           type="text"
@@ -33,7 +33,7 @@ function StartSinglePlayer({ dataArray, requestUrl }) {
           onChange={(e) => setText(e.target.value)}
         />
         <Link to="/game">
-          <button className="button name" onClick={newGame}>
+          <button className="white-button" onClick={newGame}>
             Start the game
           </button>
         </Link>
