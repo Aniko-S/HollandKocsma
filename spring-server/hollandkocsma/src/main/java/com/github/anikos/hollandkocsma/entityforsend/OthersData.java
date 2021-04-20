@@ -2,10 +2,10 @@ package com.github.anikos.hollandkocsma.entityforsend;
 
 import com.github.anikos.hollandkocsma.entity.Machine;
 
-public class MachinesData extends GamerData {
+public class OthersData extends GamerData {
     public int handCardsNumber;
 
-    public MachinesData(Machine machine) {
+    public OthersData(Machine machine) {
         super(machine);
         handCardsNumber = machine.handCards.size();
     }
