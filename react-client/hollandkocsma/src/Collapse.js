@@ -4,7 +4,7 @@ function Collapse({ title, id, children }) {
   return (
     <>
       <div
-        class="text-white my-2"
+        className="text-white my-2"
         type="button"
         data-bs-toggle="collapse"
         data-bs-target={`#${id}`}
@@ -16,8 +16,8 @@ function Collapse({ title, id, children }) {
         </b>
       </div>
 
-      <div class="collapse" id={id}>
-        <div class="card card-body bg-transparent">{children}</div>
+      <div className="collapse" id={id}>
+        <div className="card card-body bg-transparent">{children}</div>
       </div>
     </>
   );
