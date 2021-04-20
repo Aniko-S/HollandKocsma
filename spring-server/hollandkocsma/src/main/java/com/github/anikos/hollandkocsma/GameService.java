@@ -37,7 +37,6 @@ public class GameService {
 
     public String createMultiplayerGame(String name) {
         Game game = createGame(name);
-        game.addPlayer(new Machine());
         return game.id;
     }
 
